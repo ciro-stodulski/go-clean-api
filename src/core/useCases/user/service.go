@@ -2,6 +2,8 @@ package user
 
 import (
 	entity "go-api/src/core/entities"
+
+	"github.com/google/uuid"
 )
 
 //Service  interface
@@ -25,10 +27,13 @@ func (service *Service) GetUser(id entity.ID) (*entity.User, error) {
 	// 	Password:  "213216574894",
 	// 	CreatedAt: time.Now(),
 	// }
-
 	user, err := service.RepositoryUser.GetById(id)
 
 	if err != nil {
+		return nil, err
+	}
+
+	if user.ID == uuid.Nil {
 		return nil, entity.ErrUserNotFound
 	}
 

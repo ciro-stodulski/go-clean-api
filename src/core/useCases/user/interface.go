@@ -4,14 +4,9 @@ import (
 	entity "go-api/src/core/entities"
 )
 
-//Reader interface
-type Reader interface {
-	GetById(id entity.ID) (*entity.User, error)
-}
-
 //Repository interface
 type Repository interface {
-	Reader
+	GetById(id entity.ID) (*entity.User, error)
 }
 
 //UseCase interface
