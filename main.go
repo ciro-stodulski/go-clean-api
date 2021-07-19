@@ -1,3 +1,7 @@
 package main
 
-func main() {}
+import app "go-api/src/main"
+
+func main() {
+	app.StartApp()
+}
