@@ -10,8 +10,6 @@ type Controller interface {
 	Register(gr *gin.RouterGroup)
 }
 
-func HealthCheck(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"ok": true,
-	})
+func HealthCheck(context *gin.Context) {
+	context.Status(http.StatusAccepted)
 }

@@ -2,46 +2,55 @@ package app
 
 import (
 	"fmt"
-	"go-api/src/main/config"
 	"go-api/src/main/container"
 	http "go-api/src/main/module/http"
+	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 )
 
 type Server struct {
-	Config    *config.Config
 	Container *container.Container
 	engine    *gin.Engine
 	db        *gorm.DB
 }
 
-func New() (s *Server, err error) {
-	s = &Server{}
+func (server *Server) Setup() *Server {
+	server.Container = container.NewContainer(
+		container.NewContainerConfig(server.db),
+	)
 
-	s.Config, err = config.InitConfig()
+	server.engine = gin.New()
+
+	server.engine.Use(gin.Recovery())
+
+	http.SetupRoutes(server.engine, server.Container)
+	return server
+}
+
+func (server *Server) Start() error {
+	port := os.Getenv("HOST_PORT")
+	fmt.Println("server listening on localhost:", port)
+	return server.engine.Run("localhost:" + port)
+}
+
+func (server *Server) CloseDB() {
+	server.db.Close()
+}
+
+func New() (server *Server, err error) {
+	server = &Server{}
+	InitEnvs()
 	return
 }
 
-func (s *Server) Setup() *Server {
-	s.Container = container.NewContainer(
-		container.NewContainerConfig(s.db),
-	)
+func InitEnvs() {
+	err := godotenv.Load(".env")
 
-	s.engine = gin.New()
-
-	s.engine.Use(gin.Recovery())
-
-	http.SetupRoutes(s.engine, s.Container)
-	return s
-}
-
-func (s *Server) Start() error {
-	fmt.Println("server listening on localhost:", s.Config.Port)
-	return s.engine.Run(fmt.Sprintf(":%d", s.Config.Port))
-}
-
-func (s *Server) CloseDB() {
-	s.db.Close()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 }

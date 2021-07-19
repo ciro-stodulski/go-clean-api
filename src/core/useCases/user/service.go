@@ -12,6 +12,7 @@ type Service struct {
 }
 
 //NewService create new use case
+//func NewService() *Service {
 func NewService(repository Repository) *Service {
 	return &Service{
 		RepositoryUser: repository,
@@ -20,13 +21,15 @@ func NewService(repository Repository) *Service {
 
 //GetUser Get an user
 func (service *Service) GetUser(id entity.ID) (*entity.User, error) {
-	// user := &entity.User{
-	// 	ID:        entity.NewID(),
-	// 	Name:      "oloco",
-	// 	Email:     "oloco@oloco.com",
-	// 	Password:  "213216574894",
-	// 	CreatedAt: time.Now(),
-	// }
+	// func (service *Service) GetUser(id entity.ID) (*entity.User, error) {
+	// 	user := &entity.User{
+	// 		ID:        entity.NewID(),
+	// 		Name:      "oloco",
+	// 		Email:     "oloco@oloco.com",
+	// 		Password:  "213216574894",
+	// 		CreatedAt: time.Now(),
+	// 	}
+
 	user, err := service.RepositoryUser.GetById(id)
 
 	if err != nil {

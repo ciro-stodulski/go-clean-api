@@ -1,18 +1,22 @@
 package http_server
 
 import (
-	controllers "go-api/src/apresentation/http"
+	controllers "go-api/src/apresentation/http/controllers"
+	v1_user "go-api/src/apresentation/http/controllers/v1/users"
+
 	"go-api/src/main/container"
 
 	"github.com/gin-gonic/gin"
 )
 
 func _loadControllers(container *container.Container) []controllers.Controller {
-	return []controllers.Controller{}
+	return []controllers.Controller{
+		v1_user.NewUserController(container),
+	}
 }
 
-func SetupRoutes(e *gin.Engine, c *container.Container) {
-	api := e.Group("/")
+func SetupRoutes(gin *gin.Engine, c *container.Container) {
+	api := gin.Group("/")
 
 	controls := _loadControllers(c)
 
