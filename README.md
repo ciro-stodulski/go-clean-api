@@ -2,7 +2,7 @@
 
 ##### *initial structure of an api that implements principles of a clean architecture in golang*
 
-## How int
+## How init
 
 - remove .sample of .env.sample
 
