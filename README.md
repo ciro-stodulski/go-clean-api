@@ -4,8 +4,12 @@
 
 ## how started api
 
+- remove .sample of .env.sample
+
+## how started api
+
 - go run .
 
 ## Run tests
 
-* go test ./...
+- go test ./...
