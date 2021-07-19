@@ -2,11 +2,11 @@
 
 ##### *initial structure of an api that implements principles of a clean architecture in golang*
 
-## how started api
+## How int
 
 - remove .sample of .env.sample
 
-## how started api
+## Started api
 
 - go run .
 
