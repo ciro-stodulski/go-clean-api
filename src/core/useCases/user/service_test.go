@@ -1,8 +1,9 @@
-package user
+package user_use_case
 
 import (
 	"errors"
-	entity "go-api/src/core/entities"
+	entity_root "go-api/src/core/entities"
+	user "go-api/src/core/entities/user"
 	"testing"
 
 	"github.com/google/uuid"
@@ -10,18 +11,8 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-// func newFixtureUser() *entity.User {
-// 	return &entity.User{
-// 		ID:        entity.NewID(),
-// 		Name:      "oloco",
-// 		Email:     "oloco@oloco.com",
-// 		Password:  "213216574894",
-// 		CreatedAt: time.Now(),
-// 	}
-// }
-
-func newMockUser() *entity.User {
-	user, _ := entity.NewUser("test", "test", "test")
+func newMockUser() *user.User {
+	user, _ := user.NewUser("test", "test", "test")
 	return user
 }
 
@@ -29,10 +20,10 @@ type MockRepository struct {
 	mock.Mock
 }
 
-func (mock *MockRepository) GetById(id entity.ID) (*entity.User, error) {
+func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {
 	arg := mock.Called()
 	result := arg.Get(0)
-	return result.(*entity.User), arg.Error(1)
+	return result.(*user.User), arg.Error(1)
 }
 
 func Test_GetUser(t *testing.T) {
@@ -73,7 +64,7 @@ func Test_GetUser(t *testing.T) {
 
 	t.Run("error user not found", func(t *testing.T) {
 		userMock := newMockUser()
-		userMockResult := &entity.User{ID: uuid.Nil}
+		userMockResult := &user.User{ID: uuid.Nil}
 
 		mockRepo := new(MockRepository)
 
@@ -84,6 +75,6 @@ func Test_GetUser(t *testing.T) {
 		_, err := testService.GetUser(userMock.ID)
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, entity.ErrUserNotFound)
+		assert.Equal(t, err, user.ErrUserNotFound)
 	})
 }

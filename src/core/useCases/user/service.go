@@ -1,7 +1,8 @@
-package user
+package user_use_case
 
 import (
-	entity "go-api/src/core/entities"
+	entity_root "go-api/src/core/entities"
+	entity "go-api/src/core/entities/user"
 
 	"github.com/google/uuid"
 )
@@ -20,7 +21,7 @@ func NewService(repository Repository) *Service {
 }
 
 //GetUser Get an user
-func (service *Service) GetUser(id entity.ID) (*entity.User, error) {
+func (service *Service) GetUser(id entity_root.ID) (*entity.User, error) {
 	// func (service *Service) GetUser(id entity.ID) (*entity.User, error) {
 	// 	user := &entity.User{
 	// 		ID:        entity.NewID(),

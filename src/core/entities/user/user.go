@@ -1,6 +1,7 @@
-package entity
+package user
 
 import (
+	entity "go-api/src/core/entities"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -8,7 +9,7 @@ import (
 
 //Data for user
 type User struct {
-	ID        ID
+	ID        entity.ID
 	Name      string
 	Email     string
 	Password  string
@@ -18,7 +19,7 @@ type User struct {
 //Create a new user
 func NewUser(email, password, name string) (*User, error) {
 	new_user := &User{
-		ID:        NewID(),
+		ID:        entity.NewID(),
 		Email:     email,
 		Name:      name,
 		Password:  password,
@@ -28,7 +29,7 @@ func NewUser(email, password, name string) (*User, error) {
 	err := new_user.Validate()
 
 	if err != nil {
-		return nil, ErrInvalidEntity
+		return nil, entity.ErrInvalidEntity
 	}
 
 	pwd, err := generatePassword(password)
@@ -45,7 +46,7 @@ func NewUser(email, password, name string) (*User, error) {
 //Validate validate props by User
 func (u *User) Validate() error {
 	if u.Email == "" || u.Name == "" || u.Password == "" {
-		return ErrInvalidEntity
+		return entity.ErrInvalidEntity
 	}
 
 	return nil

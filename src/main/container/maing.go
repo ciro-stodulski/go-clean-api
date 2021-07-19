@@ -1,7 +1,7 @@
 package container
 
 import (
-	"go-api/src/core/useCases/user"
+	user "go-api/src/core/useCases/user"
 	model_user "go-api/src/infra/repositories/user"
 
 	"github.com/jinzhu/gorm"
