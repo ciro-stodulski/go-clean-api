@@ -18,7 +18,7 @@ type (
 )
 
 func NewUserModel(db *gorm.DB) (repository RepositoryUser) {
-	//db.AutoMigrate(&entity.User{})
+	db.AutoMigrate(&entity.User{})
 	return &repositoryUser{db}
 }
 

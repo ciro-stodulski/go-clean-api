@@ -1,14 +1,16 @@
 package v1_user
 
 import (
+	entity "go-api/src/core/entities"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 func (createController *createController) findById(gin_context *gin.Context) {
-	user, err := createController.container.UserService.GetUser(uuid.New())
+	id := entity.ConvertId(gin_context.Param("id"))
+
+	user, err := createController.container.UserService.GetUser(id)
 
 	if err != nil {
 		gin_context.Status(http.StatusInternalServerError)
