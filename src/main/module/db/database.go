@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	repositoryUser "go-api/src/infra/repositories/user"
 	"os"
 	"strconv"
 
@@ -33,6 +34,10 @@ func mountConnectionString() string {
 		port,
 		os.Getenv("DB_SCHEMA"),
 	)
+}
+
+func LoadMigrationByRepositores(db *gorm.DB) {
+	repositoryUser.InitMigrate(db)
 }
 
 func GetDatabase(cfg *DbConfig) (*gorm.DB, error) {

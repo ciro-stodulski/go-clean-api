@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	entity_root "go-api/src/core/entities"
 	entity "go-api/src/core/entities/user"
 
@@ -18,8 +19,13 @@ type (
 )
 
 func NewUserModel(db *gorm.DB) (repository RepositoryUser) {
-	db.AutoMigrate(&entity.User{})
 	return &repositoryUser{db}
+}
+
+func InitMigrate(db *gorm.DB) {
+	fmt.Print("Run migration for user")
+
+	db.AutoMigrate(&entity.User{})
 }
 
 func (repository *repositoryUser) GetById(id entity_root.ID) (user *entity.User, er error) {

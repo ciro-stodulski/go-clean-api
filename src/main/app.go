@@ -47,11 +47,17 @@ func (server *Server) CloseDB() {
 
 func (s *Server) ConnectToDabase() error {
 	db, err := createDatabase()
+
 	if err != nil {
 		return err
 	}
+
 	s.db = db
+
 	log.Default().Print("connection db with succeffully")
+
+	database.LoadMigrationByRepositores(db)
+
 	return nil
 }
 
