@@ -36,7 +36,7 @@ func mountConnectionString() string {
 }
 
 func GetDatabase(cfg *DbConfig) (*gorm.DB, error) {
-	database, err := gorm.Open(cfg.Driver, mountConnectionString())
+	database, err := gorm.Open(cfg.Driver, mountConnectionString()+"&parseTime=true")
 
 	if err == nil {
 		err = database.DB().Ping()
