@@ -18,3 +18,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add inject use case in container
 - add repository init structure 
 - add database module init structure 
+- add repository test
