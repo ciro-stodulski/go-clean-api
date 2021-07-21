@@ -11,13 +11,13 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+type MockRepository struct {
+	mock.Mock
+}
+
 func newMockUser() *user.User {
 	user, _ := user.NewUser("test", "test", "test")
 	return user
-}
-
-type MockRepository struct {
-	mock.Mock
 }
 
 func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {

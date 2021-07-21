@@ -1,4 +1,4 @@
-package model
+package repository
 
 import (
 	entity_root "go-api/src/core/entities"
