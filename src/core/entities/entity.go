@@ -13,7 +13,7 @@ func NewID() ID {
 }
 
 func ConvertId(id string) uuid.UUID {
-	s, _ := uuid.Parse(id)
+	string, _ := uuid.Parse(id)
 
-	return s
+	return string
 }

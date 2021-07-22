@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func _loadControllers(container *container.Container) []controllers.Controller {
+func loadControllers(container *container.Container) []controllers.Controller {
 	return []controllers.Controller{
 		v1_user.NewUserController(container),
 	}
@@ -18,7 +18,7 @@ func _loadControllers(container *container.Container) []controllers.Controller {
 func SetupRoutes(gin *gin.Engine, c *container.Container) {
 	api := gin.Group("/")
 
-	controls := _loadControllers(c)
+	controls := loadControllers(c)
 
 	for _, ctr := range controls {
 		ctr.Register(api)
