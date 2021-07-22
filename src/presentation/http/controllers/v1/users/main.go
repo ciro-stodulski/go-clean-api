@@ -1,8 +1,8 @@
 package v1_user
 
 import (
-	controllers "go-api/src/apresentation/http/controllers"
 	"go-api/src/main/container"
+	controllers "go-api/src/presentation/http/controllers"
 
 	"github.com/gin-gonic/gin"
 )

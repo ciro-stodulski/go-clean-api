@@ -5,12 +5,14 @@ import (
 	entity "go-api/src/core/entities/user"
 )
 
-//Repository interface
-type Repository interface {
-	GetById(id entity_root.ID) (*entity.User, error)
-}
+type (
+	//Repository interface
+	Repository interface {
+		GetById(id entity_root.ID) (*entity.User, error)
+	}
 
-//UseCase interface
-type UseCase interface {
-	GetUser(id entity_root.ID) (*entity.User, error)
-}
+	//UseCase interface
+	UseCase interface {
+		GetUser(id entity_root.ID) (*entity.User, error)
+	}
+)

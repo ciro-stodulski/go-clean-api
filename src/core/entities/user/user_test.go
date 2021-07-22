@@ -22,6 +22,7 @@ func TestUserEntity(t *testing.T) {
 		assert.Equal(t, new_user_fake.Email, fake_email)
 		assert.NotEqual(t, new_user_fake.Password, fake_password)
 	})
+
 	t.Run("Test for validate password with successfully new use", func(t *testing.T) {
 		fake_name := "Test"
 		fake_email := "test@test.com"
@@ -33,6 +34,7 @@ func TestUserEntity(t *testing.T) {
 
 		assert.Nil(t, err)
 	})
+
 	t.Run("Test for validate password with error new user", func(t *testing.T) {
 		fake_name := "Test"
 		fake_email := "test@test.com"
