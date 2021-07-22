@@ -18,7 +18,7 @@ type (
 	}
 )
 
-func NewUserModel(db *gorm.DB) (repository RepositoryUser) {
+func NewUserRepository(db *gorm.DB) (repository RepositoryUser) {
 	return &repositoryUser{db}
 }
 

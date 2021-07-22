@@ -21,12 +21,12 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 	return &ContainerConfig{db}
 }
 
-func NewContainer(cfg *ContainerConfig) *Container {
-	user_ctx := user.NewService(
-		model_user.NewUserModel(cfg.Database),
+func NewContainer(container_config *ContainerConfig) *Container {
+	user_context := user.NewService(
+		model_user.NewUserRepository(container_config.Database),
 	)
 
 	return &Container{
-		UserService: *user.NewService(user_ctx.RepositoryUser),
+		UserService: *user.NewService(user_context.RepositoryUser),
 	}
 }
