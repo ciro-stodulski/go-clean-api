@@ -24,7 +24,7 @@ func Test_GetById(t *testing.T) {
 		}
 		defer db.Close()
 		gdb, _ := gorm.Open("mysql", db)
-		repositoryUser := NewUserModel(gdb)
+		repositoryUser := NewUserRepository(gdb)
 
 		mock.ExpectQuery(
 			"SELECT * FROM `users` WHERE (id = ?) ORDER BY `users`.`id` ASC LIMIT 1").
