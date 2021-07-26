@@ -1,28 +1,54 @@
 package http_server
 
 import (
+	"go-api/src/main/container"
 	controllers "go-api/src/presentation/http/controllers"
 	v1_user "go-api/src/presentation/http/controllers/v1/users"
-
-	"go-api/src/main/container"
+	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
 
-func loadControllers(container *container.Container) []controllers.Controller {
-	return []controllers.Controller{
-		v1_user.NewUserController(container),
-	}
+type HttpServer struct {
+	Engine *gin.Engine
 }
 
-func SetupRoutes(gin *gin.Engine, c *container.Container) {
-	api := gin.Group("/")
+type IHttpServer interface {
+	Start() error
+	New(container *container.Container)
+}
 
-	controls := loadControllers(c)
+func (server *HttpServer) Start() error {
+	port := os.Getenv("HOST_PORT")
+
+	log.Default().Print("server started with succeffully")
+
+	return server.Engine.Run("localhost:" + port)
+}
+
+func (server *HttpServer) New(container *container.Container) {
+	server.Engine = gin.New()
+
+	gin.SetMode(gin.DebugMode)
+
+	server.Engine.Use(gin.Recovery())
+
+	api := server.Engine.Group("/")
+	controls := loadControllers(container)
 
 	for _, ctr := range controls {
 		ctr.Register(api)
 	}
 
 	api.GET("/status", controllers.HealthCheck)
+	gin.SetMode(gin.ReleaseMode)
+
+	api.Use(gin.Recovery())
+}
+
+func loadControllers(container *container.Container) []controllers.Controller {
+	return []controllers.Controller{
+		v1_user.NewUserController(container),
+	}
 }
