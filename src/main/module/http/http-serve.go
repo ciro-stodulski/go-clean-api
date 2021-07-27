@@ -20,6 +20,12 @@ type IHttpServer interface {
 	New(container *container.Container)
 }
 
+func loadControllers(container *container.Container) []controllers.Controller {
+	return []controllers.Controller{
+		v1_user.NewUserController(container),
+	}
+}
+
 func (server *HttpServer) Start() error {
 	port := os.Getenv("HOST_PORT")
 
@@ -36,10 +42,28 @@ func (server *HttpServer) New(container *container.Container) {
 	server.Engine.Use(gin.Recovery())
 
 	api := server.Engine.Group("/")
+
 	controls := loadControllers(container)
 
 	for _, ctr := range controls {
-		ctr.Register(api)
+		api_group := api.Group(ctr.PathGroup())
+
+		for _, route := range ctr.LoadRoutes() {
+
+			switch route.Method {
+			case "get":
+				api_group.GET(route.Path, route.Function)
+			case "post":
+				api_group.POST(route.Path, route.Function)
+			case "put":
+				api_group.PUT(route.Path, route.Function)
+			case "patch":
+				api_group.PATCH(route.Path, route.Function)
+			case "delete":
+				api_group.DELETE(route.Path, route.Function)
+			default:
+			}
+		}
 	}
 
 	api.GET("/status", func(context *gin.Context) {
@@ -49,10 +73,4 @@ func (server *HttpServer) New(container *container.Container) {
 	gin.SetMode(gin.ReleaseMode)
 
 	api.Use(gin.Recovery())
-}
-
-func loadControllers(container *container.Container) []controllers.Controller {
-	return []controllers.Controller{
-		v1_user.NewUserController(container),
-	}
 }

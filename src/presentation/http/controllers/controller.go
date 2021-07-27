@@ -1,9 +1,14 @@
 package controllers
 
-import (
-	"github.com/gin-gonic/gin"
-)
+import "github.com/gin-gonic/gin"
+
+type CreateRoute struct {
+	Method   string
+	Path     string
+	Function func(gin_context *gin.Context)
+}
 
 type Controller interface {
-	Register(gr *gin.RouterGroup)
+	LoadRoutes() []CreateRoute
+	PathGroup() string
 }
