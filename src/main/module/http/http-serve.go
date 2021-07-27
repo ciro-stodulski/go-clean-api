@@ -5,6 +5,7 @@ import (
 	controllers "go-api/src/presentation/http/controllers"
 	v1_user "go-api/src/presentation/http/controllers/v1/users"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -41,7 +42,10 @@ func (server *HttpServer) New(container *container.Container) {
 		ctr.Register(api)
 	}
 
-	api.GET("/status", controllers.HealthCheck)
+	api.GET("/status", func(context *gin.Context) {
+		context.Status(http.StatusAccepted)
+	})
+
 	gin.SetMode(gin.ReleaseMode)
 
 	api.Use(gin.Recovery())
