@@ -1,15 +1,14 @@
 package controllers
 
-import (
-	"net/http"
+import "github.com/gin-gonic/gin"
 
-	"github.com/gin-gonic/gin"
-)
-
-type Controller interface {
-	Register(gr *gin.RouterGroup)
+type CreateRoute struct {
+	Method   string
+	Path     string
+	Function func(gin_context *gin.Context)
 }
 
-func HealthCheck(context *gin.Context) {
-	context.Status(http.StatusAccepted)
+type Controller interface {
+	LoadRoutes() []CreateRoute
+	PathGroup() string
 }

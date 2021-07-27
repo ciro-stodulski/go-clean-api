@@ -22,8 +22,16 @@ func NewUserController(c *container.Container) controllers.Controller {
 	return &createController{c}
 }
 
-func (createController *createController) Register(gr *gin.RouterGroup) {
-	user_group := gr.Group("/v1/users")
+func (createController *createController) PathGroup() string {
+	return "/v1/users"
+}
 
-	user_group.GET("/:id", createController.findById)
+func (createController *createController) LoadRoutes() []controllers.CreateRoute {
+	return []controllers.CreateRoute{
+		{
+			Method:   "get",
+			Path:     "/:id",
+			Function: createController.findById,
+		},
+	}
 }

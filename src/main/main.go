@@ -21,7 +21,7 @@ func StartApp() {
 
 	defer server.CloseDB()
 
-	err = server.Setup().Start()
+	err = server.Setup().engine.Start()
 
 	if err != nil {
 		log.Fatal("failed to serve the api", err)

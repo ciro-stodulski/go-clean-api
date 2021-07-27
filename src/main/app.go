@@ -3,18 +3,16 @@ package app
 import (
 	"go-api/src/main/container"
 	database "go-api/src/main/module/db"
-	http "go-api/src/main/module/http"
+	http_server "go-api/src/main/module/http"
 	"log"
-	"os"
 
-	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 )
 
 type Server struct {
 	Container *container.Container
-	engine    *gin.Engine
+	engine    http_server.HttpServer
 	db        *gorm.DB
 }
 
@@ -23,22 +21,9 @@ func (server *Server) Setup() *Server {
 		container.NewContainerConfig(server.db),
 	)
 
-	server.engine = gin.New()
+	server.engine.New(server.Container)
 
-	gin.SetMode(gin.ReleaseMode)
-
-	server.engine.Use(gin.Recovery())
-
-	http.SetupRoutes(server.engine, server.Container)
 	return server
-}
-
-func (server *Server) Start() error {
-	port := os.Getenv("HOST_PORT")
-
-	log.Default().Print("server started with succeffully")
-
-	return server.engine.Run("localhost:" + port)
 }
 
 func (server *Server) CloseDB() {
