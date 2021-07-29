@@ -9,15 +9,17 @@ import (
 )
 
 //GetUser Get an user
-func (service *Service) GetUser(id entity_root.ID) (*entity.User, error) {
-	user, err := service.RepositoryUser.GetById(id)
+func (service *Service) GetUser(id string) (*entity.User, error) {
+	id_uuid := entity_root.ConvertId(id)
+
+	user, err := service.RepositoryUser.GetById(id_uuid)
 
 	if err != nil {
 		return nil, err
 	}
 
 	if user.ID == uuid.Nil {
-		log.Default().Print("not found user with id:" + id.String())
+		log.Default().Print("not found user with id:" + id_uuid.String())
 		return nil, entity.ErrUserNotFound
 	}
 

@@ -35,7 +35,7 @@ func Test_GetUser(t *testing.T) {
 
 		testService := NewService(mockRepo)
 
-		result, err := testService.GetUser(userMock.ID)
+		result, err := testService.GetUser(userMock.ID.String())
 
 		assert.Nil(t, err)
 		assert.Equal(t, userMock.ID, result.ID)
@@ -56,7 +56,7 @@ func Test_GetUser(t *testing.T) {
 
 		testService := NewService(mockRepo)
 
-		_, err := testService.GetUser(userMock.ID)
+		_, err := testService.GetUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errMock)
@@ -72,7 +72,7 @@ func Test_GetUser(t *testing.T) {
 
 		testService := NewService(mockRepo)
 
-		_, err := testService.GetUser(userMock.ID)
+		_, err := testService.GetUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
 		assert.Equal(t, err, user.ErrUserNotFound)
