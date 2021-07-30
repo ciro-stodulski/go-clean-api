@@ -3,6 +3,7 @@ package v1_user
 import (
 	"go-api/src/main/container"
 	controllers "go-api/src/presentation/http/controllers"
+	ports_http "go-api/src/presentation/http/controllers/ports"
 	"go-api/src/presentation/http/middlewares"
 )
 
@@ -13,7 +14,7 @@ type (
 
 	CreateController interface {
 		controllers.Controller
-		findById(req controllers.HttpRequest)
+		findById(req ports_http.HttpRequest)
 	}
 )
 

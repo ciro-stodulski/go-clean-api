@@ -1,12 +1,12 @@
 package middlewares
 
 import (
-	"go-api/src/presentation/http/controllers"
+	ports_http "go-api/src/presentation/http/controllers/ports"
 	"log"
 )
 
-func Log(req controllers.HttpRequest) {
-	log.Default().Print("middleware started with succeffully")
+func Log(req ports_http.HttpRequest) {
+	log.Default().Print("middleware call with succeffully")
 
 	req.Next()
 }

@@ -2,18 +2,18 @@ package v1_user
 
 import (
 	entity_user "go-api/src/core/entities/user"
-	controllers "go-api/src/presentation/http/controllers"
+	ports_http "go-api/src/presentation/http/controllers/ports"
 )
 
-func (createController *createController) findById(req controllers.HttpRequest) (controllers.HttpResponse, controllers.HttpResponseError) {
+func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
 	id := req.Params.Get("id")
 
 	user, err := createController.container.UserService.GetUser(id)
 
 	if err != nil {
 		if err == entity_user.ErrUserNotFound {
-			return controllers.HttpResponse{}, controllers.HttpResponseError{
-				Data: controllers.HttpError{
+			return nil, &ports_http.HttpResponseError{
+				Data: ports_http.HttpError{
 					Code:    "USER_NOT_FOUND",
 					Message: entity_user.ErrUserNotFound.Error(),
 				},
@@ -21,8 +21,8 @@ func (createController *createController) findById(req controllers.HttpRequest) 
 			}
 		}
 
-		return controllers.HttpResponse{}, controllers.HttpResponseError{
-			Data: controllers.HttpError{
+		return nil, &ports_http.HttpResponseError{
+			Data: ports_http.HttpError{
 				Code:    "INTERNAL_ERROR",
 				Message: "internal error",
 			},
@@ -30,8 +30,8 @@ func (createController *createController) findById(req controllers.HttpRequest) 
 		}
 	}
 
-	return controllers.HttpResponse{
+	return &ports_http.HttpResponse{
 		Data:   user,
 		Status: 200,
-	}, controllers.HttpResponseError{}
+	}, nil
 }

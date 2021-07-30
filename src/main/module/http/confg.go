@@ -3,6 +3,7 @@ package http_server
 import (
 	"go-api/src/main/container"
 	controllers "go-api/src/presentation/http/controllers"
+	ports_http "go-api/src/presentation/http/controllers/ports"
 	v1_user "go-api/src/presentation/http/controllers/v1/users"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,7 @@ func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
 			if len(route.Middlewares) > 0 {
 				for _, mds := range route.Middlewares {
 					middleware := func(gin_context *gin.Context) {
-						mds(controllers.HttpRequest{
+						mds(ports_http.HttpRequest{
 							Next: gin_context.Next,
 						})
 					}
@@ -32,11 +33,11 @@ func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
 			}
 
 			function := func(gin_context *gin.Context) {
-				var params controllers.Params
+				var params ports_http.Params
 
 				if gin_context.Params != nil {
 					for _, param := range gin_context.Params {
-						param := controllers.Param{
+						param := ports_http.Param{
 							Key:   param.Key,
 							Value: param.Value,
 						}
@@ -51,14 +52,14 @@ func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
 					}
 				}
 
-				result, err := route.Handle(controllers.HttpRequest{
+				result, err := route.Handle(ports_http.HttpRequest{
 					Body:    route.Dto,
 					Params:  params,
 					Query:   gin_context.Request.URL.Query(),
 					Headers: gin_context.Request.Header,
 				})
 
-				if err.Data.Code != "" {
+				if err.Data != (ports_http.HttpError{}) {
 					gin_context.JSON(err.Status, err.Data)
 				} else {
 					if result.Headers != nil {
