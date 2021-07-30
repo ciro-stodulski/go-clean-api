@@ -31,7 +31,7 @@ func (createController *createController) LoadRoutes() []controllers.CreateRoute
 			Method:      "get",
 			Path:        "/:id",
 			Handle:      createController.findById,
-			Middlewares: []controllers.Middleware{middlewares.Log, middlewares.Log},
+			Middlewares: []controllers.Middleware{middlewares.Log},
 		},
 	}
 }
