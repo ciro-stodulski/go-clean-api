@@ -1,7 +1,7 @@
 FROM golang:1.16-alpine
 
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
 
 COPY go.mod .
