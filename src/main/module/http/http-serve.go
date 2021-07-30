@@ -2,10 +2,8 @@ package http_server
 
 import (
 	"go-api/src/main/container"
-	v1_user "go-api/src/presentation/http/controllers/v1/users"
-
 	controllers "go-api/src/presentation/http/controllers"
-
+	v1_user "go-api/src/presentation/http/controllers/v1/users"
 	"log"
 	"net/http"
 	"os"
@@ -37,9 +35,8 @@ func (server *HttpServer) Start() error {
 }
 
 func (server *HttpServer) New(container *container.Container) {
-	server.Engine = gin.New()
-
 	gin.SetMode(gin.DebugMode)
+	server.Engine = gin.New()
 
 	api := server.Engine.Group("/")
 
@@ -49,6 +46,17 @@ func (server *HttpServer) New(container *container.Container) {
 		api_group := api.Group(ctr.PathGroup())
 
 		for _, route := range ctr.LoadRoutes() {
+			if len(route.Middlewares) > 0 {
+				for _, mds := range route.Middlewares {
+					middleware := func(gin_context *gin.Context) {
+						mds(controllers.HttpRequest{
+							Next: gin_context.Next,
+						})
+					}
+
+					api_group.Use(middleware)
+				}
+			}
 
 			function := func(gin_context *gin.Context) {
 				var params controllers.Params
@@ -64,8 +72,10 @@ func (server *HttpServer) New(container *container.Container) {
 					}
 				}
 
-				if err := gin_context.BindJSON(&route.Dto); err != nil {
-					return
+				if route.Dto != nil {
+					if err := gin_context.BindJSON(&route.Dto); err != nil {
+						return
+					}
 				}
 
 				result, err := route.Handle(controllers.HttpRequest{
