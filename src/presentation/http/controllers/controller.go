@@ -5,11 +5,14 @@ type Controller interface {
 	PathGroup() string
 }
 
+type Middleware func(req HttpRequest)
+
 type CreateRoute struct {
-	Method string
-	Path   string
-	Dto    interface{}
-	Handle func(req HttpRequest) (HttpResponse, HttpResponseError)
+	Method      string
+	Path        string
+	Middlewares []Middleware
+	Dto         interface{}
+	Handle      func(req HttpRequest) (HttpResponse, HttpResponseError)
 }
 
 type Param struct {
@@ -33,6 +36,7 @@ type HttpRequest struct {
 	Params  Params
 	Query   map[string][]string
 	Headers map[string][]string
+	Next    func()
 }
 
 type Header struct {
