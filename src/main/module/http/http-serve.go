@@ -2,6 +2,7 @@ package http_server
 
 import (
 	"go-api/src/main/container"
+	ports_http "go-api/src/presentation/http/controllers/ports"
 	"log"
 	"net/http"
 	"os"
@@ -33,6 +34,22 @@ func (server *HttpServer) New(container *container.Container) {
 	api := server.Engine.Group("/")
 
 	controls := loadControllers(container)
+
+	if len(loadMiddlewaresGlobals()) > 0 {
+		for _, middleware := range loadMiddlewaresGlobals() {
+			mds := func(context *gin.Context) {
+				params := loadParams(context)
+				middleware(ports_http.HttpRequest{
+					Params:  params,
+					Query:   context.Request.URL.Query(),
+					Headers: context.Request.Header,
+					Next:    context.Next,
+				})
+			}
+			api.Use(mds)
+		}
+	}
+
 	loadRoutes(controls, *api)
 
 	api.GET("/status", func(context *gin.Context) {
