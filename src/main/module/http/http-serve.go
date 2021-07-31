@@ -14,11 +14,6 @@ type HttpServer struct {
 	Engine *gin.Engine
 }
 
-type IHttpServer interface {
-	Start() error
-	New(container *container.Container)
-}
-
 func (server *HttpServer) Start() error {
 	port := os.Getenv("HOST_PORT")
 

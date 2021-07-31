@@ -9,11 +9,11 @@ import (
 
 //Data for user
 type User struct {
-	ID        entity.ID
-	Name      string
-	Email     string
-	Password  string
-	CreatedAt time.Time
+	ID        entity.ID `json:"id"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	Password  string    `json:"password"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 //Create a new user

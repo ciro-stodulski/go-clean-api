@@ -1,21 +1,23 @@
 package ports_http
 
-type HttpResponse struct {
-	Data    interface{}
-	Status  int
-	Headers []Header
-}
+type (
+	HttpResponse struct {
+		Data    interface{}
+		Status  int
+		Headers []Header
+	}
 
-type Header struct {
-	Key   string
-	Value string
-}
+	Header struct {
+		Key   string
+		Value string
+	}
 
-type HttpError struct {
-	Code    string
-	Message string
-}
-type HttpResponseError struct {
-	Data   HttpError
-	Status int
-}
+	HttpError struct {
+		Code    string `json:"code"`
+		Message string `json:"message"`
+	}
+	HttpResponseError struct {
+		Data   HttpError
+		Status int
+	}
+)

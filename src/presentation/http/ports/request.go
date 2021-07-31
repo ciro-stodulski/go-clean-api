@@ -1,11 +1,21 @@
 package ports_http
 
-type Param struct {
-	Key   string
-	Value string
-}
+type (
+	HttpRequest struct {
+		Body    interface{}
+		Params  Params
+		Query   map[string][]string
+		Headers map[string][]string
+		Next    func()
+	}
 
-type Params []Param
+	Param struct {
+		Key   string
+		Value string
+	}
+
+	Params []Param
+)
 
 func (ps Params) Get(name string) string {
 	for _, entry := range ps {
@@ -14,12 +24,4 @@ func (ps Params) Get(name string) string {
 		}
 	}
 	return ""
-}
-
-type HttpRequest struct {
-	Body    interface{}
-	Params  Params
-	Query   map[string][]string
-	Headers map[string][]string
-	Next    func()
 }
