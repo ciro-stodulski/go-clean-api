@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- refectory in module http
+- ports for http 
+- middleware structure for routes and global requests
+
+## [1.0.0]
+
 - add entity init structure
 - add entity test
 - add use case init structure 
