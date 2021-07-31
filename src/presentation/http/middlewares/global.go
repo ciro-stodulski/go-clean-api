@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	ports_http "go-api/src/presentation/http/controllers/ports"
+	ports_http "go-api/src/presentation/http/ports"
 	"log"
 )
 

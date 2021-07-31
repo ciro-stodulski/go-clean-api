@@ -2,7 +2,7 @@ package v1_user
 
 import (
 	entity_user "go-api/src/core/entities/user"
-	ports_http "go-api/src/presentation/http/controllers/ports"
+	ports_http "go-api/src/presentation/http/ports"
 )
 
 func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {

@@ -1,6 +1,6 @@
 package controllers
 
-import ports_http "go-api/src/presentation/http/controllers/ports"
+import ports_http "go-api/src/presentation/http/ports"
 
 type Controller interface {
 	LoadRoutes() []CreateRoute

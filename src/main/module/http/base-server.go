@@ -2,7 +2,7 @@ package http_server
 
 import (
 	controllers "go-api/src/presentation/http/controllers"
-	ports_http "go-api/src/presentation/http/controllers/ports"
+	ports_http "go-api/src/presentation/http/ports"
 
 	"github.com/gin-gonic/gin"
 )

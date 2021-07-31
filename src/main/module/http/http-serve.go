@@ -2,7 +2,7 @@ package http_server
 
 import (
 	"go-api/src/main/container"
-	ports_http "go-api/src/presentation/http/controllers/ports"
+	ports_http "go-api/src/presentation/http/ports"
 	"log"
 	"net/http"
 	"os"

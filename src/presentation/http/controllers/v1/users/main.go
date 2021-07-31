@@ -3,8 +3,8 @@ package v1_user
 import (
 	"go-api/src/main/container"
 	controllers "go-api/src/presentation/http/controllers"
-	ports_http "go-api/src/presentation/http/controllers/ports"
 	"go-api/src/presentation/http/middlewares"
+	ports_http "go-api/src/presentation/http/ports"
 )
 
 type (
