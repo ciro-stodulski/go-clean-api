@@ -2,32 +2,36 @@ package v1_user
 
 import (
 	entity_user "go-api/src/core/entities/user"
-
-	entity "go-api/src/core/entities"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	ports_http "go-api/src/presentation/http/ports"
 )
 
-func (createController *createController) findById(gin_context *gin.Context) {
-	id := entity.ConvertId(gin_context.Param("id"))
+func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
+	id := req.Params.Get("id")
 
 	user, err := createController.container.UserService.GetUser(id)
 
 	if err != nil {
 		if err == entity_user.ErrUserNotFound {
-			gin_context.JSON(http.StatusBadRequest, gin.H{"code": "USER_NOT_FOUND", "message": entity_user.ErrUserNotFound.Error()})
-			return
+			return nil, &ports_http.HttpResponseError{
+				Data: ports_http.HttpError{
+					Code:    "USER_NOT_FOUND",
+					Message: entity_user.ErrUserNotFound.Error(),
+				},
+				Status: 400,
+			}
 		}
 
-		if err == entity_user.ErrIncorrectPassword {
-			gin_context.JSON(http.StatusUnauthorized, gin.H{"code": "UNAUTHORIZED", "message": entity_user.ErrIncorrectPassword.Error()})
-			return
+		return nil, &ports_http.HttpResponseError{
+			Data: ports_http.HttpError{
+				Code:    "INTERNAL_ERROR",
+				Message: "internal error",
+			},
+			Status: 500,
 		}
-
-		gin_context.JSON(http.StatusInternalServerError, gin.H{"code": "INTERNAL_ERROR", "message": "internal error"})
-		return
 	}
 
-	gin_context.JSON(http.StatusOK, user)
+	return &ports_http.HttpResponse{
+		Data:   user,
+		Status: 200,
+	}, nil
 }
