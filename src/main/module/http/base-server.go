@@ -31,7 +31,13 @@ func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
 				})
 
 				if err.Data != (ports_http.HttpError{}) {
-					gin_context.JSON(err.Status, err.Data)
+					status := 500
+
+					if err.Status != 0 {
+						status = err.Status
+					}
+
+					gin_context.JSON(status, err.Data)
 				} else {
 					if result.Headers != nil {
 						for _, header := range result.Headers {
@@ -39,12 +45,18 @@ func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
 						}
 					}
 
+					status := 200
+
+					if result.Status != 0 {
+						status = result.Status
+					}
+
 					if result.Data != nil {
-						gin_context.JSON(result.Status, result.Data)
+						gin_context.JSON(status, result.Data)
 						return
 					}
 
-					gin_context.Status(result.Status)
+					gin_context.Status(status)
 				}
 			}
 
