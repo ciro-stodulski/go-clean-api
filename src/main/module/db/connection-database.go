@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	repositoryUser "go-api/src/infra/repositories/user"
 	"os"
 	"strconv"
 
@@ -23,6 +22,26 @@ type DbConfig struct {
 	}
 }
 
+func GetDatabase() (*gorm.DB, error) {
+	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+
+	dbConfig := &DbConfig{
+		Username: os.Getenv("DB_USER"),
+		Password: os.Getenv("DB_PASSWORD"),
+		Host:     os.Getenv("DB_HOST"),
+		Port:     port,
+		Driver:   os.Getenv("DB_DRIVE"),
+	}
+
+	database, err := gorm.Open(dbConfig.Driver, mountConnectionString()+"&parseTime=true")
+
+	if err == nil {
+		err = database.DB().Ping()
+	}
+
+	return database, err
+}
+
 func mountConnectionString() string {
 	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
 
@@ -34,32 +53,4 @@ func mountConnectionString() string {
 		port,
 		os.Getenv("DB_SCHEMA"),
 	)
-}
-
-func LoadMigrationByRepositores(db *gorm.DB) {
-	repositoryUser.InitMigrate(db)
-}
-
-func GetDatabase(cfg *DbConfig) (*gorm.DB, error) {
-	database, err := gorm.Open(cfg.Driver, mountConnectionString()+"&parseTime=true")
-
-	if err == nil {
-		err = database.DB().Ping()
-	}
-
-	return database, err
-}
-
-func NewDbConfig() (cfg *DbConfig, err error) {
-	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
-
-	dbConfig := &DbConfig{
-		Username: os.Getenv("DB_USER"),
-		Password: os.Getenv("DB_PASSWORD"),
-		Host:     os.Getenv("DB_HOST"),
-		Port:     port,
-		Driver:   os.Getenv("DB_DRIVE"),
-	}
-
-	return dbConfig, nil
 }

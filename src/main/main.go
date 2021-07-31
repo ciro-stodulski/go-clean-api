@@ -12,14 +12,14 @@ func StartApp() {
 		return
 	}
 
-	err = server.ConnectToDabase()
+	err = server.db.ConnectToDabase()
 
 	if err != nil {
 		log.Fatal("failed to create to the database", err)
 		return
 	}
 
-	defer server.CloseDB()
+	defer server.db.CloseDB()
 
 	err = server.Setup().engine.Start()
 
