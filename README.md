@@ -13,6 +13,12 @@ obs: you need to update the file with your env
 go run .
 ```
 
+## Started api with container
+
+```bash
+docker-compose up
+```
+
 ## Run tests
 ```bash
  go test ./...
