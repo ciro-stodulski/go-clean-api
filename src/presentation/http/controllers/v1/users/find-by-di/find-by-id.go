@@ -5,7 +5,7 @@ import (
 	ports_http "go-api/src/presentation/http/ports"
 )
 
-func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
+func (createController *CreateController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
 	id := req.Params.Get("id")
 
 	user, err := createController.container.UserService.GetUser(id)
