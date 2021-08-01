@@ -30,7 +30,7 @@ func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
 					Headers: gin_context.Request.Header,
 				})
 
-				if err.Data != (ports_http.HttpError{}) {
+				if err != nil {
 					status := 500
 
 					if err.Status != 0 {
