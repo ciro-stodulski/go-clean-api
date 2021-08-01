@@ -3,7 +3,6 @@ package v1_user
 import (
 	"errors"
 	"go-api/src/core/entities/user"
-	entity_user "go-api/src/core/entities/user"
 	"go-api/src/main/container"
 	ports_http "go-api/src/presentation/http/ports"
 	"testing"
@@ -84,7 +83,7 @@ func Test_Http_Controller_GetUser(t *testing.T) {
 		mockRepo := new(MockUserCase)
 		id := "752ea551-5e6a-4382-859c-cd09fbe50110"
 
-		mockRepo.On("GetUser").Return(userMock, entity_user.ErrUserNotFound)
+		mockRepo.On("GetUser").Return(userMock, user.ErrUserNotFound)
 
 		testService := NewController(&container.Container{
 			UserService: mockRepo,
@@ -100,7 +99,7 @@ func Test_Http_Controller_GetUser(t *testing.T) {
 		assert.Equal(t, err, &ports_http.HttpResponseError{
 			Data: ports_http.HttpError{
 				Code:    "USER_NOT_FOUND",
-				Message: entity_user.ErrUserNotFound.Error(),
+				Message: user.ErrUserNotFound.Error(),
 			},
 			Status: 400,
 		}, result)
