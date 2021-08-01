@@ -3,27 +3,20 @@ package v1_user
 import (
 	"go-api/src/main/container"
 	controllers "go-api/src/presentation/http/controllers"
-	ports_http "go-api/src/presentation/http/ports"
-
 	"go-api/src/presentation/http/middlewares"
 )
 
 type (
-	CreateController struct {
+	createController struct {
 		container *container.Container
-	}
-
-	ICreateController interface {
-		controllers.Controller
-		findById(req ports_http.HttpRequest)
 	}
 )
 
 func NewController(c *container.Container) controllers.Controller {
-	return &CreateController{c}
+	return &createController{c}
 }
 
-func (createController *CreateController) LoadRoute() controllers.CreateRoute {
+func (createController *createController) LoadRoute() controllers.CreateRoute {
 	return controllers.CreateRoute{
 		PathRoot:    "/v1/users",
 		Method:      "get",
