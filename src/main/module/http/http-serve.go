@@ -19,7 +19,7 @@ func (server *HttpServer) Start() error {
 
 	log.Default().Print("server started with succeffully")
 
-	return server.Engine.Run("localhost:" + port)
+	return server.Engine.Run("0.0.0.0:" + port)
 }
 
 func (server *HttpServer) New(container *container.Container) {
