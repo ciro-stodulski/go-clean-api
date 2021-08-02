@@ -6,7 +6,7 @@ type Service struct {
 }
 
 //NewService create new use case
-func NewService(repository Repository) *Service {
+func NewService(repository Repository) UseCase {
 	return &Service{
 		RepositoryUser: repository,
 	}

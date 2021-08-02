@@ -13,7 +13,7 @@ type (
 	}
 
 	Container struct {
-		UserService user.Service
+		UserService user.UseCase
 	}
 )
 
@@ -22,11 +22,10 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 }
 
 func NewContainer(container_config *ContainerConfig) *Container {
-	user_context := user.NewService(
-		model_user.NewUserRepository(container_config.Database),
-	)
 
 	return &Container{
-		UserService: *user.NewService(user_context.RepositoryUser),
+		UserService: user.NewService(
+			model_user.NewUserRepository(container_config.Database),
+		),
 	}
 }

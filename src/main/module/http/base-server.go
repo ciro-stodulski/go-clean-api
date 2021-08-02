@@ -9,71 +9,75 @@ import (
 
 func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
 	for _, ctr := range controls {
-		api_group := api.Group(ctr.PathGroup())
+		route := ctr.LoadRoute()
 
-		for _, route := range ctr.LoadRoutes() {
-			loadMiddlewares(route, api_group)
+		if route.PathRoot == "" {
+			return
+		}
 
-			function := func(gin_context *gin.Context) {
-				params := loadParams(gin_context)
+		api_group := api.Group(route.PathRoot)
 
-				if route.Dto != nil {
-					if err := gin_context.BindJSON(&route.Dto); err != nil {
-						return
-					}
-				}
+		loadMiddlewares(route, api_group)
+		function := func(gin_context *gin.Context) {
+			params := loadParams(gin_context)
 
-				result, err := route.Handle(ports_http.HttpRequest{
-					Body:    route.Dto,
-					Params:  params,
-					Query:   gin_context.Request.URL.Query(),
-					Headers: gin_context.Request.Header,
-				})
-
-				if err != nil {
-					status := 500
-
-					if err.Status != 0 {
-						status = err.Status
-					}
-
-					gin_context.JSON(status, err.Data)
-				} else {
-					if result.Headers != nil {
-						for _, header := range result.Headers {
-							gin_context.Header(header.Key, header.Value)
-						}
-					}
-
-					status := 200
-
-					if result.Status != 0 {
-						status = result.Status
-					}
-
-					if result.Data != nil {
-						gin_context.JSON(status, result.Data)
-						return
-					}
-
-					gin_context.Status(status)
+			if route.Dto != nil {
+				if err := gin_context.BindJSON(&route.Dto); err != nil {
+					return
 				}
 			}
 
-			switch route.Method {
-			case "get":
-				api_group.GET(route.Path, function)
-			case "post":
-				api_group.POST(route.Path, function)
-			case "put":
-				api_group.PUT(route.Path, function)
-			case "patch":
-				api_group.PATCH(route.Path, function)
-			case "delete":
-				api_group.DELETE(route.Path, function)
-			default:
+			result, err := route.Handle(ports_http.HttpRequest{
+				Body:    route.Dto,
+				Params:  params,
+				Query:   gin_context.Request.URL.Query(),
+				Headers: gin_context.Request.Header,
+			})
+
+			if err != nil {
+				status := 500
+
+				if err.Status != 0 {
+					status = err.Status
+				}
+
+				gin_context.JSON(status, err.Data)
+			} else {
+				if result.Headers != nil {
+					for _, header := range result.Headers {
+						gin_context.Header(header.Key, header.Value)
+					}
+				}
+
+				status := 200
+
+				if result.Status != 0 {
+					status = result.Status
+				}
+
+				if result.Data != nil {
+					gin_context.JSON(status, result.Data)
+					return
+				}
+
+				gin_context.Status(status)
 			}
 		}
+
+		switch route.Method {
+		case "get":
+			api_group.GET(route.Path, function)
+		case "post":
+			api_group.POST(route.Path, function)
+		case "put":
+			api_group.PUT(route.Path, function)
+		case "patch":
+			api_group.PATCH(route.Path, function)
+		case "delete":
+			api_group.DELETE(route.Path, function)
+		default:
+		}
+
 	}
 }
 

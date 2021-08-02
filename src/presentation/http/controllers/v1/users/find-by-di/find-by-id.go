@@ -9,7 +9,6 @@ func (createController *createController) findById(req ports_http.HttpRequest) (
 	id := req.Params.Get("id")
 
 	user, err := createController.container.UserService.GetUser(id)
-
 	if err != nil {
 		if err == entity_user.ErrUserNotFound {
 			return nil, &ports_http.HttpResponseError{
@@ -28,10 +27,12 @@ func (createController *createController) findById(req ports_http.HttpRequest) (
 			},
 			Status: 500,
 		}
+	} else {
+
+		return &ports_http.HttpResponse{
+			Data:   user,
+			Status: 200,
+		}, nil
 	}
 
-	return &ports_http.HttpResponse{
-		Data:   user,
-		Status: 200,
-	}, nil
 }

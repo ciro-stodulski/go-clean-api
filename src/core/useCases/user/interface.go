@@ -13,6 +13,6 @@ type (
 
 	//UseCase interface
 	UseCase interface {
-		GetUser(id entity_root.ID) (*entity.User, error)
+		GetUser(id string) (*entity.User, error)
 	}
 )
