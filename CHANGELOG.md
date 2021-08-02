@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - refectory in module http
 - ports for http 
 - middleware structure for routes and global requests
+- refectory in module db
 
 ## [1.0.0]
 
