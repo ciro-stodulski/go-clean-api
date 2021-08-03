@@ -22,7 +22,7 @@ func (http *HttpService) Get(url string) (interface{}, error) {
 	}
 	defer result.Body.Close()
 
-	body, err := ioutil.ReadAll(result.Body)
+	body, _ := ioutil.ReadAll(result.Body)
 
 	return body, nil
 }
