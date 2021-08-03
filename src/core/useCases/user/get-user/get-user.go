@@ -14,6 +14,8 @@ func (service *Service) GetUser(id string) (*entity.User, error) {
 
 	user, err := service.RepositoryUser.GetById(id_uuid)
 
+	service.IntegrationUser.GetTodos()
+
 	if err != nil {
 		return nil, err
 	}

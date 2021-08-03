@@ -3,7 +3,7 @@ package app
 import (
 	"go-api/src/main/container"
 	database "go-api/src/main/module/db"
-	http_server "go-api/src/main/module/http"
+	http_server "go-api/src/main/module/http/server"
 	"log"
 
 	"github.com/joho/godotenv"

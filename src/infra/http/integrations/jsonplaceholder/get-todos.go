@@ -1,12 +1,16 @@
 package jsonplaceholder
 
-import http_service "go-api/src/infra/http"
+import (
+	"fmt"
+)
 
-type JsonplaceholderIntegration struct {
-	Engine http_service.HttpService
-	url    string
-}
+func (intergration *JsonPlaceholderIntegration) GetTodos() error {
+	result, err := intergration.http.Get("https://jsonplaceholder.typicode.com/todos")
+	if err != nil {
+		fmt.Printf("Error %s", err)
+		return err
+	}
+	fmt.Printf("Body : %s", result)
 
-func (intergration *JsonplaceholderIntegration) GetTodos() {
-	intergration.Engine.CreateEngine(intergration.url).Engine.Send()
+	return nil
 }

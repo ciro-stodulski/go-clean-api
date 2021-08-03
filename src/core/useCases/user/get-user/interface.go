@@ -11,6 +11,10 @@ type (
 		GetById(id entity_root.ID) (*entity.User, error)
 	}
 
+	Integration interface {
+		GetTodos() error
+	}
+
 	//UseCase interface
 	UseCase interface {
 		GetUser(id string) (*entity.User, error)

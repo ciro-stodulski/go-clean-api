@@ -26,14 +26,24 @@ func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {
 	return result.(*user.User), arg.Error(1)
 }
 
+type MockIntegration struct {
+	mock.Mock
+}
+
+func (mock *MockIntegration) GetTodos() error {
+	arg := mock.Called()
+	return arg.Error(1)
+}
+
 func Test_GetUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		userMock := newMockUser()
 		mockRepo := new(MockRepository)
+		mockInt := new(MockIntegration)
 
 		mockRepo.On("GetById").Return(userMock, nil)
 
-		testService := NewService(mockRepo)
+		testService := NewService(mockRepo, mockInt)
 
 		result, err := testService.GetUser(userMock.ID.String())
 
@@ -49,12 +59,13 @@ func Test_GetUser(t *testing.T) {
 		userMock := newMockUser()
 
 		mockRepo := new(MockRepository)
+		mockInt := new(MockIntegration)
 
 		errMock := errors.New("err")
 
 		mockRepo.On("GetById").Return(userMock, errMock)
 
-		testService := NewService(mockRepo)
+		testService := NewService(mockRepo, mockInt)
 
 		_, err := testService.GetUser(userMock.ID.String())
 
@@ -65,12 +76,12 @@ func Test_GetUser(t *testing.T) {
 	t.Run("error user not found", func(t *testing.T) {
 		userMock := newMockUser()
 		userMockResult := &user.User{ID: uuid.Nil}
-
 		mockRepo := new(MockRepository)
+		mockInt := new(MockIntegration)
 
 		mockRepo.On("GetById").Return(userMockResult, nil)
 
-		testService := NewService(mockRepo)
+		testService := NewService(mockRepo, mockInt)
 
 		_, err := testService.GetUser(userMock.ID.String())
 
