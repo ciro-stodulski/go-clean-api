@@ -25,7 +25,7 @@ func newMockUser() *user.User {
 	user, _ := user.NewUser("test", "test", "test")
 	return user
 }
-func Test_Http_Controller_GetUser(t *testing.T) {
+func Test_Controller_User_GetUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		userMock := newMockUser()
 		mockRepo := new(MockUserCase)

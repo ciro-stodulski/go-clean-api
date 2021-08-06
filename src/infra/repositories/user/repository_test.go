@@ -15,7 +15,7 @@ func newMockUser() *entity.User {
 	return user
 }
 
-func Test_GetById(t *testing.T) {
+func Test_UserRepository_GetById(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		user_mock := newMockUser()
 		db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))

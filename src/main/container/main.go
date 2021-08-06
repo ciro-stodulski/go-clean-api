@@ -28,7 +28,7 @@ func NewContainer(container_config *ContainerConfig) *Container {
 	return &Container{
 		UserService: user.NewService(
 			model_user.NewUserRepository(container_config.Database),
-			jsonplaceholder.New(http_service.New()),
+			jsonplaceholder.New(http_service.New(), "https://jsonplaceholder.typicode.com"),
 		),
 	}
 }

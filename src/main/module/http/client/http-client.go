@@ -5,18 +5,19 @@ import (
 	"net/http"
 )
 
-type HttpService struct {
+type httpClient struct {
 	Engine *http.Client
 }
 
-func New() *HttpService {
-	return &HttpService{
+func New() HttpClient {
+	return &httpClient{
 		Engine: &http.Client{},
 	}
 }
 
-func (http *HttpService) Get(url string) (interface{}, error) {
+func (http *httpClient) Get(url string) ([]byte, error) {
 	result, err := http.Engine.Get(url)
+
 	if err != nil {
 		return nil, err
 	}
