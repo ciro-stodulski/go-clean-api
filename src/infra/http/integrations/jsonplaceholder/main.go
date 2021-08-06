@@ -1,15 +1,19 @@
 package jsonplaceholder
 
 import (
+	ports "go-api/src/core/ports"
 	http_service "go-api/src/main/module/http/client"
 )
 
 type JsonPlaceholderIntegration struct {
-	http *http_service.HttpService
+	Http    http_service.HttpClient
+	rootUrl string
 }
 
-func New(http *http_service.HttpService) *JsonPlaceholderIntegration {
+func New(http http_service.HttpClient, root_url string) ports.JsonPlaceholderIntegration {
+
 	return &JsonPlaceholderIntegration{
-		http: http,
+		Http:    http,
+		rootUrl: root_url,
 	}
 }

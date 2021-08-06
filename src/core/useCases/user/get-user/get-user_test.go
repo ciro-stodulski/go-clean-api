@@ -1,9 +1,10 @@
-package user_use_case
+package get_user
 
 import (
 	"errors"
 	entity_root "go-api/src/core/entities"
 	user "go-api/src/core/entities/user"
+	integration "go-api/src/infra/http/integrations/jsonplaceholder/responses"
 	"testing"
 
 	"github.com/google/uuid"
@@ -11,13 +12,13 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type MockRepository struct {
-	mock.Mock
-}
-
 func newMockUser() *user.User {
 	user, _ := user.NewUser("test", "test", "test")
 	return user
+}
+
+type MockRepository struct {
+	mock.Mock
 }
 
 func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {
@@ -30,12 +31,13 @@ type MockIntegration struct {
 	mock.Mock
 }
 
-func (mock *MockIntegration) GetTodos() error {
+func (mock *MockIntegration) GetUsers() ([]integration.User, error) {
 	arg := mock.Called()
-	return arg.Error(1)
+	result := arg.Get(0)
+	return result.([]integration.User), arg.Error(1)
 }
 
-func Test_GetUser(t *testing.T) {
+func Test_UseCase_GetUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		userMock := newMockUser()
 		mockRepo := new(MockRepository)

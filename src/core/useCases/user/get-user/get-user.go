@@ -1,27 +1,47 @@
-package user_use_case
+package get_user
 
 import (
 	entity_root "go-api/src/core/entities"
 	entity "go-api/src/core/entities/user"
 	"log"
+	"strconv"
+	"time"
 
 	"github.com/google/uuid"
 )
 
-//GetUser Get an user
 func (service *Service) GetUser(id string) (*entity.User, error) {
 	id_uuid := entity_root.ConvertId(id)
 
 	user, err := service.RepositoryUser.GetById(id_uuid)
 
-	service.IntegrationUser.GetTodos()
+	if err != nil {
+		return nil, err
+	}
+
+	userJson, err := service.IntegrationJsonPlaceHolder.GetUsers()
 
 	if err != nil {
 		return nil, err
 	}
 
 	if user.ID == uuid.Nil {
-		log.Default().Print("not found user with id:" + id_uuid.String())
+		for _, user := range userJson {
+			id_string := strconv.Itoa(user.Id)
+			if id_string == id {
+				log.Default().Print("found user in integration:" + id)
+
+				return &entity.User{
+					ID:        entity_root.NewID(),
+					Name:      user.Username,
+					Email:     user.Email,
+					Password:  "test_for_integration",
+					CreatedAt: time.Now(),
+				}, nil
+			}
+		}
+
+		log.Default().Print("not found user with id:" + id)
 		return nil, entity.ErrUserNotFound
 	}
 

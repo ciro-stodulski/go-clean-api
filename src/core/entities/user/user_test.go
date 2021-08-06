@@ -8,7 +8,7 @@ import (
 )
 
 //Test for create new user
-func TestUserEntity(t *testing.T) {
+func Test_Entity_User(t *testing.T) {
 	t.Run("create new user with succeffully", func(t *testing.T) {
 		fake_name := "Test"
 		fake_email := "test@test.com"

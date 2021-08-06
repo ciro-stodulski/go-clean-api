@@ -1,15 +1,19 @@
-package user_use_case
+package get_user
+
+import (
+	interfaces "go-api/src/core/ports"
+)
 
 //Service  interface
 type Service struct {
-	RepositoryUser  Repository
-	IntegrationUser Integration
+	RepositoryUser             interfaces.Repository
+	IntegrationJsonPlaceHolder interfaces.JsonPlaceholderIntegration
 }
 
 //NewService create new use case
-func NewService(repository Repository, integration Integration) UseCase {
+func NewService(repository interfaces.Repository, jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration) UseCase {
 	return &Service{
-		RepositoryUser:  repository,
-		IntegrationUser: integration,
+		RepositoryUser:             repository,
+		IntegrationJsonPlaceHolder: jsonPlaceholderIntegration,
 	}
 }
