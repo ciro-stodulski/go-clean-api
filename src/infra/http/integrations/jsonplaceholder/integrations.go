@@ -8,6 +8,7 @@ import (
 )
 
 func (intergration *JsonPlaceholderIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
+	fmt.Println(intergration.rootUrl + "/users")
 	response, err := intergration.Http.Get(intergration.rootUrl + "/users")
 
 	if err != nil {

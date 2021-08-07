@@ -1,7 +1,8 @@
 package jsonplaceholder
 
 import (
-	response "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	"encoding/json"
+	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,43 +14,13 @@ type MockIntegration struct {
 }
 
 func (mock *MockIntegration) Get(url string) ([]byte, error) {
-	arg := mock.Called()
+	arg := mock.Called(url)
 	result := arg.Get(0)
 	return result.([]byte), arg.Error(1)
 }
 
-func newMockUsers() []response.User {
-	Company := response.Company{
-		Name:        "test",
-		CatchPhrase: "test",
-		Bs:          "test",
-	}
-
-	Address := response.Address{
-		Street:  "test",
-		Suite:   "test",
-		City:    "test",
-		Zipcode: "test",
-		Geo: response.Geo{
-			Lat: "12",
-			Lng: "234",
-		},
-	}
-
-	user := response.User{
-		Id:       1,
-		Name:     "tes",
-		Username: "test_test",
-		Email:    "test@test",
-		Address:  Address,
-		Phone:    "test",
-		Website:  "test",
-		Company:  Company,
-	}
-
-	return []response.User{
-		user,
-	}
+func newMockUsers() []byte {
+	return []byte(`[{"id": 1,"name": "Leanne Graham","username": "Bret","email": "Sincere@april.biz","address": {"street": "Kulas Light","suite": "Apt. 556","city": "Gwenborough","zipcode": "92998-3874","geo": { "lat": "-37.3159","lng":"81.1496"}},"phone": "1-770-736-8031 x56442","website": "hildegard.org","company": {"name": "Romaguera-Crona","catchPhrase": "Multi-layered client-server neural-net","bs": "harness real-time e-markets"}}]`)
 }
 
 func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
@@ -57,13 +28,17 @@ func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 		userMock := newMockUsers()
 		mockInt := new(MockIntegration)
 
-		mockInt.On("Get").Return(userMock, nil)
+		var usersFake []response_jsonplaceholder.User
+		_ = json.Unmarshal(userMock, &usersFake)
 
+		mockInt.On("Get", "test/users").Return(userMock, nil)
 		testService := New(mockInt, "test")
 
 		result, err := testService.GetUsers()
 
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
+		assert.Equal(t, result, usersFake)
+		mockInt.AssertCalled(t, "Get", "test/users")
 	})
 }
