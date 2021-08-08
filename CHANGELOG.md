@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - refectory in module db
 - refectory part 2 in module http
 - add test unit domain controller
+- refectory interfaces in core 
+- add integration http 
+- add test unit in integration http
 
 ## [1.0.0]
 
