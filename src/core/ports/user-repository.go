@@ -1,4 +1,4 @@
-package user_use_case
+package ports
 
 import (
 	entity_root "go-api/src/core/entities"
@@ -6,13 +6,7 @@ import (
 )
 
 type (
-	//Repository interface
 	Repository interface {
 		GetById(id entity_root.ID) (*entity.User, error)
-	}
-
-	//UseCase interface
-	UseCase interface {
-		GetUser(id string) (*entity.User, error)
 	}
 )
