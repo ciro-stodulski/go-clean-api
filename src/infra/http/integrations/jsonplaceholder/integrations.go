@@ -2,17 +2,17 @@ package jsonplaceholder
 
 import (
 	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	"log"
 
 	"encoding/json"
-	"fmt"
 )
 
 func (intergration *JsonPlaceholderIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
-	fmt.Println(intergration.rootUrl + "/users")
 	response, err := intergration.Http.Get(intergration.rootUrl + "/users")
 
 	if err != nil {
-		fmt.Printf("Error %s", err)
+		log.Default().Printf("Error %s", err)
+
 		return nil, err
 	}
 

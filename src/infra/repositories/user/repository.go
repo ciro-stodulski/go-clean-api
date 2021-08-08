@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"fmt"
 	entity_root "go-api/src/core/entities"
 	entity "go-api/src/core/entities/user"
+	"log"
 
 	"github.com/jinzhu/gorm"
 )
@@ -23,7 +23,7 @@ func NewUserRepository(db *gorm.DB) (repository RepositoryUser) {
 }
 
 func InitMigrate(db *gorm.DB) {
-	fmt.Print("Run migration for user")
+	log.Default().Println("Run migration for user")
 
 	db.AutoMigrate(&entity.User{})
 }
