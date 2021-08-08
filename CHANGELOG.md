@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+## [1.1.0]
+
 - refectory in module http
 - ports for http 
 - middleware structure for routes and global requests
