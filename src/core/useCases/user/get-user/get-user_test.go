@@ -4,7 +4,7 @@ import (
 	"errors"
 	entity_root "go-api/src/core/entities"
 	user "go-api/src/core/entities/user"
-	integration "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
 	"testing"
 
 	"github.com/google/uuid"
@@ -15,6 +15,32 @@ import (
 func newMockUser() *user.User {
 	user, _ := user.NewUser("test", "test", "test")
 	return user
+}
+
+func newMockUserIntegration() []response_jsonplaceholder.User {
+	return []response_jsonplaceholder.User{{
+		Id:       12,
+		Name:     "test",
+		Username: "test",
+		Email:    "test@test",
+		Phone:    "test",
+		Website:  "test",
+		Address: response_jsonplaceholder.Address{
+			Street:  "test",
+			Suite:   "test",
+			City:    "test",
+			Zipcode: "test",
+			Geo: response_jsonplaceholder.Geo{
+				Lat: "test",
+				Lng: "test",
+			},
+		},
+		Company: response_jsonplaceholder.Company{
+			Name:        "test",
+			CatchPhrase: "test",
+			Bs:          "test",
+		},
+	}}
 }
 
 type MockRepository struct {
@@ -31,10 +57,10 @@ type MockIntegration struct {
 	mock.Mock
 }
 
-func (mock *MockIntegration) GetUsers() ([]integration.User, error) {
+func (mock *MockIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
 	arg := mock.Called()
 	result := arg.Get(0)
-	return result.([]integration.User), arg.Error(1)
+	return result.([]response_jsonplaceholder.User), arg.Error(1)
 }
 
 func Test_UseCase_GetUser(t *testing.T) {
@@ -75,13 +101,37 @@ func Test_UseCase_GetUser(t *testing.T) {
 		assert.Equal(t, err, errMock)
 	})
 
-	t.Run("error user not found", func(t *testing.T) {
-		userMock := newMockUser()
+	t.Run("user found integration", func(t *testing.T) {
+		userIntMock := newMockUserIntegration()
+
 		userMockResult := &user.User{ID: uuid.Nil}
 		mockRepo := new(MockRepository)
 		mockInt := new(MockIntegration)
 
 		mockRepo.On("GetById").Return(userMockResult, nil)
+		mockInt.On("GetUsers").Return(userIntMock, nil)
+
+		testService := NewService(mockRepo, mockInt)
+
+		result, err := testService.GetUser("12")
+
+		assert.NotNil(t, result)
+		assert.Nil(t, err)
+		assert.Equal(t, userIntMock[0].Name, result.Name)
+		assert.Equal(t, userIntMock[0].Email, result.Email)
+		assert.Equal(t, "test_for_integration", result.Password)
+	})
+
+	t.Run("error user not found", func(t *testing.T) {
+		userMock := newMockUser()
+		userIntMock := newMockUserIntegration()
+
+		userMockResult := &user.User{ID: uuid.Nil}
+		mockRepo := new(MockRepository)
+		mockInt := new(MockIntegration)
+
+		mockRepo.On("GetById").Return(userMockResult, nil)
+		mockInt.On("GetUsers").Return(userIntMock, nil)
 
 		testService := NewService(mockRepo, mockInt)
 

@@ -19,13 +19,13 @@ func (service *Service) GetUser(id string) (*entity.User, error) {
 		return nil, err
 	}
 
-	userJson, err := service.IntegrationJsonPlaceHolder.GetUsers()
-
-	if err != nil {
-		return nil, err
-	}
-
 	if user.ID == uuid.Nil {
+		userJson, err := service.IntegrationJsonPlaceHolder.GetUsers()
+
+		if err != nil {
+			return nil, err
+		}
+
 		for _, user := range userJson {
 			id_string := strconv.Itoa(user.Id)
 			if id_string == id {
