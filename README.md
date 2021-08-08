@@ -35,6 +35,7 @@ docker-compose up
 - refectory part 2 in module http
 - add test unit domain controller
 - refectory interfaces in core 
+- Add Docker and Docker composer
 - add integration http 
 - add test unit in integration http
 ```
