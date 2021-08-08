@@ -6,7 +6,6 @@ import (
 )
 
 type (
-	//Repository interface
 	Repository interface {
 		GetById(id entity_root.ID) (*entity.User, error)
 	}

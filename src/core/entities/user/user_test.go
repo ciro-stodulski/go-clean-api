@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-//Test for create new user
 func Test_Entity_User(t *testing.T) {
 	t.Run("create new user with succeffully", func(t *testing.T) {
 		fake_name := "Test"

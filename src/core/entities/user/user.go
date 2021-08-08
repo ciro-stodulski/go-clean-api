@@ -7,7 +7,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//Data for user
 type User struct {
 	ID        entity.ID `json:"id"`
 	Name      string    `json:"name"`
@@ -16,7 +15,6 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-//Create a new user
 func NewUser(email, password, name string) (*User, error) {
 	new_user := &User{
 		ID:        entity.NewID(),
@@ -43,7 +41,6 @@ func NewUser(email, password, name string) (*User, error) {
 	return new_user, nil
 }
 
-//Validate validate props by User
 func (u *User) Validate() error {
 	if u.Email == "" || u.Name == "" || u.Password == "" {
 		return entity.ErrInvalidEntity
@@ -52,7 +49,6 @@ func (u *User) Validate() error {
 	return nil
 }
 
-//Validate password
 func (u *User) ValidatePassword(p string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(p))
 
@@ -63,7 +59,6 @@ func (u *User) ValidatePassword(p string) error {
 	return nil
 }
 
-//Generate passord password
 func generatePassword(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 
