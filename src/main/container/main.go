@@ -1,8 +1,10 @@
 package container
 
 import (
-	user "go-api/src/core/useCases/user"
+	user "go-api/src/core/useCases/user/get-user"
+	jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder"
 	model_user "go-api/src/infra/repositories/user"
+	http_service "go-api/src/main/module/http/client"
 
 	"github.com/jinzhu/gorm"
 )
@@ -13,7 +15,7 @@ type (
 	}
 
 	Container struct {
-		UserService user.Service
+		UserService user.UseCase
 	}
 )
 
@@ -22,11 +24,11 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 }
 
 func NewContainer(container_config *ContainerConfig) *Container {
-	user_context := user.NewService(
-		model_user.NewUserRepository(container_config.Database),
-	)
 
 	return &Container{
-		UserService: *user.NewService(user_context.RepositoryUser),
+		UserService: user.NewService(
+			model_user.NewUserRepository(container_config.Database),
+			jsonplaceholder.New(http_service.New(), "https://jsonplaceholder.typicode.com"),
+		),
 	}
 }

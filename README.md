@@ -13,25 +13,29 @@ obs: you need to update the file with your env
 go run .
 ```
 
+## Started api with container
+
+```bash
+docker-compose up
+```
+
 ## Run tests
 ```bash
  go test ./...
 ```
 #### Versions
 
-1.0.0 - init project
+1.1.0
 
 ```
-- add entity init structure
-- add entity test
-- add use case init structure 
-- add use case test
-- add structure module init server http 
-- add controller init structure
-- add container init structure
-- add inject controller in container
-- add inject use case in container
-- add repository init structure 
-- add database module init structure 
-- add repository test
+- refectory in module http
+- ports for http 
+- middleware structure for routes and global requests
+- refectory in module db
+- refectory part 2 in module http
+- add test unit domain controller
+- refectory interfaces in core 
+- Add Docker and Docker composer
+- add integration http 
+- add test unit in integration http
 ```

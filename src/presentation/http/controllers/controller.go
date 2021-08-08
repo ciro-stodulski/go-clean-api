@@ -1,15 +1,20 @@
 package controllers
 
-import (
-	"net/http"
+import ports_http "go-api/src/presentation/http/ports"
 
-	"github.com/gin-gonic/gin"
+type (
+	Controller interface {
+		LoadRoute() CreateRoute
+	}
+
+	Middleware func(req ports_http.HttpRequest)
+
+	CreateRoute struct {
+		PathRoot    string
+		Method      string
+		Path        string
+		Middlewares []Middleware
+		Dto         interface{}
+		Handle      func(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError)
+	}
 )
-
-type Controller interface {
-	Register(gr *gin.RouterGroup)
-}
-
-func HealthCheck(context *gin.Context) {
-	context.Status(http.StatusAccepted)
-}

@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+## [1.1.0]
+
+- refectory in module http
+- ports for http 
+- middleware structure for routes and global requests
+- refectory in module db
+- refectory part 2 in module http
+- add test unit domain controller
+- refectory interfaces in core 
+- Add Docker and Docker composer
+- add integration http 
+- add test unit in integration http
+
+## [1.0.0]
+
 - add entity init structure
 - add entity test
 - add use case init structure 
