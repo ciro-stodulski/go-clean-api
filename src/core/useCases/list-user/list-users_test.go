@@ -49,10 +49,11 @@ func Test_UseCase_ListUsers(t *testing.T) {
 		mockInt := new(MockIntegration)
 
 		mockInt.On("GetUsers").Return(userIntMock, nil)
-		mockInt.AssertCalled(t, "GetUsers")
 
 		testService := NewUseCase(mockInt)
 
 		testService.ListUsers()
+
+		mockInt.AssertCalled(t, "GetUsers")
 	})
 }
