@@ -1,8 +1,9 @@
 package container
 
 import (
-	user "go-api/src/core/useCases/user/get-user"
-	jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder"
+	get_user_use_case "go-api/src/core/useCases/get-user"
+	list_users "go-api/src/core/useCases/list-user"
+	json_place_holder "go-api/src/infra/http/integrations/jsonplaceholder"
 	model_user "go-api/src/infra/repositories/user"
 	http_service "go-api/src/main/module/http/client"
 
@@ -15,7 +16,8 @@ type (
 	}
 
 	Container struct {
-		UserService user.UseCase
+		GetUserUseCase   get_user_use_case.GetUserUseCase
+		ListUsersUseCase list_users.ListUsersUseCase
 	}
 )
 
@@ -24,11 +26,14 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 }
 
 func NewContainer(container_config *ContainerConfig) *Container {
+	jsonPlaceHolderIntegration := json_place_holder.New(http_service.New(), "https://jsonplaceholder.typicode.com")
+	userRepository := model_user.NewUserRepository(container_config.Database)
 
 	return &Container{
-		UserService: user.NewService(
-			model_user.NewUserRepository(container_config.Database),
-			jsonplaceholder.New(http_service.New(), "https://jsonplaceholder.typicode.com"),
+		GetUserUseCase: get_user_use_case.NewUseCase(
+			userRepository,
+			jsonPlaceHolderIntegration,
 		),
+		ListUsersUseCase: list_users.NewUseCase(jsonPlaceHolderIntegration),
 	}
 }

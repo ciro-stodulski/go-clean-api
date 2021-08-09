@@ -3,6 +3,7 @@ package listusers_job
 import (
 	cronjob "go-api/src/infra/cron-job"
 	"go-api/src/main/container"
+	"log"
 
 	"github.com/robfig/cron"
 )
@@ -22,11 +23,15 @@ func New(c container.Container) cronjob.CronJob {
 }
 
 func (listUserJob *listUserJob) Start() {
-	//
+	listUserJob.Cron.AddFunc("5 * * * *", func() {
+		log.Default().Print("### job ListUsers started ###")
+		listUserJob.container.ListUsersUseCase.ListUsers()
+		log.Default().Print("### job ListUsers finishid ###")
+	})
+
 	listUserJob.Cron.Start()
 }
 
 func (listUserJob *listUserJob) Stop() {
-	//
 	listUserJob.Cron.Stop()
 }

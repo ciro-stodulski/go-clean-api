@@ -5,7 +5,7 @@ import (
 )
 
 type (
-	UseCase interface {
+	GetUserUseCase interface {
 		GetUser(id string) (*entity.User, error)
 	}
 )
