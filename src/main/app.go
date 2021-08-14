@@ -4,6 +4,7 @@ import (
 	"go-api/src/main/container"
 	database "go-api/src/main/module/db"
 	http_server "go-api/src/main/module/http/server"
+	"go-api/src/main/module/work"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -19,6 +20,9 @@ func (server *Server) Setup() *Server {
 	server.Container = container.NewContainer(
 		container.NewContainerConfig(server.db.Db),
 	)
+	work := work.New(server.Container)
+
+	work.StartCrons()
 
 	server.engine.New(server.Container)
 

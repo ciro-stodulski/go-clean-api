@@ -4,13 +4,13 @@ import (
 	interfaces "go-api/src/core/ports"
 )
 
-type Service struct {
+type getUserUseCase struct {
 	RepositoryUser             interfaces.Repository
 	IntegrationJsonPlaceHolder interfaces.JsonPlaceholderIntegration
 }
 
-func NewService(repository interfaces.Repository, jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration) UseCase {
-	return &Service{
+func NewUseCase(repository interfaces.Repository, jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration) GetUserUseCase {
+	return &getUserUseCase{
 		RepositoryUser:             repository,
 		IntegrationJsonPlaceHolder: jsonPlaceholderIntegration,
 	}

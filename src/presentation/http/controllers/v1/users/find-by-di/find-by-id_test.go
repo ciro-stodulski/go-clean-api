@@ -34,7 +34,7 @@ func Test_Controller_User_GetUser(t *testing.T) {
 		mockRepo.On("GetUser").Return(userMock, nil)
 
 		testService := NewController(&container.Container{
-			UserService: mockRepo,
+			GetUserUseCase: mockRepo,
 		})
 
 		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
@@ -59,7 +59,7 @@ func Test_Controller_User_GetUser(t *testing.T) {
 		mockRepo.On("GetUser").Return(userMock, errors.New("test"))
 
 		testService := NewController(&container.Container{
-			UserService: mockRepo,
+			GetUserUseCase: mockRepo,
 		})
 
 		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
@@ -86,7 +86,7 @@ func Test_Controller_User_GetUser(t *testing.T) {
 		mockRepo.On("GetUser").Return(userMock, user.ErrUserNotFound)
 
 		testService := NewController(&container.Container{
-			UserService: mockRepo,
+			GetUserUseCase: mockRepo,
 		})
 
 		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{

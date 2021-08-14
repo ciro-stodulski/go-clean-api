@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (service *Service) GetUser(id string) (*entity.User, error) {
+func (service *getUserUseCase) GetUser(id string) (*entity.User, error) {
 	id_uuid := entity_root.ConvertId(id)
 
 	user, err := service.RepositoryUser.GetById(id_uuid)
