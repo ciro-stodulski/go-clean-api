@@ -1,6 +1,7 @@
 package list_users
 
 import (
+	"fmt"
 	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
 	"testing"
 
@@ -49,7 +50,7 @@ type MockCache struct {
 
 func (mock *MockCache) Get(key string) []response_jsonplaceholder.User {
 	arg := mock.Called(key)
-	result := arg.Get(1)
+	result := arg.Get(0)
 	return result.([]response_jsonplaceholder.User)
 }
 
@@ -58,18 +59,39 @@ func (mock *MockCache) Set(key string, value []response_jsonplaceholder.User, ti
 }
 
 func Test_UseCase_ListUsers(t *testing.T) {
-	t.Run("user found integration", func(t *testing.T) {
+	t.Run("user found integration without cache", func(t *testing.T) {
 		userIntMock := newMockUserIntegration()
 		mockInt := new(MockIntegration)
 
 		mockCache := new(MockCache)
 
+		mockCache.On("Get", "users").Return([]response_jsonplaceholder.User{}, nil)
 		mockInt.On("GetUsers").Return(userIntMock, nil)
+		mockCache.On("Set", "users", userIntMock, 100)
 
 		testService := NewUseCase(mockInt, mockCache)
 
 		testService.ListUsers()
-
+		fmt.Println(userIntMock)
 		mockInt.AssertCalled(t, "GetUsers")
+		mockCache.AssertCalled(t, "Get", "users")
+		mockCache.AssertCalled(t, "Set", "users", userIntMock, 100)
+	})
+
+	t.Run("user found in cache", func(t *testing.T) {
+		userIntMock := newMockUserIntegration()
+		mockInt := new(MockIntegration)
+
+		mockCache := new(MockCache)
+
+		mockCache.On("Get", "users").Return(userIntMock, nil)
+
+		testService := NewUseCase(mockInt, mockCache)
+
+		testService.ListUsers()
+		fmt.Println(userIntMock)
+		mockCache.AssertCalled(t, "Get", "users")
+		mockCache.AssertNotCalled(t, "Get")
+		mockCache.AssertNotCalled(t, "Set")
 	})
 }
