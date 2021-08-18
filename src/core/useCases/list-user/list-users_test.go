@@ -43,14 +43,30 @@ func (mock *MockIntegration) GetUsers() ([]response_jsonplaceholder.User, error)
 	return result.([]response_jsonplaceholder.User), arg.Error(1)
 }
 
+type MockCache struct {
+	mock.Mock
+}
+
+func (mock *MockCache) Get(key string) []response_jsonplaceholder.User {
+	arg := mock.Called(key)
+	result := arg.Get(1)
+	return result.([]response_jsonplaceholder.User)
+}
+
+func (mock *MockCache) Set(key string, value []response_jsonplaceholder.User, timeEx int) {
+	mock.Called(key, value, timeEx)
+}
+
 func Test_UseCase_ListUsers(t *testing.T) {
 	t.Run("user found integration", func(t *testing.T) {
 		userIntMock := newMockUserIntegration()
 		mockInt := new(MockIntegration)
 
+		mockCache := new(MockCache)
+
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 
-		testService := NewUseCase(mockInt)
+		testService := NewUseCase(mockInt, mockCache)
 
 		testService.ListUsers()
 
