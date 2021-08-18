@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add work for manager cronjobs
 - add cronjob
 - add test for cron job list user
+- add cache structure
+- refectory test unit list user
+- Added unit testing in the cache at the infra layer 
 
 ## [1.1.0]
 
