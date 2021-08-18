@@ -2,7 +2,7 @@ package app
 
 import (
 	"go-api/src/main/container"
-	database "go-api/src/main/module/db"
+	database "go-api/src/main/module/db/mysql"
 	http_server "go-api/src/main/module/http/server"
 	"go-api/src/main/module/work"
 	"log"
