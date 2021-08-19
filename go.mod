@@ -14,6 +14,7 @@ require (
 	github.com/lib/pq v1.7.0 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/robfig/cron v1.2.0
+	github.com/streadway/amqp v1.0.0 // indirect
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
