@@ -1,7 +1,6 @@
 package list_users
 
 import (
-	"fmt"
 	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
 	"testing"
 
@@ -72,7 +71,6 @@ func Test_UseCase_ListUsers(t *testing.T) {
 		testService := NewUseCase(mockInt, mockCache)
 
 		testService.ListUsers()
-		fmt.Println(userIntMock)
 		mockInt.AssertCalled(t, "GetUsers")
 		mockCache.AssertCalled(t, "Get", "users")
 		mockCache.AssertCalled(t, "Set", "users", userIntMock, 100)
@@ -89,7 +87,6 @@ func Test_UseCase_ListUsers(t *testing.T) {
 		testService := NewUseCase(mockInt, mockCache)
 
 		testService.ListUsers()
-		fmt.Println(userIntMock)
 		mockCache.AssertCalled(t, "Get", "users")
 		mockCache.AssertNotCalled(t, "Get")
 		mockCache.AssertNotCalled(t, "Set")
