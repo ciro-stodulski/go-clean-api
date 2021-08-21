@@ -5,6 +5,7 @@ import (
 	"go-api/src/main/module/amqp/rabbitmq"
 	database "go-api/src/main/module/db/mysql"
 	http_server "go-api/src/main/module/http/server"
+	"go-api/src/main/module/work"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -21,9 +22,9 @@ func (server *Server) Setup() *Server {
 	server.Container = container.NewContainer(
 		container.NewContainerConfig(server.db.Db),
 	)
-	//	work := work.New(server.Container)
 
-	//work.StartCrons()
+	work.New(server.Container).StartCrons()
+
 	go server.amqp.Start(server.Container)
 
 	server.http.New(server.Container)
