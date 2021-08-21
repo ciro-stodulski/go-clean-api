@@ -2,7 +2,7 @@ package find_by_id
 
 import (
 	"go-api/src/main/container"
-	comsumer "go-api/src/presentation/amqp/comsumers"
+	comsumer "go-api/src/presentation/amqp/consumers"
 )
 
 type findByIdConsumer struct {

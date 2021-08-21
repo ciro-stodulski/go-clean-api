@@ -2,7 +2,7 @@ package amqp_server
 
 import (
 	"go-api/src/main/container"
-	consumer "go-api/src/presentation/amqp/comsumers"
+	consumer "go-api/src/presentation/amqp/consumers"
 )
 
 type AmqpServer interface {

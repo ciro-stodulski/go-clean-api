@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"go-api/src/main/container"
 	amqp_server "go-api/src/main/module/amqp"
-	comsumer "go-api/src/presentation/amqp/comsumers"
+	comsumer "go-api/src/presentation/amqp/consumers"
 	"log"
 	"time"
 

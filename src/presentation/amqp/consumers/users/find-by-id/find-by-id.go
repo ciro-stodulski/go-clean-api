@@ -1,7 +1,7 @@
 package find_by_id
 
 import (
-	comsumer "go-api/src/presentation/amqp/comsumers"
+	comsumer "go-api/src/presentation/amqp/consumers"
 
 	"github.com/mitchellh/mapstructure"
 )
