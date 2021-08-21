@@ -23,8 +23,7 @@ func StartApp() {
 
 	servers := server.Setup()
 
-	servers.amqp.Start()
-	go servers.http.Start()
+	servers.http.Start()
 
 	if err != nil {
 		log.Fatal("failed to serve the api", err)

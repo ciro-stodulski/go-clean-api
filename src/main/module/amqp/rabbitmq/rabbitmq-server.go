@@ -3,7 +3,6 @@ package rabbitmq
 import (
 	"encoding/json"
 	"go-api/src/main/container"
-	amqp_server "go-api/src/main/module/amqp"
 	comsumer "go-api/src/presentation/amqp/comsumers"
 	"log"
 	"time"
@@ -12,35 +11,30 @@ import (
 )
 
 type RabbitMq struct {
-	container  *container.Container
 	connection *amqp.Connection
 	channel    *amqp.Channel
 }
 
-func (rabbit_mq *RabbitMq) New(c *container.Container) amqp_server.AmqpServer {
-	return &RabbitMq{container: c}
-}
-
-func (rabbit_mq *RabbitMq) Start() {
+func (rabbit_mq *RabbitMq) Start(container *container.Container) {
 	conn, err_connection := amqp.Dial("amqp://admin:admin@localhost:5672/")
 
-	rabbit_mq.NeedToReconnect(err_connection, "Failed to connect to RabbitMQ")
+	rabbit_mq.NeedToReconnect(err_connection, "Failed to connect to RabbitMQ", container)
 	defer conn.Close()
 
 	rabbit_mq.connection = conn
 	ch, err := conn.Channel()
 
-	rabbit_mq.NeedToReconnect(err, "Failed to open a channel")
+	rabbit_mq.NeedToReconnect(err, "Failed to open a channel", container)
 	defer ch.Close()
 
 	rabbit_mq.channel = ch
 	log.Default().Print("RabbitMq: Connection host and channel with succeffully")
 
-	rabbit_mq.StartConsumers()
+	rabbit_mq.StartConsumers(container)
 }
 
-func (rabbit_mq *RabbitMq) StartConsumers() {
-	for _, consumer := range rabbit_mq.LoadConsumers(rabbit_mq.container) {
+func (rabbit_mq *RabbitMq) StartConsumers(container *container.Container) {
+	for _, consumer := range rabbit_mq.LoadConsumers(container) {
 		queue, err := rabbit_mq.channel.QueueDeclare(
 			consumer.GetQueue(), // name
 			false,               // durable
@@ -85,11 +79,11 @@ func (rabbit_mq *RabbitMq) StartConsumers() {
 	}
 }
 
-func (rabbit_mq *RabbitMq) NeedToReconnect(err error, msg string) {
+func (rabbit_mq *RabbitMq) NeedToReconnect(err error, msg string, container *container.Container) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
 		time.Sleep(10 * time.Second)
-		rabbit_mq.Start()
+		rabbit_mq.Start(container)
 	}
 }
 

@@ -24,9 +24,9 @@ func (server *Server) Setup() *Server {
 	//	work := work.New(server.Container)
 
 	//work.StartCrons()
-	server.http.New(server.Container)
+	go server.amqp.Start(server.Container)
 
-	server.amqp.New(server.Container)
+	server.http.New(server.Container)
 
 	return server
 }

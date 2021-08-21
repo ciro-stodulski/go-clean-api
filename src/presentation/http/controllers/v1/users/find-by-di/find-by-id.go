@@ -1,12 +1,14 @@
 package v1_user
 
 import (
+	"fmt"
 	entity_user "go-api/src/core/entities/user"
 	ports_http "go-api/src/presentation/http/ports"
 )
 
 func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
 	id := req.Params.Get("id")
+	fmt.Println(createController.container)
 
 	user, err := createController.container.GetUserUseCase.GetUser(id)
 	if err != nil {
