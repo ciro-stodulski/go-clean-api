@@ -23,6 +23,6 @@ func (service *listUsersUseCase) ListUsers() {
 	}
 
 	for _, user := range userJson {
-		log.Default().Print("---Job for integration user:" + user.Username + "email:" + user.Email + "---")
+		log.Default().Print("-user:" + user.Username + "-email:" + user.Email + "-")
 	}
 }
