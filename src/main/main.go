@@ -21,7 +21,10 @@ func StartApp() {
 
 	defer server.db.CloseDB()
 
-	err = server.Setup().engine.Start()
+	servers := server.Setup()
+
+	servers.amqp.Start()
+	go servers.http.Start()
 
 	if err != nil {
 		log.Fatal("failed to serve the api", err)

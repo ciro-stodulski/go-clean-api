@@ -2,9 +2,9 @@ package app
 
 import (
 	"go-api/src/main/container"
+	"go-api/src/main/module/amqp/rabbitmq"
 	database "go-api/src/main/module/db/mysql"
 	http_server "go-api/src/main/module/http/server"
-	"go-api/src/main/module/work"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -12,19 +12,21 @@ import (
 
 type Server struct {
 	Container *container.Container
-	engine    http_server.HttpServer
+	http      http_server.HttpServer
 	db        database.Database
+	amqp      rabbitmq.RabbitMq
 }
 
 func (server *Server) Setup() *Server {
 	server.Container = container.NewContainer(
 		container.NewContainerConfig(server.db.Db),
 	)
-	work := work.New(server.Container)
+	//	work := work.New(server.Container)
 
-	work.StartCrons()
+	//work.StartCrons()
+	server.http.New(server.Container)
 
-	server.engine.New(server.Container)
+	server.amqp.New(server.Container)
 
 	return server
 }

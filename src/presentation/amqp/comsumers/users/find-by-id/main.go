@@ -1,4 +1,4 @@
-package comsumer
+package find_by_id
 
 import (
 	"go-api/src/main/container"
@@ -6,9 +6,22 @@ import (
 )
 
 type findByIdConsumer struct {
-	container container.Container
+	container *container.Container
+	queue     string
+	schema    FindByIdDto
 }
 
-func New(c container.Container) comsumer.Comsumer {
-	return &findByIdConsumer{c}
+func NewConsumer(container *container.Container) comsumer.Comsumer {
+	return &findByIdConsumer{
+		container: container,
+		queue:     "find.user",
+	}
+}
+
+func (findByIdConsumer *findByIdConsumer) GetQueue() string {
+	return findByIdConsumer.queue
+}
+
+func (findByIdConsumer *findByIdConsumer) GetSchema() interface{} {
+	return findByIdConsumer.schema
 }

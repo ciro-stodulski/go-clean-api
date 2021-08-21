@@ -13,6 +13,7 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lib/pq v1.7.0 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
+	github.com/mitchellh/mapstructure v1.4.1
 	github.com/robfig/cron v1.2.0
 	github.com/streadway/amqp v1.0.0 // indirect
 	github.com/stretchr/testify v1.7.0

@@ -17,7 +17,7 @@ type HttpServer struct {
 func (server *HttpServer) Start() error {
 	port := os.Getenv("HOST_PORT")
 
-	log.Default().Print("server started with succeffully")
+	log.Default().Print("Http: Server started with succeffully")
 
 	return server.Engine.Run("0.0.0.0:" + port)
 }
