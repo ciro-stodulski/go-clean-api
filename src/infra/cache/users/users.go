@@ -5,11 +5,15 @@ import (
 	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
 )
 
-func (userCache *usersCache) Get(key string) []response_jsonplaceholder.User {
+func (userCache *usersCache) Get(key string) ([]response_jsonplaceholder.User, error) {
 	val, err := userCache.client.Get(key)
 
 	if err != nil {
 		panic(err)
+	}
+
+	if val == "" {
+		return []response_jsonplaceholder.User{}, nil
 	}
 
 	var users []response_jsonplaceholder.User
@@ -19,7 +23,7 @@ func (userCache *usersCache) Get(key string) []response_jsonplaceholder.User {
 		panic(err)
 	}
 
-	return users
+	return users, nil
 }
 
 func (userCache *usersCache) Set(key string, value []response_jsonplaceholder.User, timeEx int) {
