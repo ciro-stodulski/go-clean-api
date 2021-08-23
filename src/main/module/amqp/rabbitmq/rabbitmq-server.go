@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"go-api/src/main/container"
 	amqp_server "go-api/src/main/module/amqp"
-	comsumer "go-api/src/presentation/amqp/consumers"
+	consumer_type "go-api/src/presentation/amqp/consumers"
 	"log"
 	"time"
 
@@ -15,6 +15,14 @@ type RabbitMq struct {
 	container  *container.Container
 	connection *amqp.Connection
 	channel    *amqp.Channel
+}
+
+type Consumer struct {
+	channel *amqp.Channel
+	deliveries <-chan amqp.Delivery
+	handler func(amqp.Delivery)
+	done chan error
+	session Session
 }
 
 func (rabbit_mq *RabbitMq) New(container *container.Container) amqp_server.AmqpServer {
@@ -32,15 +40,23 @@ func (rabbit_mq *RabbitMq) Start() {
 
 	rabbit_mq.NeedToReconnect(err, "Failed to open a channel")
 	defer ch.Close()
-
 	rabbit_mq.channel = ch
 	log.Default().Print("RabbitMq: Connection host and channel with succeffully")
 
-	rabbit_mq.StartConsumers(rabbit_mq.container)
+	rabbit_mq.StartConsumers()
 }
 
-func (rabbit_mq *RabbitMq) StartConsumers(container *container.Container) {
-	for _, consumer := range rabbit_mq.LoadConsumers(container) {
+func (rabbit_mq *RabbitMq) StartConsumers() {
+
+	constumers := rabbit_mq.LoadConsumers(rabbit_mq.container)
+	err := rabbit_mq.channel.Qos(
+		len(constumers), // prefetch count
+		0,               // prefetch size
+		false,           // global
+	)
+	failOnError(err, "Failed to set QoS")
+
+	for _, consumer := range constumers {
 		queue, err := rabbit_mq.channel.QueueDeclare(
 			consumer.GetQueue(), // name
 			false,               // durable
@@ -51,11 +67,9 @@ func (rabbit_mq *RabbitMq) StartConsumers(container *container.Container) {
 		)
 		failOnError(err, "Failed to declare a queue")
 
-		rabbit_mq.channel.Qos(1, 0, false)
-
 		msgs, err := rabbit_mq.channel.Consume(
 			queue.Name, // queue
-			"",         // consumer
+			queue.Name, // consumer
 			true,       // auto-ack
 			false,      // exclusive
 			false,      // no-local
@@ -65,30 +79,42 @@ func (rabbit_mq *RabbitMq) StartConsumers(container *container.Container) {
 		failOnError(err, "Failed to register a consumer")
 
 		log.Default().Print("RabbitMq: Started queue " + queue.Name + " to consume")
+
 		for msg := range msgs {
 			schema := consumer.GetSchema()
 			err := json.Unmarshal(msg.Body, &schema)
 
 			if err != nil {
 				log.Printf("Error decoding JSON: %s", err)
+				if err := msg.Ack(false); err != nil {
+					// TODO: Should DLX the message
+					log.Println("unable to acknowledge the message, dropped", err)
+				}
+				rabbit_mq.NeedToReconnect(err, "ack message")
 			} else {
-				err_msg_consumer := consumer.MessageHandler(comsumer.Message{
+				err_msg_consumer := consumer.MessageHandler(consumer_type.Message{
 					Body: schema,
 				})
 
 				if err_msg_consumer != nil {
 					consumer.OnConsumerError(err_msg_consumer)
-					msg.Nack(true, true)
+					if err := msg.Ack(false); err != nil {
+						// TODO: Should DLX the message
+						log.Println("unable to acknowledge the message, dropped", err)
+					}
+					rabbit_mq.NeedToReconnect(err, "ack message")
 				}
 			}
 		}
 	}
 }
 
+func 
+
 func (rabbit_mq *RabbitMq) NeedToReconnect(err error, msg string) {
 	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-		time.Sleep(10 * time.Second)
+		log.Default().Printf("%s: %s", msg, err)
+		time.Sleep(2 * time.Second)
 		rabbit_mq.Start()
 	}
 }
