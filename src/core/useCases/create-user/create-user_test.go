@@ -37,29 +37,26 @@ func (mock *MockRepository) Create(user user.User) {
 	mock.Called()
 }
 
-func Test_UseCase_GetUser(t *testing.T) {
+func Test_UseCase_CreateUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		userMock := newMockUser()
 		mockRepo := new(MockRepository)
 		userMockResult := &user.User{ID: uuid.Nil}
 
-		mockRepo.On("GetById").Return(userMockResult, nil)
+		mockRepo.On("GetByEmail").Return(userMockResult, nil)
+		mockRepo.On("Create")
 
 		testService := NewUseCase(mockRepo)
 
 		dto := create_dto.CreateDto{
-			Name:     "test",
-			Email:    "test",
-			Password: "test",
+			Name:  "test",
+			Email: "test",
 		}
 
 		result, err := testService.CreateUser(dto)
 
 		assert.Nil(t, err)
-		assert.Equal(t, userMock.ID, result.ID)
 		assert.Equal(t, userMock.Name, result.Name)
 		assert.Equal(t, userMock.Email, result.Email)
-		assert.Equal(t, userMock.Password, result.Password)
-		assert.Equal(t, userMock.CreatedAt, result.CreatedAt)
 	})
 }
