@@ -1,4 +1,4 @@
-package create
+package create_dto
 
 type CreateDto struct {
 	Name     string `json:"name"`

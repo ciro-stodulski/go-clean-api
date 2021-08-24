@@ -1,6 +1,7 @@
 package container
 
 import (
+	create_user_use_case "go-api/src/core/useCases/create-user"
 	get_user_use_case "go-api/src/core/useCases/get-user"
 	list_users "go-api/src/core/useCases/list-user"
 	users_cache "go-api/src/infra/cache/users"
@@ -18,8 +19,9 @@ type (
 	}
 
 	Container struct {
-		GetUserUseCase   get_user_use_case.GetUserUseCase
-		ListUsersUseCase list_users.ListUsersUseCase
+		GetUserUseCase    get_user_use_case.GetUserUseCase
+		CreateUserUseCase create_user_use_case.CreateUserUseCase
+		ListUsersUseCase  list_users.ListUsersUseCase
 	}
 )
 
@@ -43,6 +45,9 @@ func NewContainer(container_config *ContainerConfig) *Container {
 		GetUserUseCase: get_user_use_case.NewUseCase(
 			user_repository,
 			json_place_holder_integration,
+		),
+		CreateUserUseCase: create_user_use_case.NewUseCase(
+			user_repository,
 		),
 		ListUsersUseCase: list_users.NewUseCase(json_place_holder_integration, users_cache),
 	}

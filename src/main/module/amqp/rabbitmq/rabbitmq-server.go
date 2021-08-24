@@ -29,7 +29,7 @@ func (rabbit_mq *RabbitMq) Start() {
 	}
 }
 
-func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, i int) {
+func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, position int) {
 	conn, err_connection := amqp.Dial("amqp://admin:admin@localhost:5672/")
 
 	rabbit_mq.NeedToReconnect(err_connection, "Failed to connect to RabbitMQ")
@@ -43,12 +43,12 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, i
 	rabbit_mq.channel = ch
 
 	queue, err := rabbit_mq.channel.QueueDeclare(
-		constumers[i].GetQueue(), // name
-		false,                    // durable
-		false,                    // delete when unused
-		false,                    // exclusive
-		false,                    // no-wait
-		nil,                      // arguments
+		constumers[position].GetQueue(), // name
+		false,                           // durable
+		false,                           // delete when unused
+		false,                           // exclusive
+		false,                           // no-wait
+		nil,                             // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
 
@@ -66,7 +66,7 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, i
 	log.Default().Print("RabbitMq: Started queue " + queue.Name + " to consume")
 
 	for msg := range msgs {
-		schema := constumers[i].GetSchema()
+		schema := constumers[position].GetSchema()
 		err := json.Unmarshal(msg.Body, &schema)
 
 		if err != nil {
@@ -76,16 +76,16 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, i
 			}
 			rabbit_mq.NeedToReconnect(err, "ack message")
 		} else {
-			err_msg_consumer := constumers[i].MessageHandler(consumer_type.Message{
+			err_msg_consumer := constumers[position].MessageHandler(consumer_type.Message{
 				Body: schema,
 			})
 
 			if err_msg_consumer != nil {
-				constumers[i].OnConsumerError(err_msg_consumer)
+				err_consumer := constumers[position].OnConsumerError(err_msg_consumer)
 				if err := msg.Ack(false); err != nil {
 					log.Println("unable to acknowledge the message, dropped", err)
 				}
-				rabbit_mq.NeedToReconnect(err, "ack message")
+				rabbit_mq.NeedToReconnect(err_consumer, "ack message")
 			}
 		}
 	}

@@ -14,6 +14,6 @@ func (findByIdConsumer *findByIdConsumer) MessageHandler(msg comsumer.Message) e
 	return nil
 }
 
-func (findByIdConsumer *findByIdConsumer) OnConsumerError(err error) {
-
+func (findByIdConsumer *findByIdConsumer) OnConsumerError(err error) error {
+	return err
 }

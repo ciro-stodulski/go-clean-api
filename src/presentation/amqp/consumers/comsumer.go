@@ -6,7 +6,7 @@ type Message struct {
 
 type Comsumer interface {
 	MessageHandler(Message) error
-	OnConsumerError(error)
+	OnConsumerError(error) error
 	GetQueue() string
 	GetSchema() interface{}
 }

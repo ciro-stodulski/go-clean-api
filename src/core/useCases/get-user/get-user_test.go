@@ -53,6 +53,16 @@ func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {
 	return result.(*user.User), arg.Error(1)
 }
 
+func (mock *MockRepository) GetByEmail(id string) (*user.User, error) {
+	arg := mock.Called()
+	result := arg.Get(0)
+	return result.(*user.User), arg.Error(1)
+}
+
+func (mock *MockRepository) Create(user user.User) {
+	mock.Called()
+}
+
 type MockIntegration struct {
 	mock.Mock
 }
