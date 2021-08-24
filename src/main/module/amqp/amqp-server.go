@@ -8,7 +8,7 @@ import (
 type AmqpServer interface {
 	New(c *container.Container) AmqpServer
 	Start()
-	StartConsumers()
+	StartConsumers(container []consumer.Comsumer, i int)
 	NeedToReconnect(err error, msg string)
 	LoadConsumers(c *container.Container) []consumer.Comsumer
 	LoadProducers(c *container.Container)
