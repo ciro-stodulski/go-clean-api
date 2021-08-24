@@ -2,7 +2,6 @@ package repository
 
 import (
 	entity "go-api/src/core/entities/user"
-
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -72,7 +71,7 @@ func Test_UserRepository_Create(t *testing.T) {
 		gdb, _ := gorm.Open("mysql", db)
 		repositoryUser := NewUserRepository(gdb)
 
-		repositoryUser.Create(entity.User{
+		repositoryUser.Create(&entity.User{
 			ID:        user_mock.ID,
 			Name:      user_mock.Name,
 			Email:     user_mock.Email,

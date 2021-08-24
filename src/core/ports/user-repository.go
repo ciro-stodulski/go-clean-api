@@ -9,6 +9,6 @@ type (
 	UserRepository interface {
 		GetById(id entity_root.ID) (*entity.User, error)
 		GetByEmail(email string) (*entity.User, error)
-		Create(user entity.User)
+		Create(user *entity.User)
 	}
 )

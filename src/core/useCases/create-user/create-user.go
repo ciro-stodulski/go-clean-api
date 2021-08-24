@@ -25,7 +25,7 @@ func (service *createUserUseCase) CreateUser(dto dto.CreateDto) (*entity.User, e
 		return nil, err
 	}
 
-	service.RepositoryUser.Create(*new_user)
+	service.RepositoryUser.Create(new_user)
 
 	return new_user, err
 }

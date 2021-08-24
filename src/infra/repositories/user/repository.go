@@ -37,6 +37,6 @@ func (repository *repositoryUser) GetByEmail(email string) (user *entity.User, e
 	return
 }
 
-func (repository *repositoryUser) Create(user entity.User) {
+func (repository *repositoryUser) Create(user *entity.User) {
 	repository.db.Create(user)
 }

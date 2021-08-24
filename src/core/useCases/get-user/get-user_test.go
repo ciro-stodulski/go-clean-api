@@ -59,7 +59,7 @@ func (mock *MockRepository) GetByEmail(id string) (*user.User, error) {
 	return result.(*user.User), arg.Error(1)
 }
 
-func (mock *MockRepository) Create(user user.User) {
+func (mock *MockRepository) Create(user *user.User) {
 	mock.Called()
 }
 
