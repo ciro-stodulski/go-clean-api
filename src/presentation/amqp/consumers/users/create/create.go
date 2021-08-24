@@ -17,5 +17,4 @@ func (createConsumer *createConsumer) MessageHandler(msg comsumer.Message) error
 }
 
 func (createConsumer *createConsumer) OnConsumerError(err error) {
-	fmt.Println("agora trata vagabundo", err)
 }
