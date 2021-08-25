@@ -1,27 +1,27 @@
-package find_by_id
+package list
 
 import (
 	"go-api/src/main/container"
 	comsumer "go-api/src/presentation/amqp/consumers"
 )
 
-type findByIdConsumer struct {
+type listConsumer struct {
 	container *container.Container
 	queue     string
-	schema    FindByIdDto
+	schema    interface{}
 }
 
 func NewConsumer(container *container.Container) comsumer.Comsumer {
-	return &findByIdConsumer{
+	return &listConsumer{
 		container: container,
-		queue:     "find.user",
+		queue:     "list.user",
 	}
 }
 
-func (findByIdConsumer *findByIdConsumer) GetQueue() string {
+func (findByIdConsumer *listConsumer) GetQueue() string {
 	return findByIdConsumer.queue
 }
 
-func (findByIdConsumer *findByIdConsumer) GetSchema() interface{} {
+func (findByIdConsumer *listConsumer) GetSchema() interface{} {
 	return findByIdConsumer.schema
 }
