@@ -70,6 +70,8 @@ func Test_UserRepository_Create(t *testing.T) {
 		defer db.Close()
 		gdb, _ := gorm.Open("mysql", db)
 		repositoryUser := NewUserRepository(gdb)
+		mock.ExpectQuery(
+			"INSERT INTO `users` (`id`,`name`,`email`,`password`, `created_at`) VALUES ('" + user_mock.ID.String() + "','" + user_mock.Name + "', '" + user_mock.Email + "', '" + user_mock.Password + "', '" + user_mock.CreatedAt.String() + "')")
 
 		repositoryUser.Create(&entity.User{
 			ID:        user_mock.ID,
@@ -79,7 +81,5 @@ func Test_UserRepository_Create(t *testing.T) {
 			CreatedAt: user_mock.CreatedAt,
 		})
 
-		mock.ExpectQuery(
-			"INSERT INTO `users` (`id`,`name`,`email`,`password`, `created_at`) VALUES ('" + user_mock.ID.String() + "','" + user_mock.Name + "', '" + user_mock.Email + "', '" + user_mock.Password + "', '" + user_mock.CreatedAt.String() + "')")
 	})
 }

@@ -1,12 +1,12 @@
 package find_by_id
 
 import (
-	comsumer "go-api/src/presentation/amqp/consumers"
+	ports_amqp "go-api/src/presentation/amqp/ports"
 
 	"github.com/mitchellh/mapstructure"
 )
 
-func (findByIdConsumer *findByIdConsumer) MessageHandler(msg comsumer.Message) error {
+func (findByIdConsumer *findByIdConsumer) MessageHandler(msg ports_amqp.Message) error {
 	dto := findByIdConsumer.schema
 	mapstructure.Decode(msg.Body, &dto)
 

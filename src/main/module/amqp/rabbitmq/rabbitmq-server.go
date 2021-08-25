@@ -5,6 +5,8 @@ import (
 	"go-api/src/main/container"
 	amqp_server "go-api/src/main/module/amqp"
 	consumer_type "go-api/src/presentation/amqp/consumers"
+	ports_amqp "go-api/src/presentation/amqp/ports"
+
 	"log"
 	"time"
 
@@ -76,7 +78,7 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 			}
 			rabbit_mq.NeedToReconnect(err, "ack message")
 		} else {
-			err_msg_consumer := constumers[position].MessageHandler(consumer_type.Message{
+			err_msg_consumer := constumers[position].MessageHandler(ports_amqp.Message{
 				Body: schema,
 			})
 

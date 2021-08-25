@@ -1,13 +1,13 @@
 package create
 
 import (
-	comsumer "go-api/src/presentation/amqp/consumers"
+	ports_amqp "go-api/src/presentation/amqp/ports"
 	"log"
 
 	"github.com/mitchellh/mapstructure"
 )
 
-func (createConsumer *createConsumer) MessageHandler(msg comsumer.Message) error {
+func (createConsumer *createConsumer) MessageHandler(msg ports_amqp.Message) error {
 	dto := createConsumer.schema
 	mapstructure.Decode(msg.Body, &dto)
 
