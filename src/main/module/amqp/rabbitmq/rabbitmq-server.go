@@ -6,6 +6,7 @@ import (
 	amqp_server "go-api/src/main/module/amqp"
 	consumer_type "go-api/src/presentation/amqp/consumers"
 	ports_amqp "go-api/src/presentation/amqp/ports"
+	"os"
 
 	"log"
 	"time"
@@ -32,7 +33,7 @@ func (rabbit_mq *RabbitMq) Start() {
 }
 
 func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, position int) {
-	conn, err_connection := amqp.Dial("amqp://admin:admin@localhost:5672/")
+	conn, err_connection := amqp.Dial(os.Getenv("RABBIT_MQ_PROTOCOL") + "://" + os.Getenv("RABBIT_MQ_USERNAME") + ":" + os.Getenv("RABBIT_MQ_PASSWORD") + "@" + os.Getenv("RABBIT_MQ_HOST") + ":" + os.Getenv("RABBIT_MQ_PORT") + "/" + os.Getenv("RABBIT_MQ_VHOST"))
 
 	rabbit_mq.NeedToReconnect(err_connection, "Failed to connect to RabbitMQ")
 	defer conn.Close()

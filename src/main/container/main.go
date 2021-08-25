@@ -9,6 +9,7 @@ import (
 	model_user "go-api/src/infra/repositories/user"
 	cache_client "go-api/src/main/module/cache/redis"
 	http_service "go-api/src/main/module/http/client"
+	"os"
 
 	"github.com/jinzhu/gorm"
 )
@@ -32,7 +33,7 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 func NewContainer(container_config *ContainerConfig) *Container {
 	//integration injection
 	http_service := http_service.New()
-	json_place_holder_integration := json_place_holder.New(http_service, "https://jsonplaceholder.typicode.com")
+	json_place_holder_integration := json_place_holder.New(http_service, os.Getenv("JSON_PLACE_OLDER_INTEGRATION_URL"))
 
 	//db injection
 	user_repository := model_user.NewUserRepository(container_config.Database)

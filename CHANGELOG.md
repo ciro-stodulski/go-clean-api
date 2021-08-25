@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - refectory test unit list user
 - Added unit testing in the cache at the infra layer
 - Fix cache in use case list users
+- Added structure init for consumer 
+- Added create user and list user with amqp presentation 
+- Added tests unit
+- Added envs for rabbit mq, redis, integration json place holder
 
 ## [1.1.0]
 
