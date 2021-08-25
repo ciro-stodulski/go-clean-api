@@ -1,4 +1,4 @@
-package get_user
+package create_user
 
 import (
 	entity "go-api/src/core/entities/user"

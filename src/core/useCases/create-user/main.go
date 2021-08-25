@@ -1,4 +1,4 @@
-package get_user
+package create_user
 
 import (
 	interfaces "go-api/src/core/ports"
