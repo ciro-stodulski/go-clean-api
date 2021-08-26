@@ -23,7 +23,7 @@ func New(c container.Container) cronjob.CronJob {
 }
 
 func (listUserJob *listUserJob) Start() {
-	listUserJob.Cron.AddFunc("5 * * * *", func() {
+	listUserJob.Cron.AddFunc("1 * * * *", func() {
 		log.Default().Print("### job ListUsers started ###")
 		listUserJob.container.ListUsersUseCase.ListUsers()
 		log.Default().Print("### job ListUsers finishid ###")

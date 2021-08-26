@@ -39,7 +39,7 @@ func Test_UsersCache_Get(t *testing.T) {
 		mockCache.On("Get", "users").Return(userMock, nil)
 		testService := New(mockCache)
 
-		result := testService.Get("users")
+		result, _ := testService.Get("users")
 
 		assert.NotNil(t, result)
 		assert.Equal(t, result, users)

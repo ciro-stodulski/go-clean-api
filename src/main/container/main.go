@@ -1,6 +1,7 @@
 package container
 
 import (
+	create_user_use_case "go-api/src/core/useCases/create-user"
 	get_user_use_case "go-api/src/core/useCases/get-user"
 	list_users "go-api/src/core/useCases/list-user"
 	users_cache "go-api/src/infra/cache/users"
@@ -8,6 +9,7 @@ import (
 	model_user "go-api/src/infra/repositories/user"
 	cache_client "go-api/src/main/module/cache/redis"
 	http_service "go-api/src/main/module/http/client"
+	"os"
 
 	"github.com/jinzhu/gorm"
 )
@@ -18,8 +20,9 @@ type (
 	}
 
 	Container struct {
-		GetUserUseCase   get_user_use_case.GetUserUseCase
-		ListUsersUseCase list_users.ListUsersUseCase
+		GetUserUseCase    get_user_use_case.GetUserUseCase
+		CreateUserUseCase create_user_use_case.CreateUserUseCase
+		ListUsersUseCase  list_users.ListUsersUseCase
 	}
 )
 
@@ -30,7 +33,7 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 func NewContainer(container_config *ContainerConfig) *Container {
 	//integration injection
 	http_service := http_service.New()
-	json_place_holder_integration := json_place_holder.New(http_service, "https://jsonplaceholder.typicode.com")
+	json_place_holder_integration := json_place_holder.New(http_service, os.Getenv("JSON_PLACE_OLDER_INTEGRATION_URL"))
 
 	//db injection
 	user_repository := model_user.NewUserRepository(container_config.Database)
@@ -43,6 +46,9 @@ func NewContainer(container_config *ContainerConfig) *Container {
 		GetUserUseCase: get_user_use_case.NewUseCase(
 			user_repository,
 			json_place_holder_integration,
+		),
+		CreateUserUseCase: create_user_use_case.NewUseCase(
+			user_repository,
 		),
 		ListUsersUseCase: list_users.NewUseCase(json_place_holder_integration, users_cache),
 	}

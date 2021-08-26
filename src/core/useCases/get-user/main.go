@@ -5,11 +5,11 @@ import (
 )
 
 type getUserUseCase struct {
-	RepositoryUser             interfaces.Repository
+	RepositoryUser             interfaces.UserRepository
 	IntegrationJsonPlaceHolder interfaces.JsonPlaceholderIntegration
 }
 
-func NewUseCase(repository interfaces.Repository, jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration) GetUserUseCase {
+func NewUseCase(repository interfaces.UserRepository, jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration) GetUserUseCase {
 	return &getUserUseCase{
 		RepositoryUser:             repository,
 		IntegrationJsonPlaceHolder: jsonPlaceholderIntegration,
