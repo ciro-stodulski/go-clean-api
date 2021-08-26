@@ -13,7 +13,3 @@ func (rabbit_mq *RabbitMq) LoadConsumers(container *container.Container) []consu
 		consumer_user_list.NewConsumer(container),
 	}
 }
-
-func (rabbit_mq *RabbitMq) LoadProducers(c *container.Container) {
-
-}

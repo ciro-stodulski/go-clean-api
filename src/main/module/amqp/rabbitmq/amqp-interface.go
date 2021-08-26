@@ -1,4 +1,4 @@
-package amqp_server
+package amqp
 
 import (
 	"go-api/src/main/container"
@@ -11,5 +11,8 @@ type AmqpServer interface {
 	StartConsumers(container []consumer.Comsumer, i int)
 	NeedToReconnect(err error, msg string)
 	LoadConsumers(c *container.Container) []consumer.Comsumer
-	LoadProducers(c *container.Container)
+}
+
+type AmqpClient interface {
+	New() AmqpClient
 }

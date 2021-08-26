@@ -2,7 +2,7 @@ package app
 
 import (
 	"go-api/src/main/container"
-	"go-api/src/main/module/amqp/rabbitmq"
+	rabbitmq "go-api/src/main/module/amqp/rabbitmq/server"
 	database "go-api/src/main/module/db/mysql"
 	http_server "go-api/src/main/module/http/server"
 	"go-api/src/main/module/work"
