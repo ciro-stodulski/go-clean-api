@@ -2,6 +2,7 @@ package amqp
 
 import (
 	"go-api/src/main/container"
+	types_client "go-api/src/main/module/amqp/rabbitmq/client/types"
 	consumer "go-api/src/presentation/amqp/consumers"
 )
 
@@ -14,5 +15,6 @@ type AmqpServer interface {
 }
 
 type AmqpClient interface {
-	New() AmqpClient
+	New(config types_client.ConfigAmqpClient) AmqpClient
+	Publish(body []byte) error
 }

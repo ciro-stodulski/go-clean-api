@@ -1,9 +1,10 @@
 package rabbitmq
 
 import (
+	amqp_server "go-api/src/main/module/amqp/rabbitmq"
+
 	"encoding/json"
 	"go-api/src/main/container"
-	amqp_server "go-api/src/main/module/amqp/rabbitmq"
 	consumer_type "go-api/src/presentation/amqp/consumers"
 	ports_amqp "go-api/src/presentation/amqp/ports"
 
@@ -34,9 +35,7 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 		amqp_server.GetConnection(),
 	)
 
-	if err_connection != nil {
-		log.Fatalf("Failed to connect to RabbitMQ: %s", err_connection)
-	}
+	failOnError(err_connection, "Failed to connect to RabbitMQ")
 
 	defer conn.Close()
 
