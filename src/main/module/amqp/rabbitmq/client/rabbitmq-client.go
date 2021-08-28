@@ -1,22 +1,20 @@
 package amqp_client
 
 import (
-	amqp_client "go-api/src/main/module/amqp/rabbitmq"
 	types_client "go-api/src/main/module/amqp/rabbitmq/client/types"
+	amqp_helper "go-api/src/main/module/amqp/rabbitmq/helper"
 	"log"
 
 	"github.com/streadway/amqp"
 )
 
 type AmqpClient struct {
-	channel     *amqp.Channel
-	exchange    string
-	routing_key string
+	channel *amqp.Channel
 }
 
-func (amqp_Client *AmqpClient) New(config types_client.ConfigAmqpClient) amqp_client.AmqpClient {
+func New() IAmqpClient {
 	conn, err_connection := amqp.Dial(
-		amqp_client.GetConnection(),
+		amqp_helper.GetConnection(),
 	)
 
 	failOnError(err_connection, "Failed to connect to RabbitMQ")
@@ -29,18 +27,16 @@ func (amqp_Client *AmqpClient) New(config types_client.ConfigAmqpClient) amqp_cl
 	defer ch.Close()
 
 	return &AmqpClient{
-		channel:     ch,
-		exchange:    config.Exchange,
-		routing_key: config.Routing_key,
+		channel: ch,
 	}
 }
 
-func (amqp_Client *AmqpClient) Publish(body []byte) error {
+func (amqp_Client *AmqpClient) Publish(body []byte, config types_client.ConfigAmqpClient) error {
 	err := amqp_Client.channel.Publish(
-		amqp_Client.exchange,    // exchange
-		amqp_Client.routing_key, // routing key
-		false,                   // mandatory
-		false,                   // immediate
+		config.Exchange,    // exchange
+		config.Routing_key, // routing key
+		false,              // mandatory
+		false,              // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        body,

@@ -1,4 +1,4 @@
-package amqp
+package amqp_helper
 
 import (
 	"os"

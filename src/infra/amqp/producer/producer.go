@@ -1,9 +1,11 @@
 package producer
 
+type Body struct {
+	Data interface{}
+}
+
 type Producer interface {
-	// Publish(
-	// 	exchange string,
-	// 	routing_key string,
-	// 	message interface{},
-	// ) error
+	Send(
+		message Body,
+	) error
 }
