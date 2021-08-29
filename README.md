@@ -1,6 +1,17 @@
 # go-architecture-api
 
-##### *initial structure of an api that implements principles of a clean architecture in golang*
+*initial structure of an api that implements principles of a clean architecture in golang*
+
+## Main stacks used
+
+- http server (gin)
+- http client (net/http)
+- amqp server (rabbit mq/consumer)
+- amqp client (rabbit mq/producer)
+- mysql (gorm)
+- redis 
+- cron
+- testify (unit tests)
 
 ## How init
 
