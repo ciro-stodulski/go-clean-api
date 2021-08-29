@@ -25,17 +25,19 @@ docker-compose up
 ```
 #### Versions
 
-1.1.0
-
 ```
-- refectory in module http
-- ports for http 
-- middleware structure for routes and global requests
-- refectory in module db
-- refectory part 2 in module http
-- add test unit domain controller
-- refectory interfaces in core 
-- Add Docker and Docker composer
-- add integration http 
-- add test unit in integration http
+## [2.0.0]
+- refectory interfaces in core
+- add work for manager cronjobs
+- add cronjob
+- add test for cron job list user
+- add cache structure
+- refectory test unit list user
+- Added unit testing in the cache at the infra layer
+- Fix cache in use case list users
+- Added structure init for consumer 
+- Added create user and list user with amqp presentation 
+- Added tests unit
+- Added envs for rabbit mq, redis, integration json place holder
+- Added structure init for producer  
 ```
