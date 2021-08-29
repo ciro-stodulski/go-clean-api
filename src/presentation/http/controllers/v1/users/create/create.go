@@ -13,7 +13,7 @@ func (createController *createController) create(req ports_http.HttpRequest) (*p
 
 	err := createController.container.CreateUserProducerUseCase.CreateUser(dto)
 
-	if err == nil {
+	if err != nil {
 		return nil, &ports_http.HttpResponseError{
 			Data: ports_http.HttpError{
 				Code:    "INTERNAL_ERROR",

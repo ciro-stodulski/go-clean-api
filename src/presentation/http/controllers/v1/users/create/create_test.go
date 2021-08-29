@@ -1,76 +1,79 @@
 package v1_user_create
 
-// import (
-// 	"go-api/src/core/entities/user"
-// 	"go-api/src/main/container"
+import (
+	"errors"
+	"go-api/src/main/container"
+	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
+	ports_http "go-api/src/presentation/http/ports"
+	"testing"
 
-// 	create_dto "go-api/src/presentation/amqp/consumers/users/create/dto"
-// 	ports_amqp "go-api/src/presentation/amqp/ports"
-// 	"testing"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+)
 
-// 	"github.com/stretchr/testify/assert"
-// 	"github.com/stretchr/testify/mock"
-// )
+type MockUserCase struct {
+	mock.Mock
+}
 
-// type MockUserCase struct {
-// 	mock.Mock
-// }
+func (mock *MockUserCase) CreateUser(dto create_dto.CreateDto) error {
+	arg := mock.Called(dto)
+	return arg.Error(0)
+}
 
-// func (mock *MockUserCase) CreateUser(dto create_dto.CreateDto) (*user.User, error) {
-// 	arg := mock.Called(dto)
-// 	result := arg.Get(0)
-// 	return result.(*user.User), arg.Error(1)
-// }
+func Test_Consumer_User_Create(t *testing.T) {
+	t.Run("succeffully", func(t *testing.T) {
+		mockUse := new(MockUserCase)
 
-// func newMockUser() *user.User {
-// 	user, _ := user.NewUser("test", "test", "test")
-// 	return user
-// }
-// func Test_Consumer_User_Create(t *testing.T) {
-// 	t.Run("succeffully", func(t *testing.T) {
-// 		userMock := newMockUser()
-// 		mockRepo := new(MockUserCase)
+		dto := create_dto.CreateDto{
+			Name:     "test",
+			Email:    "test",
+			Password: "test",
+		}
 
-// 		dto := create_dto.CreateDto{
-// 			Name:     "test",
-// 			Email:    "test",
-// 			Password: "test",
-// 		}
+		mockUse.On("CreateUser", dto).Return(nil)
 
-// 		mockRepo.On("CreateUser", dto).Return(userMock, nil)
+		testService := NewController(&container.Container{
+			CreateUserProducerUseCase: mockUse,
+		})
 
-// 		testService := NewConsumer(&container.Container{
-// 			CreateUserUseCase: mockRepo,
-// 		})
+		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
+			Body: dto,
+		})
 
-// 		err := testService.MessageHandler(ports_amqp.Message{
-// 			Body: dto,
-// 		})
+		assert.Nil(t, err)
+		assert.NotNil(t, result)
+		assert.Equal(t, &ports_http.HttpResponse{
+			Status: 200,
+		}, result)
+	})
 
-// 		assert.Nil(t, err)
-// 		mockRepo.AssertCalled(t, "CreateUser", dto)
-// 	})
+	t.Run("internal error", func(t *testing.T) {
+		mockUse := new(MockUserCase)
 
-// 	t.Run("return error in create use case", func(t *testing.T) {
-// 		mockRepo := new(MockUserCase)
+		dto := create_dto.CreateDto{
+			Name:     "test",
+			Email:    "test",
+			Password: "test",
+		}
 
-// 		dto := create_dto.CreateDto{
-// 			Name:     "test",
-// 			Email:    "test",
-// 			Password: "test",
-// 		}
+		mockUse.On("CreateUser", dto).Return(errors.New(""))
 
-// 		mockRepo.On("CreateUser", dto).Return(&user.User{}, user.ErrUserAlreadyExists)
+		testService := NewController(&container.Container{
+			CreateUserProducerUseCase: mockUse,
+		})
 
-// 		testService := NewConsumer(&container.Container{
-// 			CreateUserUseCase: mockRepo,
-// 		})
+		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
+			Body: dto,
+		})
 
-// 		err := testService.MessageHandler(ports_amqp.Message{
-// 			Body: dto,
-// 		})
-
-// 		assert.NotNil(t, err)
-// 		mockRepo.AssertCalled(t, "CreateUser", dto)
-// 	})
-// }
+		assert.Nil(t, result)
+		assert.NotNil(t, err)
+		assert.Equal(t, &ports_http.HttpResponseError{
+			Data: ports_http.HttpError{
+				Code:    "INTERNAL_ERROR",
+				Message: "internal error",
+			},
+			Status: 500,
+		}, err)
+	})
+}
