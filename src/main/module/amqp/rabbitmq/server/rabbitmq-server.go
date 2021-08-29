@@ -15,6 +15,7 @@ import (
 
 type RabbitMq struct {
 	container *container.Container
+	channel   *amqp.Channel
 }
 
 func (rabbit_mq *RabbitMq) New(container *container.Container) IAmqpServer {
@@ -22,6 +23,18 @@ func (rabbit_mq *RabbitMq) New(container *container.Container) IAmqpServer {
 }
 
 func (rabbit_mq *RabbitMq) Start() {
+	conn, err_connection := amqp.Dial(
+		amqp_helper.GetConnection(),
+	)
+
+	failOnError(err_connection, "Failed to connect to RabbitMQ")
+
+	ch, err := conn.Channel()
+
+	rabbit_mq.NeedToReconnect(err, "Failed to open a channel")
+
+	rabbit_mq.channel = ch
+
 	constumers := rabbit_mq.LoadConsumers(rabbit_mq.container)
 
 	for i := 0; i < len(constumers); i++ {
@@ -30,20 +43,7 @@ func (rabbit_mq *RabbitMq) Start() {
 }
 
 func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, position int) {
-	conn, err_connection := amqp.Dial(
-		amqp_helper.GetConnection(),
-	)
-
-	failOnError(err_connection, "Failed to connect to RabbitMQ")
-
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-
-	rabbit_mq.NeedToReconnect(err, "Failed to open a channel")
-	defer ch.Close()
-
-	queue, err := ch.QueueDeclare(
+	queue, err := rabbit_mq.channel.QueueDeclare(
 		constumers[position].GetQueue(), // name
 		false,                           // durable
 		false,                           // delete when unused
@@ -53,7 +53,7 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 	)
 	failOnError(err, "Failed to declare a queue")
 
-	msgs, err := ch.Consume(
+	msgs, err := rabbit_mq.channel.Consume(
 		queue.Name, // queue
 		queue.Name, // consumer
 		true,       // auto-ack
