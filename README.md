@@ -23,10 +23,11 @@ docker-compose up
 ```bash
  go test ./...
 ```
-#### Versions
+#### Current version
+
+2.0.0
 
 ```
-## [2.0.0]
 - refectory interfaces in core
 - add work for manager cronjobs
 - add cronjob
