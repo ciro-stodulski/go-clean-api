@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added create user and list user with amqp presentation 
 - Added tests unit
 - Added envs for rabbit mq, redis, integration json place holder
+- Added structure init for producer  
 
 ## [1.1.0]
 
