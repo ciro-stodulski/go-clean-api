@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (service *Service) GetUser(id string) (*entity.User, error) {
+func (service *getUserUseCase) GetUser(id string) (*entity.User, error) {
 	id_uuid := entity_root.ConvertId(id)
 
 	user, err := service.RepositoryUser.GetById(id_uuid)
@@ -29,7 +29,7 @@ func (service *Service) GetUser(id string) (*entity.User, error) {
 		for _, user := range userJson {
 			id_string := strconv.Itoa(user.Id)
 			if id_string == id {
-				log.Default().Print("found user in integration:" + id)
+				log.Default().Print("Found user in integration:" + id)
 
 				return &entity.User{
 					ID:        entity_root.NewID(),

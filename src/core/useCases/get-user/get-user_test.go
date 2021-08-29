@@ -53,6 +53,16 @@ func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {
 	return result.(*user.User), arg.Error(1)
 }
 
+func (mock *MockRepository) GetByEmail(id string) (*user.User, error) {
+	arg := mock.Called()
+	result := arg.Get(0)
+	return result.(*user.User), arg.Error(1)
+}
+
+func (mock *MockRepository) Create(user *user.User) {
+	mock.Called()
+}
+
 type MockIntegration struct {
 	mock.Mock
 }
@@ -71,7 +81,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 
 		mockRepo.On("GetById").Return(userMock, nil)
 
-		testService := NewService(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt)
 
 		result, err := testService.GetUser(userMock.ID.String())
 
@@ -93,7 +103,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 
 		mockRepo.On("GetById").Return(userMock, errMock)
 
-		testService := NewService(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt)
 
 		_, err := testService.GetUser(userMock.ID.String())
 
@@ -111,7 +121,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 		mockRepo.On("GetById").Return(userMockResult, nil)
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 
-		testService := NewService(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt)
 
 		result, err := testService.GetUser("12")
 
@@ -133,7 +143,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 		mockRepo.On("GetById").Return(userMockResult, nil)
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 
-		testService := NewService(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt)
 
 		_, err := testService.GetUser(userMock.ID.String())
 

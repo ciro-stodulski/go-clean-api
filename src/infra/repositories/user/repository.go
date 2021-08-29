@@ -3,6 +3,7 @@ package repository
 import (
 	entity_root "go-api/src/core/entities"
 	entity "go-api/src/core/entities/user"
+	ports "go-api/src/core/ports"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -12,13 +13,9 @@ type (
 	repositoryUser struct {
 		db *gorm.DB
 	}
-
-	RepositoryUser interface {
-		GetById(id entity_root.ID) (user *entity.User, er error)
-	}
 )
 
-func NewUserRepository(db *gorm.DB) (repository RepositoryUser) {
+func NewUserRepository(db *gorm.DB) (repository ports.UserRepository) {
 	return &repositoryUser{db}
 }
 
@@ -32,4 +29,14 @@ func (repository *repositoryUser) GetById(id entity_root.ID) (user *entity.User,
 	user = &entity.User{}
 	repository.db.First(user, "id = ?", id)
 	return
+}
+
+func (repository *repositoryUser) GetByEmail(email string) (user *entity.User, er error) {
+	user = &entity.User{}
+	repository.db.First(user, "email = ?", email)
+	return
+}
+
+func (repository *repositoryUser) Create(user *entity.User) {
+	repository.db.Create(user)
 }

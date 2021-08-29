@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+## [2.0.0]
+- refectory interfaces in core
+- add work for manager cronjobs
+- add cronjob
+- add test for cron job list user
+- add cache structure
+- refectory test unit list user
+- Added unit testing in the cache at the infra layer
+- Fix cache in use case list users
+- Added structure init for consumer 
+- Added create user and list user with amqp presentation 
+- Added tests unit
+- Added envs for rabbit mq, redis, integration json place holder
+- Added structure init for producer  
+
 ## [1.1.0]
 
 - refectory in module http
