@@ -1,11 +1,9 @@
 package create_user_producer
 
 import (
-	user "go-api/src/core/entities/user"
 	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
 	"testing"
 
-	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -15,19 +13,13 @@ type MockProducer struct {
 }
 
 func (mock *MockProducer) CreateUser(dto create_dto.CreateDto) error {
-	arg := mock.Called()
-	return arg.Error(1)
+	arg := mock.Called(dto)
+	return arg.Error(0)
 }
 
-func Test_UseCase_CreateUser(t *testing.T) {
+func Test_UseCase_CreateUserProducer(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		mockRepo := new(MockProducer)
-		userMockResult := &user.User{ID: uuid.Nil}
-
-		mockRepo.On("GetByEmail").Return(userMockResult, nil)
-		mockRepo.On("Create")
-
-		testService := NewUseCase(mockRepo)
+		mockPro := new(MockProducer)
 
 		dto := create_dto.CreateDto{
 			Name:     "test",
@@ -35,8 +27,13 @@ func Test_UseCase_CreateUser(t *testing.T) {
 			Password: "test",
 		}
 
+		mockPro.On("CreateUser", dto).Return(nil)
+
+		testService := NewUseCase(mockPro)
+
 		err := testService.CreateUser(dto)
 
+		mockPro.AssertCalled(t, "CreateUser", dto)
 		assert.Nil(t, err)
 	})
 }
