@@ -1,7 +1,7 @@
 package user_create
 
 import (
-	"go-api/src/infra/amqp/producer"
+	"go-api/src/core/ports"
 	amqp "go-api/src/main/module/amqp/rabbitmq/client"
 )
 
@@ -11,8 +11,10 @@ type userCreate struct {
 	routing_key string
 }
 
-func NewProdocer(clientAmqp amqp.IAmqpClient) producer.Producer {
+func NewProdocer(clientAmqp amqp.IAmqpClient) ports.UserProducer {
 	return &userCreate{
-		clientAmqp: clientAmqp,
+		clientAmqp:  clientAmqp,
+		exchange:    "user.dx",
+		routing_key: "user.create",
 	}
 }

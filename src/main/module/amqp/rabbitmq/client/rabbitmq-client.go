@@ -19,12 +19,9 @@ func New() IAmqpClient {
 
 	failOnError(err_connection, "Failed to connect to RabbitMQ")
 
-	defer conn.Close()
-
 	ch, err := conn.Channel()
 
 	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
 
 	return &AmqpClient{
 		channel: ch,

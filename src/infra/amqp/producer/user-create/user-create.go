@@ -1,18 +1,21 @@
 package user_create
 
 import (
-	"go-api/src/infra/amqp/producer"
+	"encoding/json"
 	types_client "go-api/src/main/module/amqp/rabbitmq/client/types"
+	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
 )
 
-func (userCreate *userCreate) Send(dto producer.Body) error {
+func (userCreate *userCreate) CreateUser(dto create_dto.CreateDto) error {
 	config := types_client.ConfigAmqpClient{
 		Exchange:    userCreate.exchange,
 		Routing_key: userCreate.routing_key,
 	}
 
+	btResult, _ := json.Marshal(&dto)
+
 	err := userCreate.clientAmqp.Publish(
-		[]byte(dto.Data.(string)),
+		[]byte(string(btResult)),
 		config,
 	)
 
