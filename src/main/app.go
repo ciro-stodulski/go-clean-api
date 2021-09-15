@@ -4,6 +4,7 @@ import (
 	"go-api/src/main/container"
 	rabbitmq "go-api/src/main/module/amqp/rabbitmq/server"
 	database "go-api/src/main/module/db/mysql"
+	grpc_server "go-api/src/main/module/grpc"
 	http_server "go-api/src/main/module/http/server"
 	"go-api/src/main/module/work"
 	"log"
@@ -16,6 +17,7 @@ type Server struct {
 	http      http_server.HttpServer
 	db        database.Database
 	amqp      rabbitmq.RabbitMq
+	grpc      grpc_server.GRPCServer
 }
 
 func (server *Server) Setup() *Server {
@@ -26,6 +28,7 @@ func (server *Server) Setup() *Server {
 	work.New(server.Container).StartCrons()
 
 	go server.amqp.New(server.Container).Start()
+	go server.grpc.Start()
 
 	server.http.New(server.Container)
 

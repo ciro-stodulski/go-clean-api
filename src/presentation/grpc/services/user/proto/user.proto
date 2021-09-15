@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-option go_package = "pb";
+package proto_user;
+
+option go_package = "./;pb";
 
 message User {
    string name = 1;
-   string email = 1;
+   string email = 2;
 }
 
 message NewRequestFindUser {
@@ -12,9 +14,9 @@ message NewRequestFindUser {
 }
 
 message NewResponseFindUser{
-    User user = 1
+    User user = 1;
 }
 
-service ServiceUser {
+service UserService {
     rpc FindUser (NewRequestFindUser) returns (NewResponseFindUser) {};
 }
