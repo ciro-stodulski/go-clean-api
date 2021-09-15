@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "pb";
+
+message User {
+   string name = 1;
+   string email = 1;
+}
+
+message NewRequestFindUser {
+    string id = 1;
+}
+
+message NewResponseFindUser{
+    User user = 1
+}
+
+service ServiceUser {
+    rpc FindUser (NewRequestFindUser) returns (NewResponseFindUser) {};
+}
