@@ -1,6 +1,7 @@
 package create_user
 
 import (
+	"fmt"
 	entity "go-api/src/core/entities/user"
 	dto "go-api/src/presentation/amqp/consumers/users/create/dto"
 
@@ -8,8 +9,11 @@ import (
 )
 
 func (service *createUserUseCase) CreateUser(dto dto.CreateDto) (*entity.User, error) {
+	fmt.Println("user 1 ")
 
 	user, err := service.RepositoryUser.GetByEmail(dto.Email)
+
+	fmt.Println("user")
 
 	if err != nil {
 		return nil, err

@@ -25,6 +25,11 @@ func InitMigrate(db *gorm.DB) {
 	db.AutoMigrate(&entity.User{})
 }
 
+func (repository *repositoryUser) DeleteById(id entity_root.ID) (er error) {
+	repository.db.Where("id = ?", id).Delete(&entity.User{})
+	return
+}
+
 func (repository *repositoryUser) GetById(id entity_root.ID) (user *entity.User, er error) {
 	user = &entity.User{}
 	repository.db.First(user, "id = ?", id)

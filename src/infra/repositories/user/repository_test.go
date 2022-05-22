@@ -83,3 +83,22 @@ func Test_UserRepository_Create(t *testing.T) {
 
 	})
 }
+
+func Test_UserRepository_DeleteById(t *testing.T) {
+	t.Run("succeffully", func(t *testing.T) {
+		user_mock := newMockUser()
+		db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
+		if err != nil {
+			t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+		}
+		defer db.Close()
+		gdb, _ := gorm.Open("mysql", db)
+		repositoryUser := NewUserRepository(gdb)
+
+		mock.ExpectQuery(
+			"Delete FROM `users` WHERE id = " + user_mock.ID.String())
+
+		err_result := repositoryUser.DeleteById(user_mock.ID)
+		require.NoError(t, err_result)
+	})
+}
