@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
-## [2.1.1]
+- fix changelog and add loggers
 - add new rote delete user
 - fix connection redis
 

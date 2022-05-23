@@ -2,7 +2,6 @@ package users_cache
 
 import (
 	"encoding/json"
-	"fmt"
 	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
 )
 
@@ -40,5 +39,4 @@ func (userCache *usersCache) Set(key string, value []response_jsonplaceholder.Us
 		panic(err)
 	}
 
-	fmt.Println(err_client)
 }
