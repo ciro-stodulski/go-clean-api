@@ -63,6 +63,11 @@ func (mock *MockRepository) Create(user *user.User) {
 	mock.Called()
 }
 
+func (mock *MockRepository) DeleteById(id entity_root.ID) error {
+	arg := mock.Called()
+	return arg.Error(1)
+}
+
 type MockIntegration struct {
 	mock.Mock
 }

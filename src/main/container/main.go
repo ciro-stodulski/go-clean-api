@@ -3,6 +3,7 @@ package container
 import (
 	create_user_use_case "go-api/src/core/useCases/create-user"
 	create_user_producer_use_case "go-api/src/core/useCases/create-user-producer"
+	delete_user "go-api/src/core/useCases/delete-user"
 	get_user_use_case "go-api/src/core/useCases/get-user"
 	list_users "go-api/src/core/useCases/list-user"
 
@@ -29,6 +30,7 @@ type (
 		CreateUserUseCase         create_user_use_case.CreateUserUseCase
 		CreateUserProducerUseCase create_user_producer_use_case.CreateUserUseCase
 		ListUsersUseCase          list_users.ListUsersUseCase
+		DeleteUserUseCase         delete_user.DeleteUserUseCase
 	}
 )
 
@@ -60,6 +62,7 @@ func NewContainer(container_config *ContainerConfig) *Container {
 		CreateUserUseCase: create_user_use_case.NewUseCase(
 			user_repository,
 		),
+		DeleteUserUseCase:         delete_user.NewUseCase(user_repository),
 		ListUsersUseCase:          list_users.NewUseCase(json_place_holder_integration, users_cache),
 		CreateUserProducerUseCase: create_user_producer_use_case.NewUseCase(create_user_amqp),
 	}

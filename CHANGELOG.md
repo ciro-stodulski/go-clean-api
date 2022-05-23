@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+## [2.1.1]
+- add new rote delete user
+- fix connection redis
+
 ## [2.0.0]
 - refectory interfaces in core
 - add work for manager cronjobs
