@@ -1,14 +1,14 @@
-package v1_user
+package v1_delete_user
 
 import (
 	entity_user "go-api/src/core/entities/user"
 	ports_http "go-api/src/presentation/http/ports"
 )
 
-func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
+func (createController *createController) deleteById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
 	id := req.Params.Get("id")
 
-	user, err := createController.container.GetUserUseCase.GetUser(id)
+	err := createController.container.DeleteUserUseCase.DeleteUser(id)
 	if err != nil {
 		if err == entity_user.ErrUserNotFound {
 			return nil, &ports_http.HttpResponseError{
@@ -27,12 +27,8 @@ func (createController *createController) findById(req ports_http.HttpRequest) (
 			},
 			Status: 500,
 		}
-	} else {
-
-		return &ports_http.HttpResponse{
-			Data:   user,
-			Status: 200,
-		}, nil
 	}
-
+	return &ports_http.HttpResponse{
+		Status: 204,
+	}, nil
 }
