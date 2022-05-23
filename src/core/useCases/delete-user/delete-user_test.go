@@ -1,11 +1,11 @@
 package delete_user
 
 import (
-	"errors"
 	entity_root "go-api/src/core/entities"
 	user "go-api/src/core/entities/user"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -45,6 +45,7 @@ func Test_UseCase_DeleteUser(t *testing.T) {
 		userMock := newMockUser()
 		mockRepo := new(MockRepository)
 
+		mockRepo.On("GetById").Return(userMock, nil)
 		mockRepo.On("DeleteById").Return(nil)
 
 		testService := NewUseCase(mockRepo)
@@ -59,7 +60,9 @@ func Test_UseCase_DeleteUser(t *testing.T) {
 
 		mockRepo := new(MockRepository)
 
-		errMock := errors.New("err")
+		errMock := user.ErrUserNotFound
+
+		mockRepo.On("GetById").Return(&user.User{ID: uuid.Nil}, nil)
 
 		mockRepo.On("DeleteById").Return(errMock)
 
@@ -68,6 +71,6 @@ func Test_UseCase_DeleteUser(t *testing.T) {
 		err := testService.DeleteUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, errMock)
+		assert.Equal(t, err, user.ErrUserNotFound)
 	})
 }

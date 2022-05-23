@@ -16,7 +16,7 @@ func (createController *createController) findById(req ports_http.HttpRequest) (
 					Code:    "USER_NOT_FOUND",
 					Message: entity_user.ErrUserNotFound.Error(),
 				},
-				Status: 400,
+				Status: 404,
 			}
 		}
 

@@ -1,6 +1,7 @@
 package v1_delete_user
 
 import (
+	entity_user "go-api/src/core/entities/user"
 	ports_http "go-api/src/presentation/http/ports"
 )
 
@@ -9,6 +10,16 @@ func (createController *createController) deleteById(req ports_http.HttpRequest)
 
 	err := createController.container.DeleteUserUseCase.DeleteUser(id)
 	if err != nil {
+		if err == entity_user.ErrUserNotFound {
+			return nil, &ports_http.HttpResponseError{
+				Data: ports_http.HttpError{
+					Code:    "USER_NOT_FOUND",
+					Message: entity_user.ErrUserNotFound.Error(),
+				},
+				Status: 404,
+			}
+		}
+
 		return nil, &ports_http.HttpResponseError{
 			Data: ports_http.HttpError{
 				Code:    "INTERNAL_ERROR",

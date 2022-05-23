@@ -22,6 +22,14 @@ func New() cache_client.CacheClient {
 		Addr: os.Getenv("REDIS_HOST") + ":" + os.Getenv("REDIS_PORT"),
 	})
 
+	err := rdb.Set(ctx, "key", "value", 0).Err()
+
+	if err != nil {
+		log.Default().Print("Redis: Connection error")
+
+		panic(err)
+	}
+
 	log.Default().Print("Redis: Connection with sucessfully")
 	return &redisClient{redis: rdb, ctx: ctx}
 }
