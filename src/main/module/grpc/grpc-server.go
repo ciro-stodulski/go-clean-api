@@ -1,8 +1,6 @@
 package grpc
 
 import (
-	finduserservice "go-api/src/presentation/grpc/services/user/find-user"
-	"go-api/src/presentation/grpc/services/user/pb"
 	"log"
 	"net"
 
@@ -16,7 +14,9 @@ type GRPCServer struct {
 
 func (server *GRPCServer) Start() error {
 	server.Engine = grpc.NewServer()
-	pb.RegisterUserServiceServer(server.Engine, &finduserservice.FindUserService{})
+
+	loadServices(server.Engine)
+
 	reflection.Register(server.Engine)
 
 	server_tcp, err := net.Listen("tcp", ":50055")
@@ -26,7 +26,10 @@ func (server *GRPCServer) Start() error {
 	}
 
 	log.Default().Print("gRPC: Started with succeffully")
-	server.Engine.Serve(server_tcp)
+
+	if err := server.Engine.Serve(server_tcp); err != nil {
+		log.Default().Print("Failed to start gRPC server", err)
+	}
 
 	return nil
 }

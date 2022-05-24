@@ -17,6 +17,6 @@ message NewResponseFindUser{
     User user = 1;
 }
 
-service UserService {
+service FindUserService {
     rpc FindUser (NewRequestFindUser) returns (NewResponseFindUser) {};
 }

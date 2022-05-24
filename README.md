@@ -34,6 +34,47 @@ docker-compose up
 ```bash
  go test ./...
 ```
+
+## gRPC tips
+
+# protoc command
+
+[--proto_path=] path where is proto [src/presentation/grpc/services/user/find-user/proto,src/presentation/grpc/services/user/find-user/proto/find-user.proto]
+
+[--go_out=] where proto buffer will be to create [plugins=grpc:src/presentation/grpc/services/user/find-user/pb]
+
+exe: 
+
+```bash
+protoc --proto_path=src/presentation/grpc/services/user/find-user/proto src/presentation/grpc/services/user/find-user/proto/find-user.proto --go_out=plugins=grpc:src/presentation/grpc/services/user/find-user/pb
+```
+
+# evans 
+
+```bash
+evans -r --host localhost -p 50055
+```
+
+```bash
+show service
+```
+
+```bash
+service FindUserService
+```
+
+```bash
+call FindUser
+
+id (TYPE_STRING) => 1
+{
+  "user": {
+    "name": "test",
+    "email": "test"
+  }
+}
+```
+
 #### Current version
 
 2.0.0

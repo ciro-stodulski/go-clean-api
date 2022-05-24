@@ -1,8 +1,8 @@
-package finduserservice
+package find_service
 
 import (
 	"context"
-	"go-api/src/presentation/grpc/services/user/pb"
+	"go-api/src/presentation/grpc/services/user/find-user/pb"
 )
 
 type FindUserService struct {
