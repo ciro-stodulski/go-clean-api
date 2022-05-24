@@ -5,12 +5,14 @@ package proto_user;
 option go_package = "./;pb";
 
 message User {
-   string name = 1;
-   string email = 2;
+   string ID = 1;
+   string Name = 2;
+   string Email = 3;
+   string CreatedAt = 5;
 }
 
 message NewRequestFindUser {
-    string id = 1;
+    string ID = 1;
 }
 
 message NewResponseFindUser{
