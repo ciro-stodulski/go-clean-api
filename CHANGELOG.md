@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- add service to host grpc
+- update version go 1.18
 - fix changelog and add loggers
 - add new rote delete user
 - fix connection redis

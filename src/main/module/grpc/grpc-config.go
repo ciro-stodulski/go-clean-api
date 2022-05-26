@@ -8,6 +8,6 @@ import (
 )
 
 func (server *GRPCServer) LoadServices(container *container.Container) {
-	pb.RegisterFindUserServiceServer(server.Engine, finduserservice.New(container))
+	pb.RegisterFindUserServiceServer(server.Engine, finduserservice.NewService(container))
 	log.Default().Print("gRPC: Services registered")
 }
