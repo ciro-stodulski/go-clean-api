@@ -15,6 +15,7 @@ import (
 	amqp_client "go-api/src/main/module/amqp/rabbitmq/client"
 	cache_client "go-api/src/main/module/cache/redis"
 	http_service "go-api/src/main/module/http/client"
+
 	"os"
 
 	"github.com/jinzhu/gorm"
@@ -39,6 +40,9 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 }
 
 func NewContainer(container_config *ContainerConfig) *Container {
+	//grpc injection
+	//grpc_client := grpc_client.New("")
+
 	//amqp injection
 	amqp_client := amqp_client.New()
 	create_user_amqp := create_user_amqp.NewProdocer(amqp_client)
