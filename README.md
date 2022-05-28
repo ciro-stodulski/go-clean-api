@@ -35,9 +35,9 @@ docker-compose up
  go test ./...
 ```
 
-## gRPC tips
+# gRPC tips
 
-# protoc command
+### protoc command
 
 [--proto_path=] path where is proto [src/presentation/grpc/services/user/find-user/proto,src/presentation/grpc/services/user/find-user/proto/find-user.proto]
 
@@ -48,6 +48,17 @@ exe:
 ```bash
 protoc --proto_path=src/presentation/grpc/services/user/find-user/proto src/presentation/grpc/services/user/find-user/proto/find-user.proto --go_out=plugins=grpc:src/presentation/grpc/services/user/find-user/pb
 ```
+
+*program not found or is not executable*
+try: 
+
+Run vim ~/.bash_profile
+
+export GO_PATH=~/go
+export PATH=$PATH:/$GO_PATH/bin
+
+Run source ~/.bash_profile
+
 
 # evans 
 

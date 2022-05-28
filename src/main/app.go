@@ -6,7 +6,6 @@ import (
 	database "go-api/src/main/module/db/mysql"
 	grpc_server "go-api/src/main/module/grpc"
 	http_server "go-api/src/main/module/http/server"
-	"go-api/src/main/module/work"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -25,7 +24,8 @@ func (server *Server) Setup() *Server {
 		container.NewContainerConfig(server.db.Db),
 	)
 
-	work.New(server.Container).StartCrons()
+	// descomentar depois que concluir tarefa para o grpc
+	//work.New(server.Container).StartCrons()
 
 	go server.amqp.New(server.Container).Start()
 	go server.grpc.New(server.Container).Start()

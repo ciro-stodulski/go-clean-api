@@ -6,10 +6,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-type GrpcClient struct {
-	Engine *grpc.ClientConn
-}
-
 func New(host string) *grpc.ClientConn {
 	connection, err := grpc.Dial(host, grpc.WithInsecure())
 
@@ -17,7 +13,9 @@ func New(host string) *grpc.ClientConn {
 		log.Fatalf("error during connection ")
 	}
 
-	defer connection.Close()
+	// melhorar estrutura para cruar uma instancia para o client
+	// e poder tulixar o connection close
+	//defer connection.Close()
 
 	return connection
 }

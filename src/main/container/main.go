@@ -12,6 +12,8 @@ import (
 	json_place_holder "go-api/src/infra/http/integrations/jsonplaceholder"
 	model_user "go-api/src/infra/repositories/user"
 
+	grpc_client "go-api/src/infra/grpc/client"
+	find_user_service "go-api/src/infra/grpc/client/user/get-user"
 	amqp_client "go-api/src/main/module/amqp/rabbitmq/client"
 	cache_client "go-api/src/main/module/cache/redis"
 	http_service "go-api/src/main/module/http/client"
@@ -41,7 +43,7 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 
 func NewContainer(container_config *ContainerConfig) *Container {
 	//grpc injection
-	//grpc_client := grpc_client.New("")
+	find_user_service := find_user_service.New(grpc_client.New(os.Getenv("FIND_USER_SERVICE_URL")))
 
 	//amqp injection
 	amqp_client := amqp_client.New()
@@ -49,7 +51,7 @@ func NewContainer(container_config *ContainerConfig) *Container {
 
 	//integration injection
 	http_service := http_service.New()
-	json_place_holder_integration := json_place_holder.New(http_service, os.Getenv("JSON_PLACE_OLDER_INTEGRATION_URL"))
+	json_place_holder_integration := json_place_holder.New(http_service)
 
 	//db injection
 	user_repository := model_user.NewUserRepository(container_config.Database)
@@ -62,6 +64,7 @@ func NewContainer(container_config *ContainerConfig) *Container {
 		GetUserUseCase: get_user_use_case.NewUseCase(
 			user_repository,
 			json_place_holder_integration,
+			find_user_service,
 		),
 		CreateUserUseCase: create_user_use_case.NewUseCase(
 			user_repository,

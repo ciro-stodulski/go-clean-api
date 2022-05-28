@@ -11,9 +11,8 @@ import (
 )
 
 func (service *getUserUseCase) GetUser(id string) (*entity.User, error) {
-	id_uuid := entity_root.ConvertId(id)
-
-	user, err := service.RepositoryUser.GetById(id_uuid)
+	// criar um exemplo melhor parar a integração do grpc
+	user, err := service.GetUserService.GetUser(id)
 
 	if err != nil {
 		return nil, err

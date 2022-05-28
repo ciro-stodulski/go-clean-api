@@ -78,15 +78,26 @@ func (mock *MockIntegration) GetUsers() ([]response_jsonplaceholder.User, error)
 	return result.([]response_jsonplaceholder.User), arg.Error(1)
 }
 
+type MockService struct {
+	mock.Mock
+}
+
+func (mock *MockService) GetUser(id string) (*user.User, error) {
+	arg := mock.Called()
+	result := arg.Get(0)
+	return result.(*user.User), arg.Error(1)
+}
+
 func Test_UseCase_GetUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		userMock := newMockUser()
 		mockRepo := new(MockRepository)
 		mockInt := new(MockIntegration)
+		mockService := new(MockService)
 
 		mockRepo.On("GetById").Return(userMock, nil)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt, mockService)
 
 		result, err := testService.GetUser(userMock.ID.String())
 
@@ -103,12 +114,13 @@ func Test_UseCase_GetUser(t *testing.T) {
 
 		mockRepo := new(MockRepository)
 		mockInt := new(MockIntegration)
+		mockService := new(MockService)
 
 		errMock := errors.New("err")
 
 		mockRepo.On("GetById").Return(userMock, errMock)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt, mockService)
 
 		_, err := testService.GetUser(userMock.ID.String())
 
@@ -122,11 +134,12 @@ func Test_UseCase_GetUser(t *testing.T) {
 		userMockResult := &user.User{ID: uuid.Nil}
 		mockRepo := new(MockRepository)
 		mockInt := new(MockIntegration)
+		mockService := new(MockService)
 
 		mockRepo.On("GetById").Return(userMockResult, nil)
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt, mockService)
 
 		result, err := testService.GetUser("12")
 
@@ -144,11 +157,12 @@ func Test_UseCase_GetUser(t *testing.T) {
 		userMockResult := &user.User{ID: uuid.Nil}
 		mockRepo := new(MockRepository)
 		mockInt := new(MockIntegration)
+		mockService := new(MockService)
 
 		mockRepo.On("GetById").Return(userMockResult, nil)
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := NewUseCase(mockRepo, mockInt, mockService)
 
 		_, err := testService.GetUser(userMock.ID.String())
 

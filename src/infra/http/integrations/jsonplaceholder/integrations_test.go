@@ -3,6 +3,7 @@ package jsonplaceholder
 import (
 	"encoding/json"
 	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -31,14 +32,14 @@ func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 		var usersFake []response_jsonplaceholder.User
 		_ = json.Unmarshal(userMock, &usersFake)
 
-		mockInt.On("Get", "test/users").Return(userMock, nil)
-		testService := New(mockInt, "test")
+		mockInt.On("Get", os.Getenv("JSON_PLACE_OLDER_INTEGRATION_URL")+"/users").Return(userMock, nil)
+		testService := New(mockInt)
 
 		result, err := testService.GetUsers()
 
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
 		assert.Equal(t, result, usersFake)
-		mockInt.AssertCalled(t, "Get", "test/users")
+		mockInt.AssertCalled(t, "Get", os.Getenv("JSON_PLACE_OLDER_INTEGRATION_URL")+"/users")
 	})
 }

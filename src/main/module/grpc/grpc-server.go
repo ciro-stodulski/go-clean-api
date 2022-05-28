@@ -23,7 +23,8 @@ func (server *GRPCServer) Start() {
 
 	reflection.Register(server.Engine)
 
-	server_tcp, err := net.Listen("tcp", ":50055")
+	// add env para host do grpc
+	server_tcp, err := net.Listen("tcp", ":50054")
 
 	if err != nil {
 		log.Fatal(err)
