@@ -2,7 +2,7 @@ package users_cache
 
 import (
 	"encoding/json"
-	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	response_jsonplaceholder "go-api/src/infra/integrations/http/jsonplaceholder/responses"
 )
 
 func (userCache *usersCache) Get(key string) ([]response_jsonplaceholder.User, error) {

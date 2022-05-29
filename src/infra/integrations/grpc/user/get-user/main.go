@@ -6,25 +6,28 @@ import (
 	entity "go-api/src/core/entities"
 	entity_user "go-api/src/core/entities/user"
 	ports "go-api/src/core/ports"
-	"go-api/src/infra/grpc/client/user/get-user/pb"
+	"go-api/src/infra/integrations/grpc/user/get-user/pb"
 	"time"
 
 	"google.golang.org/grpc"
 )
 
-type GetUserService struct {
-	connection *grpc.ClientConn
-	service    pb.GetUserServiceClient
+type GetUserService interface {
+	GetUser(context.Context, *pb.NewRequestGetUser, ...grpc.CallOption) (*pb.NewResponseGetUser, error)
 }
 
-func New(connection *grpc.ClientConn) ports.GetUserService {
-	return &GetUserService{
-		connection: connection,
-		service:    pb.NewGetUserServiceClient(connection),
+type getUserService struct {
+	service GetUserService
+}
+
+func New(service GetUserService) ports.GetUserService {
+
+	return &getUserService{
+		service: service,
 	}
 }
 
-func (findUser *GetUserService) GetUser(id string) (*entity_user.User, error) {
+func (findUser *getUserService) GetUser(id string) (*entity_user.User, error) {
 	request := &pb.NewRequestGetUser{
 		ID: id,
 	}

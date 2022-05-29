@@ -6,19 +6,19 @@ import (
 	delete_user "go-api/src/core/useCases/delete-user"
 	get_user_use_case "go-api/src/core/useCases/get-user"
 	list_users "go-api/src/core/useCases/list-user"
+	"os"
 
-	create_user_amqp "go-api/src/infra/amqp/producer/user-create"
 	users_cache "go-api/src/infra/cache/users"
-	json_place_holder "go-api/src/infra/http/integrations/jsonplaceholder"
+	create_user_amqp "go-api/src/infra/integrations/amqp/producer/user-create"
+	json_place_holder "go-api/src/infra/integrations/http/jsonplaceholder"
 	model_user "go-api/src/infra/repositories/user"
 
-	grpc_client "go-api/src/infra/grpc/client"
-	find_user_service "go-api/src/infra/grpc/client/user/get-user"
+	grpc_client "go-api/src/infra/integrations/grpc/client"
+	find_user_service "go-api/src/infra/integrations/grpc/user/get-user"
+	"go-api/src/infra/integrations/grpc/user/get-user/pb"
 	amqp_client "go-api/src/main/module/amqp/rabbitmq/client"
 	cache_client "go-api/src/main/module/cache/redis"
 	http_service "go-api/src/main/module/http/client"
-
-	"os"
 
 	"github.com/jinzhu/gorm"
 )
@@ -43,7 +43,11 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 
 func NewContainer(container_config *ContainerConfig) *Container {
 	//grpc injection
-	find_user_service := find_user_service.New(grpc_client.New(os.Getenv("FIND_USER_SERVICE_URL")))
+	grpc_client := grpc_client.New()
+	find_user_service := find_user_service.New(
+		pb.NewGetUserServiceClient(
+			grpc_client.GetConnection(
+				os.Getenv("FIND_USER_SERVICE_URL"))))
 
 	//amqp injection
 	amqp_client := amqp_client.New()

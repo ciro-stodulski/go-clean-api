@@ -2,7 +2,7 @@ package jsonplaceholder
 
 import (
 	"encoding/json"
-	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	response_jsonplaceholder "go-api/src/infra/integrations/http/jsonplaceholder/responses"
 	"os"
 	"testing"
 

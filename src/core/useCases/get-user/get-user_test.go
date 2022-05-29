@@ -4,7 +4,7 @@ import (
 	"errors"
 	entity_root "go-api/src/core/entities"
 	user "go-api/src/core/entities/user"
-	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	response_jsonplaceholder "go-api/src/infra/integrations/http/jsonplaceholder/responses"
 	"testing"
 
 	"github.com/google/uuid"
@@ -95,7 +95,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 		mockInt := new(MockIntegration)
 		mockService := new(MockService)
 
-		mockRepo.On("GetById").Return(userMock, nil)
+		mockService.On("GetUser").Return(userMock, nil)
 
 		testService := NewUseCase(mockRepo, mockInt, mockService)
 
