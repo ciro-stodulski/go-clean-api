@@ -90,20 +90,14 @@ id (TYPE_STRING) => 1
 
 #### Current version
 
-2.0.0
+## [2.2.1]
 
 ```
-- refectory interfaces in core
-- add work for manager cronjobs
-- add cronjob
-- add test for cron job list user
-- add cache structure
-- refectory test unit list user
-- Added unit testing in the cache at the infra layer
-- Fix cache in use case list users
-- Added structure init for consumer 
-- Added create user and list user with amqp presentation 
-- Added tests unit
-- Added envs for rabbit mq, redis, integration json place holder
-- Added structure init for producer  
+- fix refactoring integrations folders
+- add client to grpc 
+- add service to host grpc
+- update version go 1.18
+- fix changelog and add loggers
+- add new rote delete user
+- fix connection redis
 ```
