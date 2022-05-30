@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+## [2.2.1]
+
 - fix refactoring integrations folders
 - add client to grpc 
 - add service to host grpc
