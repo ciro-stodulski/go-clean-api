@@ -5,6 +5,7 @@ import (
 	create_user_producer_use_case "go-api/src/core/useCases/create-user-producer"
 	delete_user "go-api/src/core/useCases/delete-user"
 	get_user_use_case "go-api/src/core/useCases/get-user"
+	get_user_grpc "go-api/src/core/useCases/get-user-grpc"
 	list_users "go-api/src/core/useCases/list-user"
 	"os"
 
@@ -30,6 +31,7 @@ type (
 
 	Container struct {
 		GetUserUseCase            get_user_use_case.GetUserUseCase
+		GetUserGrpcUseCase        get_user_grpc.GetUserGrpcUseCase
 		CreateUserUseCase         create_user_use_case.CreateUserUseCase
 		CreateUserProducerUseCase create_user_producer_use_case.CreateUserUseCase
 		ListUsersUseCase          list_users.ListUsersUseCase
@@ -65,10 +67,10 @@ func NewContainer(container_config *ContainerConfig) *Container {
 	users_cache := users_cache.New(cache_client)
 
 	return &Container{
+		GetUserGrpcUseCase: get_user_grpc.NewUseCase(find_user_service),
 		GetUserUseCase: get_user_use_case.NewUseCase(
 			user_repository,
 			json_place_holder_integration,
-			find_user_service,
 		),
 		CreateUserUseCase: create_user_use_case.NewUseCase(
 			user_repository,

@@ -10,16 +10,17 @@ import (
 	"github.com/google/uuid"
 )
 
-func (service *getUserUseCase) GetUser(id string) (*entity.User, error) {
-	// criar um exemplo melhor parar a integração do grpc
-	user, err := service.GetUserService.GetUser(id)
+func (container *getUserUseCase) GetUser(id string) (*entity.User, error) {
+	id_uuid := entity_root.ConvertId(id)
+
+	user, err := container.RepositoryUser.GetById(id_uuid)
 
 	if err != nil {
 		return nil, err
 	}
 
 	if user.ID == uuid.Nil {
-		userJson, err := service.IntegrationJsonPlaceHolder.GetUsers()
+		userJson, err := container.IntegrationJsonPlaceHolder.GetUsers()
 
 		if err != nil {
 			return nil, err
