@@ -4,7 +4,7 @@ import (
 	"errors"
 	entity_root "go-api/src/core/entities"
 	user "go-api/src/core/entities/user"
-	response_jsonplaceholder "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	response_jsonplaceholder "go-api/src/infra/integrations/http/jsonplaceholder/responses"
 	"testing"
 
 	"github.com/google/uuid"
@@ -76,6 +76,16 @@ func (mock *MockIntegration) GetUsers() ([]response_jsonplaceholder.User, error)
 	arg := mock.Called()
 	result := arg.Get(0)
 	return result.([]response_jsonplaceholder.User), arg.Error(1)
+}
+
+type MockService struct {
+	mock.Mock
+}
+
+func (mock *MockService) GetUser(id string) (*user.User, error) {
+	arg := mock.Called()
+	result := arg.Get(0)
+	return result.(*user.User), arg.Error(1)
 }
 
 func Test_UseCase_GetUser(t *testing.T) {

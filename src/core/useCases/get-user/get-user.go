@@ -10,17 +10,17 @@ import (
 	"github.com/google/uuid"
 )
 
-func (service *getUserUseCase) GetUser(id string) (*entity.User, error) {
+func (container *getUserUseCase) GetUser(id string) (*entity.User, error) {
 	id_uuid := entity_root.ConvertId(id)
 
-	user, err := service.RepositoryUser.GetById(id_uuid)
+	user, err := container.RepositoryUser.GetById(id_uuid)
 
 	if err != nil {
 		return nil, err
 	}
 
 	if user.ID == uuid.Nil {
-		userJson, err := service.IntegrationJsonPlaceHolder.GetUsers()
+		userJson, err := container.IntegrationJsonPlaceHolder.GetUsers()
 
 		if err != nil {
 			return nil, err

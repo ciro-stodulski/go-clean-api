@@ -1,7 +1,7 @@
 package ports
 
 import (
-	integration "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+	integration "go-api/src/infra/integrations/http/jsonplaceholder/responses"
 )
 
 type (
