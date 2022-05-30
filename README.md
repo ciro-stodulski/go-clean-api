@@ -6,6 +6,8 @@
 
 - http server (gin)
 - http client (net/http)
+- grpc server
+- grpc client
 - amqp server (rabbit mq/consumer)
 - amqp client (rabbit mq/producer)
 - mysql (gorm)
