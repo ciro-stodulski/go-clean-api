@@ -1,6 +1,6 @@
 package ports
 
-import integration "go-api/src/infra/http/integrations/jsonplaceholder/responses"
+import integration "go-api/src/infra/integrations/http/jsonplaceholder/responses"
 
 type (
 	UsersCache interface {

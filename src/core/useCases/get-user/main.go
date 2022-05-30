@@ -9,7 +9,10 @@ type getUserUseCase struct {
 	IntegrationJsonPlaceHolder interfaces.JsonPlaceholderIntegration
 }
 
-func NewUseCase(repository interfaces.UserRepository, jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration) GetUserUseCase {
+func NewUseCase(
+	repository interfaces.UserRepository,
+	jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration,
+) GetUserUseCase {
 	return &getUserUseCase{
 		RepositoryUser:             repository,
 		IntegrationJsonPlaceHolder: jsonPlaceholderIntegration,

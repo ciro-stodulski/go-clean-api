@@ -7,6 +7,7 @@ import (
 
 type (
 	UserRepository interface {
+		DeleteById(id entity_root.ID) error
 		GetById(id entity_root.ID) (*entity.User, error)
 		GetByEmail(email string) (*entity.User, error)
 		Create(user *entity.User)

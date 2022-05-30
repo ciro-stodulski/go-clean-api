@@ -40,3 +40,8 @@ func (repository *repositoryUser) GetByEmail(email string) (user *entity.User, e
 func (repository *repositoryUser) Create(user *entity.User) {
 	repository.db.Create(user)
 }
+
+func (repository *repositoryUser) DeleteById(id entity_root.ID) (er error) {
+	repository.db.Where("id = ?", id).Delete(&entity.User{})
+	return
+}
