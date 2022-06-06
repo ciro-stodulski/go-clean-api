@@ -2,7 +2,7 @@ package find_service
 
 import (
 	"context"
-	"go-api/src/presentation/grpc/services/user/find-user/pb"
+	"go-api/src/presentation/grpc/services/user/pb"
 )
 
 func (find_user_service *FindUserService) FindUser(ctx context.Context, req *pb.NewRequestFindUser) (*pb.NewResponseFindUser, error) {

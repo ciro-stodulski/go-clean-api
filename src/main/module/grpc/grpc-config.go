@@ -3,7 +3,7 @@ package grpc
 import (
 	"go-api/src/main/container"
 	finduserservice "go-api/src/presentation/grpc/services/user/find-user"
-	"go-api/src/presentation/grpc/services/user/find-user/pb"
+	"go-api/src/presentation/grpc/services/user/pb"
 	"log"
 )
 

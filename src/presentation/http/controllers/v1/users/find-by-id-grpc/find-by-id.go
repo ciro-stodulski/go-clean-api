@@ -9,6 +9,7 @@ func (createController *createController) findById(req ports_http.HttpRequest) (
 	id := req.Params.Get("id")
 
 	user, err := createController.container.GetUserGrpcUseCase.GetUser(id)
+
 	if err != nil {
 		if err == entity_user.ErrUserNotFound {
 			return nil, &ports_http.HttpResponseError{

@@ -4,7 +4,7 @@ import (
 	"context"
 	"go-api/src/core/entities/user"
 	"go-api/src/main/container"
-	"go-api/src/presentation/grpc/services/user/find-user/pb"
+	"go-api/src/presentation/grpc/services/user/pb"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
