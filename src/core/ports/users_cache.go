@@ -4,7 +4,7 @@ import integration "go-api/src/infra/integrations/http/jsonplaceholder/responses
 
 type (
 	UsersCache interface {
-		Set(key string, value []integration.User, timeEx int)
+		Set(key string, user []integration.User, time int)
 		Get(key string) ([]integration.User, error)
 	}
 )

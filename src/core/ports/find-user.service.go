@@ -6,6 +6,6 @@ import (
 
 type (
 	GetUserService interface {
-		GetUser(ID string) (*entity.User, error)
+		GetUser(id string) (*entity.User, error)
 	}
 )
