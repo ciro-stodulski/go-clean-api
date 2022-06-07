@@ -15,8 +15,8 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func NewUser(email, password, name string) (*User, error) {
-	new_user := &User{
+func NewUser(email string, password string, name string) (*User, error) {
+	new_u := &User{
 		ID:        entity.NewID(),
 		Email:     email,
 		Name:      name,
@@ -24,7 +24,7 @@ func NewUser(email, password, name string) (*User, error) {
 		CreatedAt: time.Now(),
 	}
 
-	err := new_user.Validate()
+	err := new_u.Validate()
 
 	if err != nil {
 		return nil, entity.ErrInvalidEntity
@@ -36,9 +36,9 @@ func NewUser(email, password, name string) (*User, error) {
 		return nil, err
 	}
 
-	new_user.Password = pwd
+	new_u.Password = pwd
 
-	return new_user, nil
+	return new_u, nil
 }
 
 func (u *User) Validate() error {
