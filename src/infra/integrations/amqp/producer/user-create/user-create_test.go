@@ -1,4 +1,4 @@
-package user_create
+package usercreateproducer
 
 import (
 	"encoding/json"
@@ -20,9 +20,9 @@ func (mock *MockAmqpClient) Publish(body []byte, config types_client.ConfigAmqpC
 	return arg.Error(0)
 }
 
-func Test_CreateUser(t *testing.T) {
+func Test_User_Create_Producer(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		MockAmqpClient := new(MockAmqpClient)
+		mac := new(MockAmqpClient)
 		dto := create_dto.CreateDto{
 			Name:     "test",
 			Email:    "test",
@@ -36,13 +36,13 @@ func Test_CreateUser(t *testing.T) {
 
 		result, _ := json.Marshal(&dto)
 
-		MockAmqpClient.On("Publish", []byte(string(result)), config).Return(nil)
+		mac.On("Publish", []byte(string(result)), config).Return(nil)
 
-		testService := NewProdocer(MockAmqpClient)
+		testService := New(mac)
 
 		err := testService.CreateUser(dto)
 
 		assert.Nil(t, err)
-		MockAmqpClient.AssertCalled(t, "Publish", []byte(string(result)), config)
+		mac.AssertCalled(t, "Publish", []byte(string(result)), config)
 	})
 }

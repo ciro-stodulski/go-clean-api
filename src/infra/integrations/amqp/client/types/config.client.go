@@ -1,4 +1,4 @@
-package types_client
+package typesclient
 
 type ConfigAmqpClient struct {
 	Exchange    string

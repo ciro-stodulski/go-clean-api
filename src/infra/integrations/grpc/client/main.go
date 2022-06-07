@@ -1,4 +1,4 @@
-package grpc_client
+package grpcclient
 
 import (
 	"log"
@@ -14,7 +14,7 @@ func New() GRPCClient {
 	return &gRPCClientService{}
 }
 
-func (gClient *gRPCClientService) GetConnection(host string) *grpc.ClientConn {
+func (gclient *gRPCClientService) GetConnection(host string) *grpc.ClientConn {
 	connection, err := grpc.Dial(host, grpc.WithInsecure())
 
 	if err != nil {

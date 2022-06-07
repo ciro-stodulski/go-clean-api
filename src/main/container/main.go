@@ -53,7 +53,7 @@ func NewContainer(container_config *ContainerConfig) *Container {
 
 	//amqp injection
 	amqp_client := amqp_client.New()
-	create_user_amqp := create_user_amqp.NewProdocer(amqp_client)
+	create_user_amqp := create_user_amqp.New(amqp_client)
 
 	//integration injection
 	http_service := http_service.New()

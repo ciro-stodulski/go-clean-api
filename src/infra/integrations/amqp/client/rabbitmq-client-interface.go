@@ -1,7 +1,7 @@
-package amqp_client
+package amqpclient
 
-import types_client "go-api/src/infra/integrations/amqp/client/types"
+import typesclient "go-api/src/infra/integrations/amqp/client/types"
 
 type IAmqpClient interface {
-	Publish(body []byte, config types_client.ConfigAmqpClient) error
+	Publish(b []byte, c typesclient.ConfigAmqpClient) error
 }

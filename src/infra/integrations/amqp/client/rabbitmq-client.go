@@ -1,8 +1,8 @@
-package amqp_client
+package amqpclient
 
 import (
-	types_client "go-api/src/infra/integrations/amqp/client/types"
-	amqp_helper "go-api/src/main/module/amqp/rabbitmq/helper"
+	typesclient "go-api/src/infra/integrations/amqp/client/types"
+	amqphelper "go-api/src/main/module/amqp/rabbitmq/helper"
 	"log"
 
 	"github.com/streadway/amqp"
@@ -14,7 +14,7 @@ type AmqpClient struct {
 
 func New() IAmqpClient {
 	conn, err_connection := amqp.Dial(
-		amqp_helper.GetConnection(),
+		amqphelper.GetConnection(),
 	)
 
 	failOnError(err_connection, "Failed to connect to RabbitMQ")
@@ -28,8 +28,8 @@ func New() IAmqpClient {
 	}
 }
 
-func (amqp_Client *AmqpClient) Publish(body []byte, config types_client.ConfigAmqpClient) error {
-	err := amqp_Client.channel.Publish(
+func (ampcc *AmqpClient) Publish(body []byte, config typesclient.ConfigAmqpClient) error {
+	err := ampcc.channel.Publish(
 		config.Exchange,    // exchange
 		config.Routing_key, // routing key
 		false,              // mandatory
