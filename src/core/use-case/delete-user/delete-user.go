@@ -8,10 +8,10 @@ import (
 	"github.com/google/uuid"
 )
 
-func (usecase *deleteUserUseCase) DeleteUser(id string) error {
+func (duuc *deleteUserUseCase) DeleteUser(id string) error {
 	id_uuid := entity.ConvertId(id)
 
-	u, err := usecase.RepositoryUser.GetById(id_uuid)
+	u, err := duuc.RepositoryUser.GetById(id_uuid)
 
 	if u.ID == uuid.Nil {
 		log.Default().Print("Not found user with id:" + id)
@@ -22,7 +22,7 @@ func (usecase *deleteUserUseCase) DeleteUser(id string) error {
 		return err
 	}
 
-	usecase.RepositoryUser.DeleteById(id_uuid)
+	duuc.RepositoryUser.DeleteById(id_uuid)
 
 	return nil
 }

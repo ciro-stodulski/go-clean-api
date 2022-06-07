@@ -5,8 +5,8 @@ import (
 	response_jsonplaceholder "go-api/src/infra/integrations/http/jsonplaceholder/responses"
 )
 
-func (userCache *usersCache) Get(key string) ([]response_jsonplaceholder.User, error) {
-	val, err := userCache.client.Get(key)
+func (uc *usersCache) Get(key string) ([]response_jsonplaceholder.User, error) {
+	val, err := uc.client.Get(key)
 
 	if err != nil {
 		panic(err)

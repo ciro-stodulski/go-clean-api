@@ -4,12 +4,12 @@ import (
 	"go-api/src/core/ports"
 )
 
-type createUserUseCase struct {
+type createUserProducerUseCase struct {
 	ProducerUser ports.UserProducer
 }
 
 func New(up ports.UserProducer) CreateUserUseCase {
-	return &createUserUseCase{
+	return &createUserProducerUseCase{
 		ProducerUser: up,
 	}
 }

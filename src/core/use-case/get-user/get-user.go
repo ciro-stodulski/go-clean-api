@@ -10,17 +10,17 @@ import (
 	"github.com/google/uuid"
 )
 
-func (container *getUserUseCase) GetUser(id string) (*user.User, error) {
+func (guuc *getUserUseCase) GetUser(id string) (*user.User, error) {
 	iu := entity.ConvertId(id)
 
-	u, err := container.RepositoryUser.GetById(iu)
+	u, err := guuc.RepositoryUser.GetById(iu)
 
 	if err != nil {
 		return nil, err
 	}
 
 	if u.ID == uuid.Nil {
-		ujs, err := container.IntegrationJsonPlaceHolder.GetUsers()
+		ujs, err := guuc.IntegrationJsonPlaceHolder.GetUsers()
 
 		if err != nil {
 			return nil, err

@@ -7,8 +7,8 @@ import (
 	"github.com/google/uuid"
 )
 
-func (service *getUserGrpcUseCase) GetUser(id string) (*user.User, error) {
-	u, err := service.GetUserService.GetUser(id)
+func (guguc *getUserGrpcUseCase) GetUser(id string) (*user.User, error) {
+	u, err := guguc.GetUserService.GetUser(id)
 
 	if err != nil {
 		return nil, err

@@ -5,8 +5,8 @@ import (
 	"log"
 )
 
-func (usecase *createUserUseCase) CreateUser(dto dto.CreateDto) error {
-	err := usecase.ProducerUser.CreateUser(dto)
+func (cupuc *createUserProducerUseCase) CreateUser(dto dto.CreateDto) error {
+	err := cupuc.ProducerUser.CreateUser(dto)
 	log.Default().Print("Send message to create user in producer mode")
 
 	if err != nil {

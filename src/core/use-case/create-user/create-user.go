@@ -7,9 +7,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func (usecase *createUserUseCase) CreateUser(dto dto.CreateDto) (*user.User, error) {
+func (cuuc *createUserUseCase) CreateUser(dto dto.CreateDto) (*user.User, error) {
 
-	u, err := usecase.RepositoryUser.GetByEmail(dto.Email)
+	u, err := cuuc.RepositoryUser.GetByEmail(dto.Email)
 
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func (usecase *createUserUseCase) CreateUser(dto dto.CreateDto) (*user.User, err
 		return nil, err
 	}
 
-	usecase.RepositoryUser.Create(new_u)
+	cuuc.RepositoryUser.Create(new_u)
 
 	return new_u, err
 }

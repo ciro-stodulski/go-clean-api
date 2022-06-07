@@ -6,8 +6,8 @@ import (
 	"reflect"
 )
 
-func (usecase *listUsersUseCase) ListUsers() {
-	ujs, err := usecase.UsersCache.Get("users")
+func (luuc *listUsersUseCase) ListUsers() {
+	ujs, err := luuc.UsersCache.Get("users")
 
 	if err != nil {
 		log.Default().Print("###Error:Job failed, fail cache ###")
@@ -15,7 +15,7 @@ func (usecase *listUsersUseCase) ListUsers() {
 	}
 
 	if reflect.DeepEqual(ujs, []response_jsonplaceholder.User{}) {
-		ujs, err := usecase.IntegrationJsonPlaceHolder.GetUsers()
+		ujs, err := luuc.IntegrationJsonPlaceHolder.GetUsers()
 
 		if err != nil {
 			log.Default().Print("###Error:Job failed, fail integration ###")
@@ -27,7 +27,7 @@ func (usecase *listUsersUseCase) ListUsers() {
 			return
 		}
 
-		usecase.UsersCache.Set("users", ujs, 100)
+		luuc.UsersCache.Set("users", ujs, 100)
 		log.Default().Print("***Set users in cache***")
 
 		printUsers(ujs)
