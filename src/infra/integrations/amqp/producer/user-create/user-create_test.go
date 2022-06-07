@@ -2,7 +2,7 @@ package user_create
 
 import (
 	"encoding/json"
-	types_client "go-api/src/main/module/amqp/rabbitmq/client/types"
+	types_client "go-api/src/infra/integrations/amqp/client/types"
 	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
 	"testing"
 

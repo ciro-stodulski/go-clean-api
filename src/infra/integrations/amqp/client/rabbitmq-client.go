@@ -1,7 +1,7 @@
 package amqp_client
 
 import (
-	types_client "go-api/src/main/module/amqp/rabbitmq/client/types"
+	types_client "go-api/src/infra/integrations/amqp/client/types"
 	amqp_helper "go-api/src/main/module/amqp/rabbitmq/helper"
 	"log"
 

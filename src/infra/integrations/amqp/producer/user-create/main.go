@@ -2,7 +2,7 @@ package user_create
 
 import (
 	"go-api/src/core/ports"
-	amqp "go-api/src/main/module/amqp/rabbitmq/client"
+	amqp "go-api/src/infra/integrations/amqp/client"
 )
 
 type userCreate struct {
