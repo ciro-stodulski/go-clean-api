@@ -17,9 +17,9 @@ import (
 	grpc_client "go-api/src/infra/integrations/grpc/client"
 	find_user_service "go-api/src/infra/integrations/grpc/user/get-user"
 	"go-api/src/infra/integrations/grpc/user/get-user/pb"
+	http_service "go-api/src/infra/integrations/http/client"
 	amqp_client "go-api/src/main/module/amqp/rabbitmq/client"
 	cache_client "go-api/src/main/module/cache/redis"
-	http_service "go-api/src/main/module/http/client"
 
 	"github.com/jinzhu/gorm"
 )
