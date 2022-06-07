@@ -1,4 +1,4 @@
-package get_user
+package getuserusecase
 
 import (
 	entity "go-api/src/core/entities/user"

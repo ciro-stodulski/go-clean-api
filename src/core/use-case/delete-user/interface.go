@@ -1,4 +1,4 @@
-package delete_user
+package deleteuserusecase
 
 type (
 	DeleteUserUseCase interface {

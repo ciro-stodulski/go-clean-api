@@ -15,7 +15,7 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func NewUser(email string, password string, name string) (*User, error) {
+func New(email string, password string, name string) (*User, error) {
 	new_u := &User{
 		ID:        entity.NewID(),
 		Email:     email,

@@ -1,23 +1,23 @@
-package get_user_grpc
+package getusergrpcusecase
 
 import (
-	entity "go-api/src/core/entities/user"
+	user "go-api/src/core/entities/user"
 	"log"
 
 	"github.com/google/uuid"
 )
 
-func (service *getUserGrpcUseCase) GetUser(id string) (*entity.User, error) {
-	user, err := service.GetUserService.GetUser(id)
+func (service *getUserGrpcUseCase) GetUser(id string) (*user.User, error) {
+	u, err := service.GetUserService.GetUser(id)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if user.ID == uuid.Nil {
+	if u.ID == uuid.Nil {
 		log.Default().Print("not found user with id:" + id)
-		return nil, entity.ErrUserNotFound
+		return nil, user.ErrUserNotFound
 	}
 
-	return user, err
+	return u, err
 }

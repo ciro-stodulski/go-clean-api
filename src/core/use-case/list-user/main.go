@@ -1,17 +1,17 @@
-package list_users
+package listusersusecase
 
 import (
-	interfaces "go-api/src/core/ports"
+	"go-api/src/core/ports"
 )
 
 type listUsersUseCase struct {
-	IntegrationJsonPlaceHolder interfaces.JsonPlaceholderIntegration
-	UsersCache                 interfaces.UsersCache
+	IntegrationJsonPlaceHolder ports.JsonPlaceholderIntegration
+	UsersCache                 ports.UsersCache
 }
 
-func NewUseCase(jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration, usersCache interfaces.UsersCache) ListUsersUseCase {
+func New(ji ports.JsonPlaceholderIntegration, uc ports.UsersCache) ListUsersUseCase {
 	return &listUsersUseCase{
-		IntegrationJsonPlaceHolder: jsonPlaceholderIntegration,
-		UsersCache:                 usersCache,
+		IntegrationJsonPlaceHolder: ji,
+		UsersCache:                 uc,
 	}
 }

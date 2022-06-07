@@ -1,4 +1,4 @@
-package list_users
+package listusersusecase
 
 type (
 	ListUsersUseCase interface {

@@ -67,16 +67,16 @@ func NewContainer(container_config *ContainerConfig) *Container {
 	users_cache := users_cache.New(cache_client)
 
 	return &Container{
-		GetUserGrpcUseCase: get_user_grpc.NewUseCase(find_user_service),
-		GetUserUseCase: get_user_use_case.NewUseCase(
+		GetUserGrpcUseCase: get_user_grpc.New(find_user_service),
+		GetUserUseCase: get_user_use_case.New(
 			user_repository,
 			json_place_holder_integration,
 		),
-		CreateUserUseCase: create_user_use_case.NewUseCase(
+		CreateUserUseCase: create_user_use_case.New(
 			user_repository,
 		),
-		DeleteUserUseCase:         delete_user.NewUseCase(user_repository),
-		ListUsersUseCase:          list_users.NewUseCase(json_place_holder_integration, users_cache),
-		CreateUserProducerUseCase: create_user_producer_use_case.NewUseCase(create_user_amqp),
+		DeleteUserUseCase:         delete_user.New(user_repository),
+		ListUsersUseCase:          list_users.New(json_place_holder_integration, users_cache),
+		CreateUserProducerUseCase: create_user_producer_use_case.New(create_user_amqp),
 	}
 }

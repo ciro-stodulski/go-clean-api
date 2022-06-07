@@ -1,4 +1,4 @@
-package list_users
+package listusersusecase
 
 import (
 	response_jsonplaceholder "go-api/src/infra/integrations/http/jsonplaceholder/responses"
@@ -68,7 +68,7 @@ func Test_UseCase_ListUsers(t *testing.T) {
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 		mockCache.On("Set", "users", userIntMock, 100)
 
-		testService := NewUseCase(mockInt, mockCache)
+		testService := New(mockInt, mockCache)
 
 		testService.ListUsers()
 		mockInt.AssertCalled(t, "GetUsers")
@@ -84,7 +84,7 @@ func Test_UseCase_ListUsers(t *testing.T) {
 
 		mockCache.On("Get", "users").Return(userIntMock, nil)
 
-		testService := NewUseCase(mockInt, mockCache)
+		testService := New(mockInt, mockCache)
 
 		testService.ListUsers()
 		mockCache.AssertCalled(t, "Get", "users")

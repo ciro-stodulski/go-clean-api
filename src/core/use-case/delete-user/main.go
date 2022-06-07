@@ -1,15 +1,15 @@
-package delete_user
+package deleteuserusecase
 
 import (
-	interfaces "go-api/src/core/ports"
+	"go-api/src/core/ports"
 )
 
 type deleteUserUseCase struct {
-	RepositoryUser interfaces.UserRepository
+	RepositoryUser ports.UserRepository
 }
 
-func NewUseCase(repository interfaces.UserRepository) DeleteUserUseCase {
+func New(ur ports.UserRepository) DeleteUserUseCase {
 	return &deleteUserUseCase{
-		RepositoryUser: repository,
+		RepositoryUser: ur,
 	}
 }

@@ -1,15 +1,15 @@
-package create_user
+package createuserusecase
 
 import (
-	interfaces "go-api/src/core/ports"
+	"go-api/src/core/ports"
 )
 
 type createUserUseCase struct {
-	RepositoryUser interfaces.UserRepository
+	RepositoryUser ports.UserRepository
 }
 
-func NewUseCase(repository interfaces.UserRepository) CreateUserUseCase {
+func New(ur ports.UserRepository) CreateUserUseCase {
 	return &createUserUseCase{
-		RepositoryUser: repository,
+		RepositoryUser: ur,
 	}
 }

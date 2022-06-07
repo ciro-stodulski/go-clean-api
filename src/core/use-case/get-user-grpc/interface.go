@@ -1,11 +1,11 @@
-package get_user_grpc
+package getusergrpcusecase
 
 import (
-	entity "go-api/src/core/entities/user"
+	"go-api/src/core/entities/user"
 )
 
 type (
 	GetUserGrpcUseCase interface {
-		GetUser(id string) (*entity.User, error)
+		GetUser(id string) (*user.User, error)
 	}
 )

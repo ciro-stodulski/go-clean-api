@@ -1,4 +1,4 @@
-package create_user
+package createuserusecase
 
 import (
 	entity "go-api/src/core/entities/user"

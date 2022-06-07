@@ -1,4 +1,4 @@
-package delete_user
+package deleteuserusecase
 
 import (
 	entity_root "go-api/src/core/entities"
@@ -11,8 +11,8 @@ import (
 )
 
 func newMockUser() *user.User {
-	user, _ := user.NewUser("test", "test", "test")
-	return user
+	u, _ := user.New("test", "test", "test")
+	return u
 }
 
 type MockRepository struct {
@@ -48,7 +48,7 @@ func Test_UseCase_DeleteUser(t *testing.T) {
 		mockRepo.On("GetById").Return(userMock, nil)
 		mockRepo.On("DeleteById").Return(nil)
 
-		testService := NewUseCase(mockRepo)
+		testService := New(mockRepo)
 
 		err := testService.DeleteUser(userMock.ID.String())
 
@@ -66,7 +66,7 @@ func Test_UseCase_DeleteUser(t *testing.T) {
 
 		mockRepo.On("DeleteById").Return(errMock)
 
-		testService := NewUseCase(mockRepo)
+		testService := New(mockRepo)
 
 		err := testService.DeleteUser(userMock.ID.String())
 

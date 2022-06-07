@@ -1,4 +1,4 @@
-package create_user_producer
+package createuserproducerusecase
 
 import (
 	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
@@ -29,7 +29,7 @@ func Test_UseCase_CreateUserProducer(t *testing.T) {
 
 		mockPro.On("CreateUser", dto).Return(nil)
 
-		testService := NewUseCase(mockPro)
+		testService := New(mockPro)
 
 		err := testService.CreateUser(dto)
 

@@ -12,7 +12,7 @@ func Test_Entity_User(t *testing.T) {
 		fake_email := "test@test.com"
 		fake_password := "1234"
 
-		fake_new_u, err := NewUser(fake_email, fake_password, fake_name)
+		fake_new_u, err := New(fake_email, fake_password, fake_name)
 
 		assert.Nil(t, err)
 		assert.NotNil(t, fake_new_u.ID)
@@ -26,7 +26,7 @@ func Test_Entity_User(t *testing.T) {
 		fake_email := "test@test.com"
 		fake_password := "1234"
 
-		fake_new_u, _ := NewUser(fake_email, fake_password, fake_name)
+		fake_new_u, _ := New(fake_email, fake_password, fake_name)
 
 		err := fake_new_u.ValidatePassword(fake_password)
 
@@ -38,7 +38,7 @@ func Test_Entity_User(t *testing.T) {
 		fake_email := "test@test.com"
 		fake_password := "1234"
 
-		fake_new_u, _ := NewUser(fake_email, fake_password, fake_name)
+		fake_new_u, _ := New(fake_email, fake_password, fake_name)
 
 		err := fake_new_u.ValidatePassword("wrong_password")
 

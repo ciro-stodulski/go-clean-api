@@ -1,4 +1,4 @@
-package get_user_grpc
+package getusergrpcusecase
 
 import (
 	"errors"
@@ -11,8 +11,8 @@ import (
 )
 
 func newMockUser() *user.User {
-	user, _ := user.NewUser("test", "test", "test")
-	return user
+	u, _ := user.New("test", "test", "test")
+	return u
 }
 
 type MockService struct {
@@ -32,7 +32,7 @@ func Test_UseCase_GetUser_GRPC(t *testing.T) {
 
 		mockService.On("GetUser").Return(userMock, nil)
 
-		testService := NewUseCase(mockService)
+		testService := New(mockService)
 
 		result, err := testService.GetUser(userMock.ID.String())
 
@@ -53,7 +53,7 @@ func Test_UseCase_GetUser_GRPC(t *testing.T) {
 
 		mockService.On("GetUser").Return(userMock, errMock)
 
-		testService := NewUseCase(mockService)
+		testService := New(mockService)
 
 		_, err := testService.GetUser(userMock.ID.String())
 
@@ -68,7 +68,7 @@ func Test_UseCase_GetUser_GRPC(t *testing.T) {
 
 		mockService.On("GetUser").Return(userMockResult, nil)
 
-		testService := NewUseCase(mockService)
+		testService := New(mockService)
 
 		_, err := testService.GetUser(userMock.ID.String())
 

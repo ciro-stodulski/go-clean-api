@@ -21,7 +21,7 @@ func (mock *MockUserCase) GetUser(id string) (*user.User, error) {
 }
 
 func newMockUser() *user.User {
-	user, _ := user.NewUser("test", "test", "test")
+	user, _ := user.New("test", "test", "test")
 	return user
 }
 func Test_Consumer_User_Create(t *testing.T) {

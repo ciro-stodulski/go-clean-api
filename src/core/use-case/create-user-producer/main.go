@@ -1,15 +1,15 @@
-package create_user_producer
+package createuserproducerusecase
 
 import (
-	interfaces "go-api/src/core/ports"
+	"go-api/src/core/ports"
 )
 
 type createUserUseCase struct {
-	ProducerUser interfaces.UserProducer
+	ProducerUser ports.UserProducer
 }
 
-func NewUseCase(producer interfaces.UserProducer) CreateUserUseCase {
+func New(up ports.UserProducer) CreateUserUseCase {
 	return &createUserUseCase{
-		ProducerUser: producer,
+		ProducerUser: up,
 	}
 }

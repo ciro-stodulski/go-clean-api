@@ -1,20 +1,20 @@
-package get_user
+package getuserusecase
 
 import (
-	interfaces "go-api/src/core/ports"
+	"go-api/src/core/ports"
 )
 
 type getUserUseCase struct {
-	RepositoryUser             interfaces.UserRepository
-	IntegrationJsonPlaceHolder interfaces.JsonPlaceholderIntegration
+	RepositoryUser             ports.UserRepository
+	IntegrationJsonPlaceHolder ports.JsonPlaceholderIntegration
 }
 
-func NewUseCase(
-	repository interfaces.UserRepository,
-	jsonPlaceholderIntegration interfaces.JsonPlaceholderIntegration,
+func New(
+	ur ports.UserRepository,
+	ji ports.JsonPlaceholderIntegration,
 ) GetUserUseCase {
 	return &getUserUseCase{
-		RepositoryUser:             repository,
-		IntegrationJsonPlaceHolder: jsonPlaceholderIntegration,
+		RepositoryUser:             ur,
+		IntegrationJsonPlaceHolder: ji,
 	}
 }

@@ -1,4 +1,4 @@
-package get_user
+package getuserusecase
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ import (
 )
 
 func newMockUser() *user.User {
-	user, _ := user.NewUser("test", "test", "test")
+	user, _ := user.New("test", "test", "test")
 	return user
 }
 
@@ -96,7 +96,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 
 		mockRepo.On("GetById").Return(userMock, nil)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := New(mockRepo, mockInt)
 
 		result, err := testService.GetUser(userMock.ID.String())
 
@@ -118,7 +118,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 
 		mockRepo.On("GetById").Return(userMock, errMock)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := New(mockRepo, mockInt)
 
 		_, err := testService.GetUser(userMock.ID.String())
 
@@ -136,7 +136,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 		mockRepo.On("GetById").Return(userMockResult, nil)
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := New(mockRepo, mockInt)
 
 		result, err := testService.GetUser("12")
 
@@ -158,7 +158,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 		mockRepo.On("GetById").Return(userMockResult, nil)
 		mockInt.On("GetUsers").Return(userIntMock, nil)
 
-		testService := NewUseCase(mockRepo, mockInt)
+		testService := New(mockRepo, mockInt)
 
 		_, err := testService.GetUser(userMock.ID.String())
 

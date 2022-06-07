@@ -1,7 +1,7 @@
-package create_user
+package createuserusecase
 
 import (
-	entity_root "go-api/src/core/entities"
+	entity "go-api/src/core/entities"
 	user "go-api/src/core/entities/user"
 	create_dto "go-api/src/presentation/amqp/consumers/users/create/dto"
 	"testing"
@@ -12,15 +12,15 @@ import (
 )
 
 func newMockUser() *user.User {
-	user, _ := user.NewUser("test", "test", "test")
-	return user
+	u, _ := user.New("test", "test", "test")
+	return u
 }
 
 type MockRepository struct {
 	mock.Mock
 }
 
-func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {
+func (mock *MockRepository) GetById(id entity.ID) (*user.User, error) {
 	arg := mock.Called()
 	result := arg.Get(0)
 	return result.(*user.User), arg.Error(1)
@@ -32,24 +32,24 @@ func (mock *MockRepository) GetByEmail(id string) (*user.User, error) {
 	return result.(*user.User), arg.Error(1)
 }
 
-func (mock *MockRepository) DeleteById(id entity_root.ID) error {
+func (mock *MockRepository) DeleteById(id entity.ID) error {
 	arg := mock.Called()
 	return arg.Error(1)
 }
 
-func (mock *MockRepository) Create(user *user.User) {
+func (mock *MockRepository) Create(u *user.User) {
 	mock.Called()
 }
 
 func Test_UseCase_CreateUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		mockRepo := new(MockRepository)
-		userMockResult := &user.User{ID: uuid.Nil}
+		mr := new(MockRepository)
+		umock := &user.User{ID: uuid.Nil}
 
-		mockRepo.On("GetByEmail").Return(userMockResult, nil)
-		mockRepo.On("Create")
+		mr.On("GetByEmail").Return(umock, nil)
+		mr.On("Create")
 
-		testService := NewUseCase(mockRepo)
+		usecase := New(mr)
 
 		dto := create_dto.CreateDto{
 			Name:     "test",
@@ -57,7 +57,7 @@ func Test_UseCase_CreateUser(t *testing.T) {
 			Password: "test",
 		}
 
-		result, err := testService.CreateUser(dto)
+		result, err := usecase.CreateUser(dto)
 
 		assert.Nil(t, err)
 		assert.Equal(t, dto.Name, result.Name)
@@ -71,7 +71,7 @@ func Test_UseCase_CreateUser(t *testing.T) {
 		mockRepo.On("GetByEmail").Return(userMockResult, nil)
 		mockRepo.On("Create")
 
-		testService := NewUseCase(mockRepo)
+		usecase := New(mockRepo)
 
 		dto := create_dto.CreateDto{
 			Name:     "test",
@@ -79,7 +79,7 @@ func Test_UseCase_CreateUser(t *testing.T) {
 			Password: "test",
 		}
 
-		result, err := testService.CreateUser(dto)
+		result, err := usecase.CreateUser(dto)
 
 		assert.Nil(t, result)
 		assert.NotNil(t, err)

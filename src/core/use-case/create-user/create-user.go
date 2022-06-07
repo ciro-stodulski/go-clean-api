@@ -1,31 +1,31 @@
-package create_user
+package createuserusecase
 
 import (
-	entity "go-api/src/core/entities/user"
+	"go-api/src/core/entities/user"
 	dto "go-api/src/presentation/amqp/consumers/users/create/dto"
 
 	"github.com/google/uuid"
 )
 
-func (service *createUserUseCase) CreateUser(dto dto.CreateDto) (*entity.User, error) {
+func (usecase *createUserUseCase) CreateUser(dto dto.CreateDto) (*user.User, error) {
 
-	user, err := service.RepositoryUser.GetByEmail(dto.Email)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if user.ID != uuid.Nil {
-		return nil, entity.ErrUserAlreadyExists
-	}
-
-	new_user, err := entity.NewUser(dto.Email, dto.Password, dto.Name)
+	u, err := usecase.RepositoryUser.GetByEmail(dto.Email)
 
 	if err != nil {
 		return nil, err
 	}
 
-	service.RepositoryUser.Create(new_user)
+	if u.ID != uuid.Nil {
+		return nil, user.ErrUserAlreadyExists
+	}
 
-	return new_user, err
+	new_u, err := user.New(dto.Email, dto.Password, dto.Name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	usecase.RepositoryUser.Create(new_u)
+
+	return new_u, err
 }

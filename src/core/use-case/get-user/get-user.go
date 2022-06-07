@@ -1,8 +1,8 @@
-package get_user
+package getuserusecase
 
 import (
-	entity_root "go-api/src/core/entities"
-	entity "go-api/src/core/entities/user"
+	entity "go-api/src/core/entities"
+	"go-api/src/core/entities/user"
 	"log"
 	"strconv"
 	"time"
@@ -10,31 +10,31 @@ import (
 	"github.com/google/uuid"
 )
 
-func (container *getUserUseCase) GetUser(id string) (*entity.User, error) {
-	id_uuid := entity_root.ConvertId(id)
+func (container *getUserUseCase) GetUser(id string) (*user.User, error) {
+	iu := entity.ConvertId(id)
 
-	user, err := container.RepositoryUser.GetById(id_uuid)
+	u, err := container.RepositoryUser.GetById(iu)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if user.ID == uuid.Nil {
-		userJson, err := container.IntegrationJsonPlaceHolder.GetUsers()
+	if u.ID == uuid.Nil {
+		ujs, err := container.IntegrationJsonPlaceHolder.GetUsers()
 
 		if err != nil {
 			return nil, err
 		}
 
-		for _, user := range userJson {
-			id_string := strconv.Itoa(user.Id)
+		for _, uj := range ujs {
+			id_string := strconv.Itoa(uj.Id)
 			if id_string == id {
 				log.Default().Print("Found user in integration:" + id)
 
-				return &entity.User{
-					ID:        entity_root.NewID(),
-					Name:      user.Username,
-					Email:     user.Email,
+				return &user.User{
+					ID:        entity.NewID(),
+					Name:      uj.Username,
+					Email:     uj.Email,
 					Password:  "test_for_integration",
 					CreatedAt: time.Now(),
 				}, nil
@@ -42,8 +42,8 @@ func (container *getUserUseCase) GetUser(id string) (*entity.User, error) {
 		}
 
 		log.Default().Print("not found user with id:" + id)
-		return nil, entity.ErrUserNotFound
+		return nil, user.ErrUserNotFound
 	}
 
-	return user, err
+	return u, err
 }
