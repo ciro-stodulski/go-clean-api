@@ -5,7 +5,7 @@ import (
 	rabbitmq "go-api/src/main/module/amqp/rabbitmq/server"
 	database "go-api/src/main/module/db/mysql"
 	grpc_server "go-api/src/main/module/grpc"
-	http_server "go-api/src/main/module/http/server"
+	http_server "go-api/src/main/module/http"
 	"log"
 
 	"github.com/joho/godotenv"

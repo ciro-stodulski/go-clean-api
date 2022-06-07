@@ -1,12 +1,12 @@
 package container
 
 import (
-	create_user_use_case "go-api/src/core/useCases/create-user"
-	create_user_producer_use_case "go-api/src/core/useCases/create-user-producer"
-	delete_user "go-api/src/core/useCases/delete-user"
-	get_user_use_case "go-api/src/core/useCases/get-user"
-	get_user_grpc "go-api/src/core/useCases/get-user-grpc"
-	list_users "go-api/src/core/useCases/list-user"
+	create_user_use_case "go-api/src/core/use-case/create-user"
+	create_user_producer_use_case "go-api/src/core/use-case/create-user-producer"
+	delete_user "go-api/src/core/use-case/delete-user"
+	get_user_use_case "go-api/src/core/use-case/get-user"
+	get_user_grpc "go-api/src/core/use-case/get-user-grpc"
+	list_users "go-api/src/core/use-case/list-user"
 	"os"
 
 	users_cache "go-api/src/infra/cache/users"
