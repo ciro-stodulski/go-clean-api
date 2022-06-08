@@ -44,25 +44,20 @@ func NewContainerConfig(db *gorm.DB) *ContainerConfig {
 }
 
 func NewContainer(container_config *ContainerConfig) *Container {
-	//grpc injection
 	grpc_client := grpc_client.New()
 	find_user_service := find_user_service.New(
 		pb.NewGetUserServiceClient(
 			grpc_client.GetConnection(
 				os.Getenv("FIND_USER_SERVICE_URL"))))
 
-	//amqp injection
 	amqp_client := amqp_client.New()
 	create_user_amqp := create_user_amqp.New(amqp_client)
 
-	//integration injection
 	http_service := http_service.New()
 	json_place_holder_integration := json_place_holder.New(http_service)
 
-	//db injection
 	user_repository := model_user.NewUserRepository(container_config.Database)
 
-	//cache injection
 	cache_client := cache_client.New()
 	users_cache := users_cache.New(cache_client)
 
