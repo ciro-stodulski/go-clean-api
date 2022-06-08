@@ -6,12 +6,12 @@ import (
 )
 
 type userCreateProducer struct {
-	clientAmqp  amqp.IAmqpClient
+	clientAmqp  amqp.AmqpClient
 	exchange    string
 	routing_key string
 }
 
-func New(amqpc amqp.IAmqpClient) ports.UserProducer {
+func New(amqpc amqp.AmqpClient) ports.UserProducer {
 	return &userCreateProducer{
 		clientAmqp:  amqpc,
 		exchange:    "user.dx",

@@ -6,24 +6,24 @@ import (
 )
 
 type httpClient struct {
-	Engine *http.Client
+	client *http.Client
 }
 
 func New() HttpClient {
 	return &httpClient{
-		Engine: &http.Client{},
+		client: &http.Client{},
 	}
 }
 
 func (http *httpClient) Get(url string) ([]byte, error) {
-	result, err := http.Engine.Get(url)
+	res, err := http.client.Get(url)
 
 	if err != nil {
 		return nil, err
 	}
-	defer result.Body.Close()
+	defer res.Body.Close()
 
-	body, _ := ioutil.ReadAll(result.Body)
+	body, _ := ioutil.ReadAll(res.Body)
 
 	return body, nil
 }

@@ -8,27 +8,27 @@ import (
 	"github.com/streadway/amqp"
 )
 
-type AmqpClient struct {
+type amqpClient struct {
 	channel *amqp.Channel
 }
 
-func New() IAmqpClient {
-	conn, err_connection := amqp.Dial(
+func New() AmqpClient {
+	conn, err_conn := amqp.Dial(
 		amqphelper.GetConnection(),
 	)
 
-	failOnError(err_connection, "Failed to connect to RabbitMQ")
+	failOnError(err_conn, "Failed to connect to RabbitMQ")
 
 	ch, err := conn.Channel()
 
 	failOnError(err, "Failed to open a channel")
 
-	return &AmqpClient{
+	return &amqpClient{
 		channel: ch,
 	}
 }
 
-func (ampcc *AmqpClient) Publish(body []byte, config typesclient.ConfigAmqpClient) error {
+func (ampcc *amqpClient) Publish(body []byte, config typesclient.ConfigAmqpClient) error {
 	err := ampcc.channel.Publish(
 		config.Exchange,    // exchange
 		config.Routing_key, // routing key
