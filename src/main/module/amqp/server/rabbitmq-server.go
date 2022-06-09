@@ -3,7 +3,7 @@ package rabbitmq
 import (
 	"encoding/json"
 	"go-api/src/main/container"
-	amqp_helper "go-api/src/main/module/amqp/rabbitmq/helper"
+	amqp_helper "go-api/src/main/module/amqp/helper"
 	consumer_type "go-api/src/presentation/amqp/consumers"
 	ports_amqp "go-api/src/presentation/amqp/ports"
 

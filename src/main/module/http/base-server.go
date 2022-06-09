@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func loadRoutes(controls []controllers.Controller, api gin.RouterGroup) {
-	for _, ctr := range controls {
+func loadRoutes(controllers []controllers.Controller, api gin.RouterGroup) {
+	for _, ctr := range controllers {
 		route := ctr.LoadRoute()
 
 		if route.PathRoot == "" {

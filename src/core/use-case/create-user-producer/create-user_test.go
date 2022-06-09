@@ -1,7 +1,7 @@
 package createuserproducerusecase
 
 import (
-	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
+	port "go-api/src/core/ports"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,7 +12,7 @@ type MockProducer struct {
 	mock.Mock
 }
 
-func (mock *MockProducer) CreateUser(dto create_dto.CreateDto) error {
+func (mock *MockProducer) CreateUser(dto port.CreateDto) error {
 	arg := mock.Called(dto)
 	return arg.Error(0)
 }
@@ -21,7 +21,7 @@ func Test_UseCase_CreateUserProducer(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mockPro := new(MockProducer)
 
-		dto := create_dto.CreateDto{
+		dto := port.CreateDto{
 			Name:     "test",
 			Email:    "test@test",
 			Password: "test",

@@ -21,10 +21,10 @@ func (mock *MockUserCase) GetUser(id string) (*user.User, error) {
 }
 
 func newMockUser() *user.User {
-	user, _ := user.New("test", "test", "test")
-	return user
+	u, _ := user.New("test", "test", "test")
+	return u
 }
-func Test_Consumer_User_Create(t *testing.T) {
+func Test_Controller_Find_By_Id(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		userMock := newMockUser()
 		mockRepo := new(MockUserCase)
@@ -32,7 +32,7 @@ func Test_Consumer_User_Create(t *testing.T) {
 
 		mockRepo.On("GetUser").Return(userMock, nil)
 
-		testService := NewController(&container.Container{
+		testService := New(&container.Container{
 			GetUserUseCase: mockRepo,
 		})
 

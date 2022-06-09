@@ -8,6 +8,6 @@ type FindUserService struct {
 	container *container.Container
 }
 
-func NewService(container *container.Container) *FindUserService {
-	return &FindUserService{container: container}
+func New(c *container.Container) *FindUserService {
+	return &FindUserService{container: c}
 }

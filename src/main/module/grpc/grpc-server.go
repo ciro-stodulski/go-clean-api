@@ -14,17 +14,16 @@ type GRPCServer struct {
 	container *container.Container
 }
 
-func (server *GRPCServer) New(container *container.Container) IGrpcServer {
-	return &GRPCServer{container: container, Engine: grpc.NewServer()}
+func (server *GRPCServer) New(c *container.Container) IGrpcServer {
+	return &GRPCServer{container: c, Engine: grpc.NewServer()}
 }
 
-func (server *GRPCServer) Start() {
-	server.LoadServices(server.container)
+func (grpcs *GRPCServer) Start() {
+	grpcs.LoadServices(grpcs.container)
 
-	reflection.Register(server.Engine)
+	reflection.Register(grpcs.Engine)
 
-	// add env para host do grpc
-	server_tcp, err := net.Listen("tcp", ":50054")
+	server, err := net.Listen("tcp", ":50054")
 
 	if err != nil {
 		log.Fatal(err)
@@ -32,7 +31,7 @@ func (server *GRPCServer) Start() {
 
 	log.Default().Print("gRPC: Started with succeffully")
 
-	if err := server.Engine.Serve(server_tcp); err != nil {
+	if err := grpcs.Engine.Serve(server); err != nil {
 		log.Default().Print("Failed to start gRPC server", err)
 	}
 }

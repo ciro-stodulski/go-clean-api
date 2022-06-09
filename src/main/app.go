@@ -2,10 +2,11 @@ package app
 
 import (
 	"go-api/src/main/container"
-	rabbitmq "go-api/src/main/module/amqp/rabbitmq/server"
+	rabbitmq "go-api/src/main/module/amqp/server"
 	database "go-api/src/main/module/db/mysql"
 	grpc_server "go-api/src/main/module/grpc"
 	http_server "go-api/src/main/module/http"
+	"go-api/src/main/module/work"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -20,12 +21,11 @@ type Server struct {
 }
 
 func (server *Server) Setup() *Server {
-	server.Container = container.NewContainer(
-		container.NewContainerConfig(server.db.Db),
+	server.Container = container.New(
+		container.NewConfig(server.db.Db),
 	)
 
-	// descomentar depois que concluir tarefa para o grpc
-	//work.New(server.Container).StartCrons()
+	work.New(server.Container).StartCrons()
 
 	go server.amqp.New(server.Container).Start()
 	go server.grpc.New(server.Container).Start()

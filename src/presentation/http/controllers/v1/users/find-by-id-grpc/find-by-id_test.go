@@ -21,10 +21,10 @@ func (mock *MockUserCase) GetUser(id string) (*user.User, error) {
 }
 
 func newMockUser() *user.User {
-	user, _ := user.New("test", "test", "test")
-	return user
+	u, _ := user.New("test", "test", "test")
+	return u
 }
-func Test_Controller_GetUser_Grpc(t *testing.T) {
+func Test_Controller_FindById_Grpc(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		userMock := newMockUser()
 		mockUseCase := new(MockUserCase)
@@ -32,11 +32,11 @@ func Test_Controller_GetUser_Grpc(t *testing.T) {
 
 		mockUseCase.On("GetUser").Return(userMock, nil)
 
-		testService := NewController(&container.Container{
+		controller := New(&container.Container{
 			GetUserGrpcUseCase: mockUseCase,
 		})
 
-		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
+		result, err := controller.LoadRoute().Handle(ports_http.HttpRequest{
 			Params: ports_http.Params{
 				ports_http.Param{Key: "id", Value: id},
 			},

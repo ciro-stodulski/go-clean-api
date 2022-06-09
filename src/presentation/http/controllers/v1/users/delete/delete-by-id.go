@@ -5,7 +5,7 @@ import (
 	ports_http "go-api/src/presentation/http/ports"
 )
 
-func (createController *createController) deleteById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
+func (createController *deleteController) deleteById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
 	id := req.Params.Get("id")
 
 	err := createController.container.DeleteUserUseCase.DeleteUser(id)
@@ -28,6 +28,7 @@ func (createController *createController) deleteById(req ports_http.HttpRequest)
 			Status: 500,
 		}
 	}
+
 	return &ports_http.HttpResponse{
 		Status: 204,
 	}, nil

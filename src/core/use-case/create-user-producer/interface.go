@@ -1,11 +1,11 @@
 package createuserproducerusecase
 
 import (
-	dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
+	port "go-api/src/core/ports"
 )
 
 type (
 	CreateUserUseCase interface {
-		CreateUser(dto dto.CreateDto) error
+		CreateUser(dto port.CreateDto) error
 	}
 )

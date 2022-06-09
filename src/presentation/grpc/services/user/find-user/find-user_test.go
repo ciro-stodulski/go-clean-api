@@ -22,8 +22,8 @@ func (mock *MockUserCase) GetUser(id string) (*user.User, error) {
 }
 
 func newMockUser() *user.User {
-	user, _ := user.New("test", "test", "test")
-	return user
+	u, _ := user.New("test", "test", "test")
+	return u
 }
 
 func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
@@ -33,7 +33,7 @@ func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
 
 		mockRepo.On("GetUser").Return(userMock, nil)
 
-		testService := NewService(&container.Container{
+		testService := New(&container.Container{
 			GetUserUseCase: mockRepo,
 		})
 

@@ -18,14 +18,14 @@ func (mock *MockUserCase) DeleteUser(id string) error {
 	return arg.Error(0)
 }
 
-func Test_Controller_Delete_Create(t *testing.T) {
+func Test_Controller_Delete(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mockRepo := new(MockUserCase)
 		id := "752ea551-5e6a-4382-859c-cd09fbe50110"
 
 		mockRepo.On("DeleteUser").Return(nil)
 
-		testService := NewController(&container.Container{
+		testService := New(&container.Container{
 			DeleteUserUseCase: mockRepo,
 		})
 

@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func (server *GRPCServer) LoadServices(container *container.Container) {
-	pb.RegisterFindUserServiceServer(server.Engine, finduserservice.NewService(container))
+func (s *GRPCServer) LoadServices(c *container.Container) {
+	pb.RegisterFindUserServiceServer(s.Engine, finduserservice.New(c))
 	log.Default().Print("gRPC: Services registered")
 }

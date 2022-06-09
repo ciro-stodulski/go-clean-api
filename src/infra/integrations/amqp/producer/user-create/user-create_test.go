@@ -2,8 +2,8 @@ package usercreateproducer
 
 import (
 	"encoding/json"
+	"go-api/src/core/ports"
 	types_client "go-api/src/infra/integrations/amqp/client/types"
-	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,7 +23,7 @@ func (mock *MockAmqpClient) Publish(body []byte, config types_client.ConfigAmqpC
 func Test_User_Create_Producer(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mac := new(MockAmqpClient)
-		dto := create_dto.CreateDto{
+		dto := ports.CreateDto{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",

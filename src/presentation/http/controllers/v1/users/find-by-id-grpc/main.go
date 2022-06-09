@@ -7,21 +7,21 @@ import (
 )
 
 type (
-	createController struct {
+	findByIdGrpcController struct {
 		container *container.Container
 	}
 )
 
-func NewController(c *container.Container) controllers.Controller {
-	return &createController{c}
+func New(c *container.Container) controllers.Controller {
+	return &findByIdGrpcController{c}
 }
 
-func (createController *createController) LoadRoute() controllers.CreateRoute {
+func (findByIdGrpcController *findByIdGrpcController) LoadRoute() controllers.CreateRoute {
 	return controllers.CreateRoute{
 		PathRoot:    "/v1/grpc/users",
 		Method:      "get",
 		Path:        "/:id",
-		Handle:      createController.findById,
+		Handle:      findByIdGrpcController.findById,
 		Middlewares: []controllers.Middleware{middlewares.Log},
 	}
 }

@@ -5,25 +5,25 @@ import (
 )
 
 func StartApp() {
-	server, err := New()
+	app, err := New()
 
 	if err != nil {
 		log.Fatal("failed to create a server", err)
 		return
 	}
 
-	err = server.db.ConnectToDabase()
+	err = app.db.ConnectToDabase()
 
 	if err != nil {
 		log.Fatal("failed to create to the database", err)
 		return
 	}
 
-	defer server.db.CloseDB()
+	defer app.db.CloseDB()
 
-	servers := server.Setup()
+	server := app.Setup()
 
-	servers.http.Start()
+	server.http.Start()
 
 	if err != nil {
 		log.Fatal("failed to serve the api", err)

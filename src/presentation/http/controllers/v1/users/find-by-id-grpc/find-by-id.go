@@ -5,10 +5,10 @@ import (
 	ports_http "go-api/src/presentation/http/ports"
 )
 
-func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
+func (findByIdGrpcController *findByIdGrpcController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
 	id := req.Params.Get("id")
 
-	user, err := createController.container.GetUserGrpcUseCase.GetUser(id)
+	user, err := findByIdGrpcController.container.GetUserGrpcUseCase.GetUser(id)
 
 	if err != nil {
 		if err == entity_user.ErrUserNotFound {

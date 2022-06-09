@@ -7,21 +7,21 @@ import (
 )
 
 type (
-	createController struct {
+	deleteController struct {
 		container *container.Container
 	}
 )
 
-func NewController(c *container.Container) controllers.Controller {
-	return &createController{c}
+func New(c *container.Container) controllers.Controller {
+	return &deleteController{c}
 }
 
-func (createController *createController) LoadRoute() controllers.CreateRoute {
+func (deleteController *deleteController) LoadRoute() controllers.CreateRoute {
 	return controllers.CreateRoute{
 		PathRoot:    "/v1/users",
 		Method:      "delete",
 		Path:        "/:id",
-		Handle:      createController.deleteById,
+		Handle:      deleteController.deleteById,
 		Middlewares: []controllers.Middleware{middlewares.Log},
 	}
 }

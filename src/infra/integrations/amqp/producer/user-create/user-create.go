@@ -2,11 +2,11 @@ package usercreateproducer
 
 import (
 	"encoding/json"
+	"go-api/src/core/ports"
 	typesclient "go-api/src/infra/integrations/amqp/client/types"
-	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
 )
 
-func (ucp *userCreateProducer) CreateUser(dto create_dto.CreateDto) error {
+func (ucp *userCreateProducer) CreateUser(dto ports.CreateDto) error {
 	config := typesclient.ConfigAmqpClient{
 		Exchange:    ucp.exchange,
 		Routing_key: ucp.routing_key,

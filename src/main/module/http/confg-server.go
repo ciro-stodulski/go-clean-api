@@ -12,10 +12,10 @@ import (
 
 func loadControllers(container *container.Container) []controllers.Controller {
 	return []controllers.Controller{
-		v1_user.NewController(container),
-		v1_user_grpc.NewController((container)),
-		v1_user_create.NewController(container),
-		v1_user_delete.NewController(container),
+		v1_user.New(container),
+		v1_user_grpc.New((container)),
+		v1_user_create.New(container),
+		v1_user_delete.New(container),
 	}
 }
 

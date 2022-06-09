@@ -8,7 +8,7 @@ import (
 type IAmqpServer interface {
 	New(c *container.Container) IAmqpServer
 	Start()
-	StartConsumers(container []consumer.Comsumer, i int)
+	StartConsumers(c []consumer.Comsumer, i int)
 	NeedToReconnect(err error, msg string)
 	LoadConsumers(c *container.Container) []consumer.Comsumer
 }

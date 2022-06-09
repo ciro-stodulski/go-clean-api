@@ -1,4 +1,4 @@
-package cache_client
+package client
 
 type CacheClient interface {
 	Set(key string, value string, timeEx int) error

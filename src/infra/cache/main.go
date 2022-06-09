@@ -1,8 +1,7 @@
-package redis
+package client
 
 import (
 	"context"
-	cache_client "go-api/src/main/module/cache"
 	"log"
 	"os"
 	"time"
@@ -15,7 +14,7 @@ type redisClient struct {
 	ctx   context.Context
 }
 
-func New() cache_client.CacheClient {
+func New() CacheClient {
 	var ctx = context.Background()
 
 	rdb := redis.NewClient(&redis.Options{
