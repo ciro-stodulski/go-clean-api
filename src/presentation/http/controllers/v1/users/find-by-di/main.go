@@ -7,21 +7,21 @@ import (
 )
 
 type (
-	createController struct {
+	findByIdController struct {
 		container *container.Container
 	}
 )
 
-func NewController(c *container.Container) controllers.Controller {
-	return &createController{c}
+func New(c *container.Container) controllers.Controller {
+	return &findByIdController{c}
 }
 
-func (createController *createController) LoadRoute() controllers.CreateRoute {
+func (findByIdController *findByIdController) LoadRoute() controllers.CreateRoute {
 	return controllers.CreateRoute{
 		PathRoot:    "/v1/users",
 		Method:      "get",
 		Path:        "/:id",
-		Handle:      createController.findById,
+		Handle:      findByIdController.findById,
 		Middlewares: []controllers.Middleware{middlewares.Log},
 	}
 }

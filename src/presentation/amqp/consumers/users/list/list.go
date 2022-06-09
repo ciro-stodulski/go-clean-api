@@ -4,12 +4,12 @@ import (
 	ports_amqp "go-api/src/presentation/amqp/ports"
 )
 
-func (findByIdConsumer *listConsumer) MessageHandler(msg ports_amqp.Message) error {
+func (lc *listConsumer) MessageHandler(msg ports_amqp.Message) (err error) {
 
-	findByIdConsumer.container.ListUsersUseCase.ListUsers()
-	return nil
+	lc.container.ListUsersUseCase.ListUsers()
+	return
 }
 
-func (findByIdConsumer *listConsumer) OnConsumerError(err error) error {
+func (lc *listConsumer) OnConsumerError(err error) error {
 	return err
 }

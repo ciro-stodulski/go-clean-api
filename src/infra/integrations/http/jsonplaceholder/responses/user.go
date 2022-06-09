@@ -1,4 +1,4 @@
-package response_jsonplaceholder
+package response
 
 type User struct {
 	Id       int     `json:"id"`

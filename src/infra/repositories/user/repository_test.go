@@ -10,7 +10,7 @@ import (
 )
 
 func newMockUser() *entity.User {
-	user, _ := entity.NewUser("test@test", "test123", "test")
+	user, _ := entity.New("test@test", "test123", "test")
 	return user
 }
 

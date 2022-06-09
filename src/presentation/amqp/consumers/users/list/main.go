@@ -11,17 +11,17 @@ type listConsumer struct {
 	schema    interface{}
 }
 
-func NewConsumer(container *container.Container) comsumer.Comsumer {
+func NewConsumer(c *container.Container) comsumer.Comsumer {
 	return &listConsumer{
-		container: container,
+		container: c,
 		queue:     "list.user",
 	}
 }
 
-func (findByIdConsumer *listConsumer) GetQueue() string {
-	return findByIdConsumer.queue
+func (lc *listConsumer) GetQueue() string {
+	return lc.queue
 }
 
-func (findByIdConsumer *listConsumer) GetSchema() interface{} {
-	return findByIdConsumer.schema
+func (lc *listConsumer) GetSchema() interface{} {
+	return lc.schema
 }

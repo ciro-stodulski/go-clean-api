@@ -1,14 +1,14 @@
 package v1_user_create
 
 import (
-	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
+	"go-api/src/core/ports"
 	ports_http "go-api/src/presentation/http/ports"
 
 	"github.com/mitchellh/mapstructure"
 )
 
 func (createController *createController) create(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
-	dto := create_dto.CreateDto{}
+	dto := ports.CreateDto{}
 	mapstructure.Decode(req.Body, &dto)
 
 	err := createController.container.CreateUserProducerUseCase.CreateUser(dto)

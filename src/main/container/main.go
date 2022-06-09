@@ -1,12 +1,12 @@
 package container
 
 import (
-	create_user_use_case "go-api/src/core/useCases/create-user"
-	create_user_producer_use_case "go-api/src/core/useCases/create-user-producer"
-	delete_user "go-api/src/core/useCases/delete-user"
-	get_user_use_case "go-api/src/core/useCases/get-user"
-	get_user_grpc "go-api/src/core/useCases/get-user-grpc"
-	list_users "go-api/src/core/useCases/list-user"
+	create_user_use_case "go-api/src/core/use-case/create-user"
+	create_user_producer_use_case "go-api/src/core/use-case/create-user-producer"
+	delete_user "go-api/src/core/use-case/delete-user"
+	get_user_use_case "go-api/src/core/use-case/get-user"
+	get_user_grpc "go-api/src/core/use-case/get-user-grpc"
+	list_users "go-api/src/core/use-case/list-user"
 	"os"
 
 	users_cache "go-api/src/infra/cache/users"
@@ -14,12 +14,12 @@ import (
 	json_place_holder "go-api/src/infra/integrations/http/jsonplaceholder"
 	model_user "go-api/src/infra/repositories/user"
 
+	cache_client "go-api/src/infra/cache"
+	amqp_client "go-api/src/infra/integrations/amqp/client"
 	grpc_client "go-api/src/infra/integrations/grpc/client"
 	find_user_service "go-api/src/infra/integrations/grpc/user/get-user"
 	"go-api/src/infra/integrations/grpc/user/get-user/pb"
-	amqp_client "go-api/src/main/module/amqp/rabbitmq/client"
-	cache_client "go-api/src/main/module/cache/redis"
-	http_service "go-api/src/main/module/http/client"
+	http_service "go-api/src/infra/integrations/http/client"
 
 	"github.com/jinzhu/gorm"
 )
@@ -39,44 +39,39 @@ type (
 	}
 )
 
-func NewContainerConfig(db *gorm.DB) *ContainerConfig {
+func NewConfig(db *gorm.DB) *ContainerConfig {
 	return &ContainerConfig{db}
 }
 
-func NewContainer(container_config *ContainerConfig) *Container {
-	//grpc injection
+func New(container_config *ContainerConfig) *Container {
 	grpc_client := grpc_client.New()
 	find_user_service := find_user_service.New(
 		pb.NewGetUserServiceClient(
 			grpc_client.GetConnection(
 				os.Getenv("FIND_USER_SERVICE_URL"))))
 
-	//amqp injection
 	amqp_client := amqp_client.New()
-	create_user_amqp := create_user_amqp.NewProdocer(amqp_client)
+	create_user_amqp := create_user_amqp.New(amqp_client)
 
-	//integration injection
 	http_service := http_service.New()
 	json_place_holder_integration := json_place_holder.New(http_service)
 
-	//db injection
 	user_repository := model_user.NewUserRepository(container_config.Database)
 
-	//cache injection
 	cache_client := cache_client.New()
 	users_cache := users_cache.New(cache_client)
 
 	return &Container{
-		GetUserGrpcUseCase: get_user_grpc.NewUseCase(find_user_service),
-		GetUserUseCase: get_user_use_case.NewUseCase(
+		GetUserGrpcUseCase: get_user_grpc.New(find_user_service),
+		GetUserUseCase: get_user_use_case.New(
 			user_repository,
 			json_place_holder_integration,
 		),
-		CreateUserUseCase: create_user_use_case.NewUseCase(
+		CreateUserUseCase: create_user_use_case.New(
 			user_repository,
 		),
-		DeleteUserUseCase:         delete_user.NewUseCase(user_repository),
-		ListUsersUseCase:          list_users.NewUseCase(json_place_holder_integration, users_cache),
-		CreateUserProducerUseCase: create_user_producer_use_case.NewUseCase(create_user_amqp),
+		DeleteUserUseCase:         delete_user.New(user_repository),
+		ListUsersUseCase:          list_users.New(json_place_holder_integration, users_cache),
+		CreateUserProducerUseCase: create_user_producer_use_case.New(create_user_amqp),
 	}
 }

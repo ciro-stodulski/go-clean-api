@@ -1,4 +1,4 @@
-package response_jsonplaceholder
+package response
 
 type Address struct {
 	Street  string `json:"street"`

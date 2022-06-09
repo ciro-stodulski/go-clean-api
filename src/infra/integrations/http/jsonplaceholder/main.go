@@ -2,7 +2,7 @@ package jsonplaceholder
 
 import (
 	ports "go-api/src/core/ports"
-	http_service "go-api/src/main/module/http/client"
+	http_service "go-api/src/infra/integrations/http/client"
 	"os"
 )
 

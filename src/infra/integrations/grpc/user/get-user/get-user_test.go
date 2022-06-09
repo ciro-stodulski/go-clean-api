@@ -1,4 +1,4 @@
-package get_user_service
+package getuserservice
 
 import (
 	"context"
@@ -14,8 +14,8 @@ type MockService struct {
 	mock.Mock
 }
 
-func (mock *MockService) GetUser(context context.Context, pbm *pb.NewRequestGetUser, op ...grpc.CallOption) (*pb.NewResponseGetUser, error) {
-	arg := mock.Called(context, pbm, "test")
+func (mock *MockService) GetUser(c context.Context, pbm *pb.NewRequestGetUser, op ...grpc.CallOption) (*pb.NewResponseGetUser, error) {
+	arg := mock.Called(c, pbm, "test")
 	result := arg.Get(0)
 	return result.(*pb.NewResponseGetUser), arg.Error(1)
 }
@@ -43,9 +43,9 @@ func Test_GetUserService_GetUser(t *testing.T) {
 
 		mockService.On("GetUser", ctx, request, "test").Return(userMock, nil)
 
-		testService := New(mockService)
+		s := New(mockService)
 
-		result, err := testService.GetUser(userMock.Customer.ID)
+		result, err := s.GetUser(userMock.Customer.ID)
 
 		assert.Nil(t, err)
 		assert.NotNil(t, result)

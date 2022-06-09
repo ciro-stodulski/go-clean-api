@@ -22,16 +22,16 @@ func New(c container.Container) cronjob.CronJob {
 	}
 }
 
-func (listUserJob *listUserJob) Start() {
-	listUserJob.Cron.AddFunc("1 * * * *", func() {
+func (luj *listUserJob) Start() {
+	luj.Cron.AddFunc("1 * * * *", func() {
 		log.Default().Print("### job ListUsers started ###")
-		listUserJob.container.ListUsersUseCase.ListUsers()
+		luj.container.ListUsersUseCase.ListUsers()
 		log.Default().Print("### job ListUsers finishid ###")
 	})
 
-	listUserJob.Cron.Start()
+	luj.Cron.Start()
 }
 
-func (listUserJob *listUserJob) Stop() {
-	listUserJob.Cron.Stop()
+func (luj *listUserJob) Stop() {
+	luj.Cron.Stop()
 }

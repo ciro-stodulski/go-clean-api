@@ -1,4 +1,4 @@
-package response_jsonplaceholder
+package response
 
 type Company struct {
 	Name        string `json:"name"`

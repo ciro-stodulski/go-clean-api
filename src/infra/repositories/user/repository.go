@@ -25,23 +25,23 @@ func InitMigrate(db *gorm.DB) {
 	db.AutoMigrate(&entity.User{})
 }
 
-func (repository *repositoryUser) GetById(id entity_root.ID) (user *entity.User, er error) {
+func (ru *repositoryUser) GetById(id entity_root.ID) (user *entity.User, er error) {
 	user = &entity.User{}
-	repository.db.First(user, "id = ?", id)
+	ru.db.First(user, "id = ?", id)
 	return
 }
 
-func (repository *repositoryUser) GetByEmail(email string) (user *entity.User, er error) {
+func (ru *repositoryUser) GetByEmail(email string) (user *entity.User, er error) {
 	user = &entity.User{}
-	repository.db.First(user, "email = ?", email)
+	ru.db.First(user, "email = ?", email)
 	return
 }
 
-func (repository *repositoryUser) Create(user *entity.User) {
-	repository.db.Create(user)
+func (ru *repositoryUser) Create(user *entity.User) {
+	ru.db.Create(user)
 }
 
-func (repository *repositoryUser) DeleteById(id entity_root.ID) (er error) {
-	repository.db.Where("id = ?", id).Delete(&entity.User{})
+func (ru *repositoryUser) DeleteById(id entity_root.ID) (er error) {
+	ru.db.Where("id = ?", id).Delete(&entity.User{})
 	return
 }

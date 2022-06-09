@@ -2,8 +2,8 @@ package v1_user_create
 
 import (
 	"errors"
+	"go-api/src/core/ports"
 	"go-api/src/main/container"
-	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
 	ports_http "go-api/src/presentation/http/ports"
 	"testing"
 
@@ -15,7 +15,7 @@ type MockUserCase struct {
 	mock.Mock
 }
 
-func (mock *MockUserCase) CreateUser(dto create_dto.CreateDto) error {
+func (mock *MockUserCase) CreateUser(dto ports.CreateDto) error {
 	arg := mock.Called(dto)
 	return arg.Error(0)
 }
@@ -24,7 +24,7 @@ func Test_Consumer_User_Create(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mockUse := new(MockUserCase)
 
-		dto := create_dto.CreateDto{
+		dto := ports.CreateDto{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",
@@ -32,7 +32,7 @@ func Test_Consumer_User_Create(t *testing.T) {
 
 		mockUse.On("CreateUser", dto).Return(nil)
 
-		testService := NewController(&container.Container{
+		testService := New(&container.Container{
 			CreateUserProducerUseCase: mockUse,
 		})
 
@@ -50,7 +50,7 @@ func Test_Consumer_User_Create(t *testing.T) {
 	t.Run("internal error", func(t *testing.T) {
 		mockUse := new(MockUserCase)
 
-		dto := create_dto.CreateDto{
+		dto := ports.CreateDto{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",
@@ -58,7 +58,7 @@ func Test_Consumer_User_Create(t *testing.T) {
 
 		mockUse.On("CreateUser", dto).Return(errors.New(""))
 
-		testService := NewController(&container.Container{
+		testService := New(&container.Container{
 			CreateUserProducerUseCase: mockUse,
 		})
 

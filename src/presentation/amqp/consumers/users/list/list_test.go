@@ -18,17 +18,17 @@ func (mock *MockUserCase) ListUsers() {
 	mock.Called()
 }
 
-func Test_Consumer_User_Create(t *testing.T) {
+func Test_Consumer_List(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mockRepo := new(MockUserCase)
 
 		mockRepo.On("ListUsers").Return(nil)
 
-		testService := NewConsumer(&container.Container{
+		consumer := NewConsumer(&container.Container{
 			ListUsersUseCase: mockRepo,
 		})
 
-		err := testService.MessageHandler(ports_amqp.Message{Body: nil})
+		err := consumer.MessageHandler(ports_amqp.Message{Body: nil})
 
 		assert.Nil(t, err)
 		mockRepo.AssertCalled(t, "ListUsers")

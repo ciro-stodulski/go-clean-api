@@ -1,4 +1,4 @@
-package response_jsonplaceholder
+package response
 
 type Geo struct {
 	Lat string `json:"lat"`

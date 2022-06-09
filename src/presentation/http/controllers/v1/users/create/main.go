@@ -1,9 +1,9 @@
 package v1_user_create
 
 import (
+	"go-api/src/core/ports"
 	"go-api/src/main/container"
 	controllers "go-api/src/presentation/http/controllers"
-	create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
 )
 
 type (
@@ -12,7 +12,7 @@ type (
 	}
 )
 
-func NewController(c *container.Container) controllers.Controller {
+func New(c *container.Container) controllers.Controller {
 	return &createController{c}
 }
 
@@ -22,6 +22,6 @@ func (createController *createController) LoadRoute() controllers.CreateRoute {
 		Method:   "post",
 		Path:     "/",
 		Handle:   createController.create,
-		Dto:      create_dto.CreateDto{},
+		Dto:      ports.CreateDto{},
 	}
 }

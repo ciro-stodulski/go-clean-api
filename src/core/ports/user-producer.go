@@ -1,9 +1,12 @@
 package ports
 
-import create_dto "go-api/src/presentation/http/controllers/v1/users/create/dto"
-
 type (
+	CreateDto struct {
+		Name     string `json:"name"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
 	UserProducer interface {
-		CreateUser(dto create_dto.CreateDto) error
+		CreateUser(dto CreateDto) error
 	}
 )

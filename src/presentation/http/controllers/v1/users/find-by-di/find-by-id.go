@@ -5,10 +5,10 @@ import (
 	ports_http "go-api/src/presentation/http/ports"
 )
 
-func (createController *createController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
+func (findByIdController *findByIdController) findById(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError) {
 	id := req.Params.Get("id")
 
-	user, err := createController.container.GetUserUseCase.GetUser(id)
+	u, err := findByIdController.container.GetUserUseCase.GetUser(id)
 	if err != nil {
 		if err == entity_user.ErrUserNotFound {
 			return nil, &ports_http.HttpResponseError{
@@ -30,7 +30,7 @@ func (createController *createController) findById(req ports_http.HttpRequest) (
 	} else {
 
 		return &ports_http.HttpResponse{
-			Data:   user,
+			Data:   u,
 			Status: 200,
 		}, nil
 	}

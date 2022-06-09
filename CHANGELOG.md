@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- refectory clean architecture in project
+- refectory naming pattern in project
+
 ## [2.2.1]
 
 - fix refactoring integrations folders

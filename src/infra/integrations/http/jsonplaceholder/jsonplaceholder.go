@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 )
 
-func (intergration *JsonPlaceholderIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
-	response, err := intergration.Http.Get(intergration.rootUrl + "/users")
+func (jpi *JsonPlaceholderIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
+	response, err := jpi.Http.Get(jpi.rootUrl + "/users")
 
 	if err != nil {
 		log.Default().Printf("Error %s", err)
@@ -16,12 +16,12 @@ func (intergration *JsonPlaceholderIntegration) GetUsers() ([]response_jsonplace
 		return nil, err
 	}
 
-	var users []response_jsonplaceholder.User
-	err = json.Unmarshal(response, &users)
+	var us []response_jsonplaceholder.User
+	err = json.Unmarshal(response, &us)
 
 	if err != nil {
 		panic(err)
 	}
 
-	return users, nil
+	return us, nil
 }

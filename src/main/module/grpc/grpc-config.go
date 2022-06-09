@@ -3,11 +3,11 @@ package grpc
 import (
 	"go-api/src/main/container"
 	finduserservice "go-api/src/presentation/grpc/services/user/find-user"
-	"go-api/src/presentation/grpc/services/user/find-user/pb"
+	"go-api/src/presentation/grpc/services/user/pb"
 	"log"
 )
 
-func (server *GRPCServer) LoadServices(container *container.Container) {
-	pb.RegisterFindUserServiceServer(server.Engine, finduserservice.NewService(container))
+func (s *GRPCServer) LoadServices(c *container.Container) {
+	pb.RegisterFindUserServiceServer(s.Engine, finduserservice.New(c))
 	log.Default().Print("gRPC: Services registered")
 }
