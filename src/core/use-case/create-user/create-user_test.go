@@ -3,7 +3,7 @@ package createuserusecase
 import (
 	entity "go-api/src/core/entities"
 	user "go-api/src/core/entities/user"
-	create_dto "go-api/src/presentation/amqp/consumers/users/create/dto"
+	create_dto "go-api/src/interface/amqp/consumers/users/create/dto"
 	"testing"
 
 	"github.com/google/uuid"

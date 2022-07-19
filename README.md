@@ -41,14 +41,14 @@ docker-compose up
 
 ### protoc command
 
-[--proto_path=] path where is proto [src/presentation/grpc/services/user/find-user/proto,src/presentation/grpc/services/user/find-user/proto/find-user.proto]
+[--proto_path=] path where is proto [src/interface/grpc/services/user/find-user/proto,src/interface/grpc/services/user/find-user/proto/find-user.proto]
 
-[--go_out=] where proto buffer will be to create [plugins=grpc:src/presentation/grpc/services/user/find-user/pb]
+[--go_out=] where proto buffer will be to create [plugins=grpc:src/interface/grpc/services/user/find-user/pb]
 
 exe: 
 
 ```bash
-protoc --proto_path=src/presentation/grpc/services/user/find-user/proto src/presentation/grpc/services/user/find-user/proto/find-user.proto --go_out=plugins=grpc:src/presentation/grpc/services/user/find-user/pb
+protoc --proto_path=src/interface/grpc/services/user/find-user/proto src/interface/grpc/services/user/find-user/proto/find-user.proto --go_out=plugins=grpc:src/interface/grpc/services/user/find-user/pb
 ```
 
 *program not found or is not executable*

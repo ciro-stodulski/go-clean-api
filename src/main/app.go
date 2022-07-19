@@ -2,11 +2,11 @@ package app
 
 import (
 	"go-api/src/main/container"
-	rabbitmq "go-api/src/main/module/amqp/server"
-	database "go-api/src/main/module/db/mysql"
-	grpc_server "go-api/src/main/module/grpc"
-	http_server "go-api/src/main/module/http"
-	"go-api/src/main/module/work"
+	rabbitmq "go-api/src/main/modules/amqp/server"
+	database "go-api/src/main/modules/db/mysql"
+	grpc_server "go-api/src/main/modules/grpc"
+	http_server "go-api/src/main/modules/http"
+	"go-api/src/main/modules/work"
 	env "go-api/src/shared/env"
 )
 
