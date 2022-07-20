@@ -20,6 +20,16 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go-v2 v1.8.1 // indirect
+	github.com/aws/aws-sdk-go-v2/config v1.6.1 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.3.3 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.4.1 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.2.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.2.3 // indirect
+	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.5.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.3.3 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.6.2 // indirect
+	github.com/aws/smithy-go v1.7.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/denisenkom/go-mssqldb v0.9.0 // indirect
@@ -39,6 +49,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect
+	github.com/thrcorrea/envloader v1.0.0 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	golang.org/x/net v0.0.0-20210505214959-0714010a04ed // indirect
 	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect

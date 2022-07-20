@@ -3,9 +3,9 @@ package http_server
 import (
 	"go-api/src/main/container"
 	ports_http "go-api/src/presentation/http/ports"
+	"go-api/src/shared/env"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +17,7 @@ type HttpServer struct {
 func (server *HttpServer) Start() error {
 	log.Default().Print("Http: Server started with succeffully")
 
-	return server.Engine.Run(os.Getenv("HOST_HTTP") + ":" + os.Getenv("HOST_PORT"))
+	return server.Engine.Run(env.Env().HostHttp + ":" + env.Env().HostPort)
 }
 
 func (server *HttpServer) New(container *container.Container) {

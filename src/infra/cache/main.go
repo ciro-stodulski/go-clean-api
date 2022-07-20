@@ -2,8 +2,8 @@ package client
 
 import (
 	"context"
+	"go-api/src/shared/env"
 	"log"
-	"os"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -18,7 +18,7 @@ func New() CacheClient {
 	var ctx = context.Background()
 
 	rdb := redis.NewClient(&redis.Options{
-		Addr: os.Getenv("REDIS_HOST") + ":" + os.Getenv("REDIS_PORT"),
+		Addr: env.Env().RedisHost + ":" + env.Env().RedisPort,
 	})
 
 	err := rdb.Set(ctx, "key", "value", 0).Err()

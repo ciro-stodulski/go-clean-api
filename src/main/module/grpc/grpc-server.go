@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"go-api/src/main/container"
+	"go-api/src/shared/env"
 	"log"
 	"net"
 
@@ -23,13 +24,13 @@ func (grpcs *GRPCServer) Start() {
 
 	reflection.Register(grpcs.Engine)
 
-	server, err := net.Listen("tcp", ":50054")
+	server, err := net.Listen("tcp", ":"+env.Env().GrpcServerPort)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Default().Print("gRPC: Started with succeffully")
+	log.Default().Print("gRPC: Started with succeffully in port: " + env.Env().GrpcServerPort)
 
 	if err := grpcs.Engine.Serve(server); err != nil {
 		log.Default().Print("Failed to start gRPC server", err)

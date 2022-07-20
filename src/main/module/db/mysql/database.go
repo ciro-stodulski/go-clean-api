@@ -1,6 +1,7 @@
 package database
 
 import (
+	"go-api/src/shared/env"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -23,7 +24,7 @@ func (database *Database) ConnectToDabase() error {
 
 	database.Db = db
 
-	log.Default().Print("connection db with succeffully")
+	log.Default().Print(env.Env().DBDrive + ": Connection db with succeffully")
 
 	LoadMigrationByRepositores(db)
 

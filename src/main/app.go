@@ -7,9 +7,7 @@ import (
 	grpc_server "go-api/src/main/module/grpc"
 	http_server "go-api/src/main/module/http"
 	"go-api/src/main/module/work"
-	"log"
-
-	"github.com/joho/godotenv"
+	env "go-api/src/shared/env"
 )
 
 type Server struct {
@@ -37,14 +35,11 @@ func (server *Server) Setup() *Server {
 
 func New() (server *Server, err error) {
 	server = &Server{}
+
 	InitEnvs()
 	return
 }
 
 func InitEnvs() {
-	err := godotenv.Load(".env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+	env.Load()
 }

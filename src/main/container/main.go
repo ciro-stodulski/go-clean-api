@@ -7,7 +7,7 @@ import (
 	get_user_use_case "go-api/src/core/use-case/get-user"
 	get_user_grpc "go-api/src/core/use-case/get-user-grpc"
 	list_users "go-api/src/core/use-case/list-user"
-	"os"
+	"go-api/src/shared/env"
 
 	users_cache "go-api/src/infra/cache/users"
 	create_user_amqp "go-api/src/infra/integrations/amqp/producer/user-create"
@@ -48,7 +48,7 @@ func New(container_config *ContainerConfig) *Container {
 	find_user_service := find_user_service.New(
 		pb.NewGetUserServiceClient(
 			grpc_client.GetConnection(
-				os.Getenv("FIND_USER_SERVICE_URL"))))
+				env.Environment{}.FindUserServiceUrl)))
 
 	amqp_client := amqp_client.New()
 	create_user_amqp := create_user_amqp.New(amqp_client)

@@ -2,38 +2,15 @@ package database
 
 import (
 	"fmt"
-	"os"
+	"go-api/src/shared/env"
 	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
-type DbConfig struct {
-	Driver   string
-	Schema   string
-	Host     string
-	Port     int
-	Username string
-	Password string
-	Pool     struct {
-		Min uint8
-		Max uint8
-	}
-}
-
 func GetDatabase() (*gorm.DB, error) {
-	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
-
-	dbConfig := &DbConfig{
-		Username: os.Getenv("DB_USER"),
-		Password: os.Getenv("DB_PASSWORD"),
-		Host:     os.Getenv("DB_HOST"),
-		Port:     port,
-		Driver:   os.Getenv("DB_DRIVE"),
-	}
-
-	database, err := gorm.Open(dbConfig.Driver, mountConnectionString()+"&parseTime=true")
+	database, err := gorm.Open(env.Env().DBDrive, mountConnectionString()+"&parseTime=true")
 
 	if err == nil {
 		err = database.DB().Ping()
@@ -43,14 +20,14 @@ func GetDatabase() (*gorm.DB, error) {
 }
 
 func mountConnectionString() string {
-	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+	port, _ := strconv.Atoi(env.Env().DBPort)
 
 	return fmt.Sprintf(
 		"%s:%s@(%s:%d)/%s?charset=utf8",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
+		env.Env().DBUser,
+		env.Env().DBPassword,
+		env.Env().DBHost,
 		port,
-		os.Getenv("DB_SCHEMA"),
+		env.Env().DBSchema,
 	)
 }
