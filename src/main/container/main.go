@@ -21,6 +21,8 @@ import (
 	"go-api/src/infra/integrations/grpc/user/get-user/pb"
 	http_service "go-api/src/infra/integrations/http/client"
 
+	database "go-api/src/main/modules/db/mysql"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -39,11 +41,11 @@ type (
 	}
 )
 
-func NewConfig(db *gorm.DB) *ContainerConfig {
-	return &ContainerConfig{db}
-}
+var db database.Database
 
-func New(container_config *ContainerConfig) *Container {
+func New() *Container {
+	db.ConnectToDatabase()
+
 	grpc_client := grpc_client.New()
 	find_user_service := find_user_service.New(
 		pb.NewGetUserServiceClient(
@@ -56,7 +58,7 @@ func New(container_config *ContainerConfig) *Container {
 	http_service := http_service.New()
 	json_place_holder_integration := json_place_holder.New(http_service)
 
-	user_repository := model_user.NewUserRepository(container_config.Database)
+	user_repository := model_user.NewUserRepository(db.Db)
 
 	cache_client := cache_client.New()
 	users_cache := users_cache.New(cache_client)

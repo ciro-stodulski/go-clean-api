@@ -15,9 +15,8 @@ func (database *Database) CloseDB() {
 	database.Db.Close()
 }
 
-func (database *Database) ConnectToDabase() error {
+func (database *Database) ConnectToDatabase() error {
 	db, err := GetDatabase()
-
 	if err != nil {
 		return err
 	}

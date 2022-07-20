@@ -4,6 +4,7 @@ import (
 	cronjob "go-api/src/infra/cron-job"
 	listusers_job "go-api/src/infra/cron-job/list-users"
 	"go-api/src/main/container"
+	"go-api/src/main/modules"
 	"log"
 	"strconv"
 )
@@ -13,7 +14,7 @@ type work struct {
 	Count int
 }
 
-func New(c *container.Container) Work {
+func New(c *container.Container) modules.Module {
 	jobs := []cronjob.CronJob{listusers_job.New(*c)}
 
 	return &work{
@@ -22,15 +23,17 @@ func New(c *container.Container) Work {
 	}
 }
 
-func (work *work) StartCrons() {
+func (work *work) Start() error {
 	for _, job := range work.Jobs {
 		job.Start()
 	}
 
 	log.Default().Print("Jobs started:" + strconv.Itoa(work.Count))
+
+	return nil
 }
 
-func (work *work) StopCrons() {
+func (work *work) Stop() {
 	for _, job := range work.Jobs {
 		job.Stop()
 	}

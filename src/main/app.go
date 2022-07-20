@@ -2,44 +2,33 @@ package app
 
 import (
 	"go-api/src/main/container"
-	rabbitmq "go-api/src/main/modules/amqp/server"
-	database "go-api/src/main/modules/db/mysql"
-	grpc_server "go-api/src/main/modules/grpc"
-	http_server "go-api/src/main/modules/http"
+	"go-api/src/main/modules/amqp"
+	"go-api/src/main/modules/grpc"
+	"go-api/src/main/modules/http"
 	"go-api/src/main/modules/work"
-	env "go-api/src/shared/env"
+	"go-api/src/shared/env"
 )
 
-type Server struct {
-	Container *container.Container
-	http      http_server.HttpServer
-	db        database.Database
-	amqp      rabbitmq.RabbitMq
-	grpc      grpc_server.GRPCServer
+type App struct {
 }
 
-func (server *Server) Setup() *Server {
-	server.Container = container.New(
-		container.NewConfig(server.db.Db),
-	)
+func (server *App) start() error {
+	c := container.New()
 
-	work.New(server.Container).StartCrons()
+	go amqp.New(c).Start()
+	go grpc.New(c).Start()
+	work.New(c).Start()
+	http.New(c).Start()
 
-	go server.amqp.New(server.Container).Start()
-	go server.grpc.New(server.Container).Start()
-
-	server.http.New(server.Container)
-
-	return server
+	return nil
 }
 
-func New() (server *Server, err error) {
-	server = &Server{}
-
-	InitEnvs()
-	return
-}
-
-func InitEnvs() {
+func New() error {
 	env.Load()
+
+	server := &App{}
+
+	err := server.start()
+
+	return err
 }

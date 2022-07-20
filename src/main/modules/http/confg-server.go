@@ -1,4 +1,4 @@
-package http_server
+package http
 
 import (
 	controllers "go-api/src/interface/http/controllers"

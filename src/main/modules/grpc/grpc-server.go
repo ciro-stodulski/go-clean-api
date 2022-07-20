@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"go-api/src/main/container"
+	"go-api/src/main/modules"
 	"go-api/src/shared/env"
 	"log"
 	"net"
@@ -15,11 +16,11 @@ type GRPCServer struct {
 	container *container.Container
 }
 
-func (server *GRPCServer) New(c *container.Container) IGrpcServer {
+func New(c *container.Container) modules.Module {
 	return &GRPCServer{container: c, Engine: grpc.NewServer()}
 }
 
-func (grpcs *GRPCServer) Start() {
+func (grpcs *GRPCServer) Start() error {
 	grpcs.LoadServices(grpcs.container)
 
 	reflection.Register(grpcs.Engine)
@@ -35,4 +36,8 @@ func (grpcs *GRPCServer) Start() {
 	if err := grpcs.Engine.Serve(server); err != nil {
 		log.Default().Print("Failed to start gRPC server", err)
 	}
+
+	return err
 }
+
+func (grpcs *GRPCServer) Stop() {}

@@ -1,8 +1,9 @@
-package http_server
+package http
 
 import (
 	ports_http "go-api/src/interface/http/ports"
 	"go-api/src/main/container"
+	"go-api/src/main/modules"
 	"go-api/src/shared/env"
 	"log"
 	"net/http"
@@ -10,17 +11,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type HttpServer struct {
+type httpServer struct {
 	Engine *gin.Engine
 }
 
-func (server *HttpServer) Start() error {
+func (server *httpServer) Start() error {
 	log.Default().Print("Http: Server started with succeffully")
 
 	return server.Engine.Run(env.Env().HostHttp + ":" + env.Env().HostPort)
 }
 
-func (server *HttpServer) New(container *container.Container) {
+func (server *httpServer) Stop() {
+}
+
+func New(container *container.Container) modules.Module {
+	server := &httpServer{}
+
 	gin.SetMode(gin.DebugMode)
 	server.Engine = gin.New()
 
@@ -52,4 +58,6 @@ func (server *HttpServer) New(container *container.Container) {
 	gin.SetMode(gin.ReleaseMode)
 
 	api.Use(gin.Recovery())
+
+	return server
 }

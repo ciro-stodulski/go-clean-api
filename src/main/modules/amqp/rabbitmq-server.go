@@ -1,10 +1,11 @@
-package rabbitmq
+package amqp
 
 import (
 	"encoding/json"
 	consumer_type "go-api/src/interface/amqp/consumers"
 	ports_amqp "go-api/src/interface/amqp/ports"
 	"go-api/src/main/container"
+	"go-api/src/main/modules"
 	amqp_helper "go-api/src/main/modules/amqp/helper"
 
 	"log"
@@ -13,16 +14,18 @@ import (
 	"github.com/streadway/amqp"
 )
 
-type RabbitMq struct {
+type rabbitMq struct {
 	container *container.Container
 	channel   *amqp.Channel
 }
 
-func (rabbit_mq *RabbitMq) New(container *container.Container) IAmqpServer {
-	return &RabbitMq{container: container}
+func New(container *container.Container) modules.Module {
+	return &rabbitMq{container: container}
 }
 
-func (rabbit_mq *RabbitMq) Start() {
+func (rabbit_mq *rabbitMq) Stop() {}
+
+func (rabbit_mq *rabbitMq) Start() error {
 	conn, err_connection := amqp.Dial(
 		amqp_helper.GetConnection(),
 	)
@@ -40,10 +43,12 @@ func (rabbit_mq *RabbitMq) Start() {
 	for i := 0; i < len(constumers); i++ {
 		go rabbit_mq.StartConsumers(constumers, i)
 	}
+
+	return err
 }
 
-func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, position int) {
-	queue, err := rabbit_mq.channel.QueueDeclare(
+func (rabbit_mq *rabbitMq) StartConsumers(constumers []consumer_type.Comsumer, position int) {
+	queue, err := rabbit_mq.channel.QueueDeclarePassive(
 		constumers[position].GetQueue(), // name
 		false,                           // durable
 		false,                           // delete when unused
@@ -51,6 +56,7 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 		false,                           // no-wait
 		nil,                             // arguments
 	)
+
 	failOnError(err, "Failed to declare a queue")
 
 	msgs, err := rabbit_mq.channel.Consume(
@@ -92,7 +98,7 @@ func (rabbit_mq *RabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 	}
 }
 
-func (rabbit_mq *RabbitMq) NeedToReconnect(err error, msg string) {
+func (rabbit_mq *rabbitMq) NeedToReconnect(err error, msg string) {
 	if err != nil {
 		log.Default().Printf("%s: %s", msg, err)
 		time.Sleep(2 * time.Second)
