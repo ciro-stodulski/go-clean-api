@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- create adapter and refactored in infra layer
 - refactored start app and refactored modules already created
 - renamed presentation for interface
 - added env validator
