@@ -23,6 +23,10 @@ func New(c *container.Container) modules.Module {
 	}
 }
 
+func (work *work) RunGo() bool {
+	return false
+}
+
 func (work *work) Start() error {
 	for _, job := range work.Jobs {
 		job.Start()

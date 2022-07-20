@@ -23,6 +23,10 @@ func New(container *container.Container) modules.Module {
 	return &rabbitMq{container: container}
 }
 
+func (rabbit_mq *rabbitMq) RunGo() bool {
+	return true
+}
+
 func (rabbit_mq *rabbitMq) Stop() {}
 
 func (rabbit_mq *rabbitMq) Start() error {

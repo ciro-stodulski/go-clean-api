@@ -20,6 +20,10 @@ func New(c *container.Container) modules.Module {
 	return &GRPCServer{container: c, Engine: grpc.NewServer()}
 }
 
+func (grpcs *GRPCServer) RunGo() bool {
+	return true
+}
+
 func (grpcs *GRPCServer) Start() error {
 	grpcs.LoadServices(grpcs.container)
 

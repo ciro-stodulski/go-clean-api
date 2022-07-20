@@ -2,6 +2,7 @@ package app
 
 import (
 	"go-api/src/main/container"
+	"go-api/src/main/modules"
 	"go-api/src/main/modules/amqp"
 	"go-api/src/main/modules/grpc"
 	"go-api/src/main/modules/http"
@@ -10,25 +11,38 @@ import (
 )
 
 type App struct {
+	modules []modules.Module
 }
 
-func (server *App) start() error {
-	c := container.New()
+func (app *App) start() error {
+	var err error
 
-	go amqp.New(c).Start()
-	go grpc.New(c).Start()
-	work.New(c).Start()
-	http.New(c).Start()
+	for i := 0; i < len(app.modules); i++ {
+		if app.modules[i].RunGo() {
+			go app.modules[i].Start()
+		} else {
+			err = app.modules[i].Start()
+		}
+	}
 
-	return nil
+	return err
 }
 
 func New() error {
 	env.Load()
 
-	server := &App{}
+	c := container.New()
 
-	err := server.start()
+	app := &App{
+		modules: []modules.Module{
+			amqp.New(c),
+			grpc.New(c),
+			work.New(c),
+			http.New(c),
+		},
+	}
+
+	err := app.start()
 
 	return err
 }

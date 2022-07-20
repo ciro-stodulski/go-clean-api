@@ -8,7 +8,7 @@ func Start() {
 	err := New()
 
 	if err != nil {
-		log.Fatal("failed to create a server", err)
+		log.Fatal("Failed to start app", err)
 		return
 	}
 }

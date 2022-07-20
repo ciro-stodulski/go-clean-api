@@ -24,6 +24,10 @@ func (server *httpServer) Start() error {
 func (server *httpServer) Stop() {
 }
 
+func (server *httpServer) RunGo() bool {
+	return false
+}
+
 func New(container *container.Container) modules.Module {
 	server := &httpServer{}
 
