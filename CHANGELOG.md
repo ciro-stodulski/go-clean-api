@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- refactored start app and refactored modules already created
+- renamed presentation for interface
 - added env validator
 - refectory clean architecture in project
 - refectory naming pattern in project

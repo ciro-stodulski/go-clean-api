@@ -2,44 +2,47 @@ package app
 
 import (
 	"go-api/src/main/container"
-	rabbitmq "go-api/src/main/module/amqp/server"
-	database "go-api/src/main/module/db/mysql"
-	grpc_server "go-api/src/main/module/grpc"
-	http_server "go-api/src/main/module/http"
-	"go-api/src/main/module/work"
-	env "go-api/src/shared/env"
+	"go-api/src/main/modules"
+	"go-api/src/main/modules/amqp"
+	"go-api/src/main/modules/grpc"
+	"go-api/src/main/modules/http"
+	"go-api/src/main/modules/work"
+	"go-api/src/shared/env"
 )
 
-type Server struct {
-	Container *container.Container
-	http      http_server.HttpServer
-	db        database.Database
-	amqp      rabbitmq.RabbitMq
-	grpc      grpc_server.GRPCServer
+type App struct {
+	modules []modules.Module
 }
 
-func (server *Server) Setup() *Server {
-	server.Container = container.New(
-		container.NewConfig(server.db.Db),
-	)
+func (app *App) start() error {
+	var err error
 
-	work.New(server.Container).StartCrons()
+	for i := 0; i < len(app.modules); i++ {
+		if app.modules[i].RunGo() {
+			go app.modules[i].Start()
+		} else {
+			err = app.modules[i].Start()
+		}
+	}
 
-	go server.amqp.New(server.Container).Start()
-	go server.grpc.New(server.Container).Start()
-
-	server.http.New(server.Container)
-
-	return server
+	return err
 }
 
-func New() (server *Server, err error) {
-	server = &Server{}
-
-	InitEnvs()
-	return
-}
-
-func InitEnvs() {
+func New() error {
 	env.Load()
+
+	c := container.New()
+
+	app := &App{
+		modules: []modules.Module{
+			amqp.New(c),
+			grpc.New(c),
+			work.New(c),
+			http.New(c),
+		},
+	}
+
+	err := app.start()
+
+	return err
 }

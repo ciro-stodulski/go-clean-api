@@ -2,7 +2,7 @@ package amqpclient
 
 import (
 	typesclient "go-api/src/infra/integrations/amqp/client/types"
-	amqphelper "go-api/src/main/module/amqp/helper"
+	amqphelper "go-api/src/main/modules/amqp/helper"
 	"log"
 
 	"github.com/streadway/amqp"
