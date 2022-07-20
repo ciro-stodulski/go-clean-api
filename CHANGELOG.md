@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
-- refectory start app and renaming modules already create
+- refactored start app and refactored modules already created
 - added env validator
 - refectory clean architecture in project
 - refectory naming pattern in project
