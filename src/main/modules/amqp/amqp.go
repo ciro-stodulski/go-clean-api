@@ -2,11 +2,11 @@ package amqp
 
 import (
 	"encoding/json"
+	"go-api/src/infra/adapters/rabbitmq"
 	consumer_type "go-api/src/interface/amqp/consumers"
 	ports_amqp "go-api/src/interface/amqp/ports"
 	"go-api/src/main/container"
 	"go-api/src/main/modules"
-	amqp_helper "go-api/src/main/modules/amqp/helper"
 
 	"log"
 	"time"
@@ -14,45 +14,35 @@ import (
 	"github.com/streadway/amqp"
 )
 
-type rabbitMq struct {
+type amqpModule struct {
 	container *container.Container
 	channel   *amqp.Channel
 }
 
 func New(container *container.Container) modules.Module {
-	return &rabbitMq{container: container}
+	return &amqpModule{container: container}
 }
 
-func (rabbit_mq *rabbitMq) RunGo() bool {
+func (am *amqpModule) RunGo() bool {
 	return true
 }
 
-func (rabbit_mq *rabbitMq) Stop() {}
+func (am *amqpModule) Stop() {}
 
-func (rabbit_mq *rabbitMq) Start() error {
-	conn, err_connection := amqp.Dial(
-		amqp_helper.GetConnection(),
-	)
+func (am *amqpModule) Start() error {
+	am.channel = rabbitmq.GetChanel()
 
-	failOnError(err_connection, "Failed to connect to RabbitMQ")
-
-	ch, err := conn.Channel()
-
-	rabbit_mq.NeedToReconnect(err, "Failed to open a channel")
-
-	rabbit_mq.channel = ch
-
-	constumers := rabbit_mq.LoadConsumers(rabbit_mq.container)
+	constumers := am.LoadConsumers(am.container)
 
 	for i := 0; i < len(constumers); i++ {
-		go rabbit_mq.StartConsumers(constumers, i)
+		go am.StartConsumers(constumers, i)
 	}
 
-	return err
+	return nil
 }
 
-func (rabbit_mq *rabbitMq) StartConsumers(constumers []consumer_type.Comsumer, position int) {
-	queue, err := rabbit_mq.channel.QueueDeclarePassive(
+func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, position int) {
+	queue, err := am.channel.QueueDeclarePassive(
 		constumers[position].GetQueue(), // name
 		false,                           // durable
 		false,                           // delete when unused
@@ -63,7 +53,7 @@ func (rabbit_mq *rabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 
 	failOnError(err, "Failed to declare a queue")
 
-	msgs, err := rabbit_mq.channel.Consume(
+	msgs, err := am.channel.Consume(
 		queue.Name, // queue
 		queue.Name, // consumer
 		true,       // auto-ack
@@ -85,7 +75,7 @@ func (rabbit_mq *rabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 			if err := msg.Ack(false); err != nil {
 				log.Println("unable to acknowledge the message, dropped", err)
 			}
-			rabbit_mq.NeedToReconnect(err, "ack message")
+			am.NeedToReconnect(err, "ack message")
 		} else {
 			err_msg_consumer := constumers[position].MessageHandler(ports_amqp.Message{
 				Body: schema,
@@ -96,17 +86,17 @@ func (rabbit_mq *rabbitMq) StartConsumers(constumers []consumer_type.Comsumer, p
 				if err := msg.Ack(false); err != nil {
 					log.Println("unable to acknowledge the message, dropped", err)
 				}
-				rabbit_mq.NeedToReconnect(err_consumer, "ack message")
+				am.NeedToReconnect(err_consumer, "ack message")
 			}
 		}
 	}
 }
 
-func (rabbit_mq *rabbitMq) NeedToReconnect(err error, msg string) {
+func (am *amqpModule) NeedToReconnect(err error, msg string) {
 	if err != nil {
 		log.Default().Printf("%s: %s", msg, err)
 		time.Sleep(2 * time.Second)
-		rabbit_mq.Start()
+		am.Start()
 	}
 }
 

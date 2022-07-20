@@ -9,19 +9,19 @@ import (
 	list_users "go-api/src/core/use-case/list-user"
 	"go-api/src/shared/env"
 
-	users_cache "go-api/src/infra/cache/users"
 	create_user_amqp "go-api/src/infra/integrations/amqp/producer/user-create"
 	json_place_holder "go-api/src/infra/integrations/http/jsonplaceholder"
-	model_user "go-api/src/infra/repositories/user"
+	users_cache "go-api/src/infra/repositories/cache/users"
+	model_user "go-api/src/infra/repositories/sql/user"
 
-	cache_client "go-api/src/infra/cache"
 	amqp_client "go-api/src/infra/integrations/amqp/client"
 	grpc_client "go-api/src/infra/integrations/grpc/client"
 	find_user_service "go-api/src/infra/integrations/grpc/user/get-user"
 	"go-api/src/infra/integrations/grpc/user/get-user/pb"
 	http_service "go-api/src/infra/integrations/http/client"
+	cache_client "go-api/src/infra/repositories/cache"
 
-	database "go-api/src/main/modules/db/mysql"
+	database "go-api/src/infra/adapters/mysql"
 
 	"github.com/jinzhu/gorm"
 )
@@ -41,7 +41,7 @@ type (
 	}
 )
 
-var db database.Database
+var db database.MysqlAdapter
 
 func New() *Container {
 	db.ConnectToDatabase()

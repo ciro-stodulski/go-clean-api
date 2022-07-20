@@ -7,21 +7,21 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type Database struct {
+type MysqlAdapter struct {
 	Db *gorm.DB
 }
 
-func (database *Database) CloseDB() {
-	database.Db.Close()
+func (ma *MysqlAdapter) CloseDB() {
+	ma.Db.Close()
 }
 
-func (database *Database) ConnectToDatabase() error {
+func (ma *MysqlAdapter) ConnectToDatabase() error {
 	db, err := GetDatabase()
 	if err != nil {
 		return err
 	}
 
-	database.Db = db
+	ma.Db = db
 
 	log.Default().Print(env.Env().DBDrive + ": Connection db with succeffully")
 

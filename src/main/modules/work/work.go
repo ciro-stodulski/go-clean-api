@@ -1,8 +1,8 @@
 package work
 
 import (
-	cronjob "go-api/src/infra/cron-job"
-	listusers_job "go-api/src/infra/cron-job/list-users"
+	cronjob "go-api/src/interface/cron-job"
+	listusers_job "go-api/src/interface/cron-job/list-users"
 	"go-api/src/main/container"
 	"go-api/src/main/modules"
 	"log"

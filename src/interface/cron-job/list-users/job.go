@@ -1,7 +1,7 @@
-package listusers_job
+package listusersjob
 
 import (
-	cronjob "go-api/src/infra/cron-job"
+	cronjob "go-api/src/interface/cron-job"
 	"go-api/src/main/container"
 	"log"
 

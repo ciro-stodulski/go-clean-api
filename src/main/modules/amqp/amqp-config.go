@@ -7,7 +7,7 @@ import (
 	"go-api/src/main/container"
 )
 
-func (rm *rabbitMq) LoadConsumers(c *container.Container) []consumer.Comsumer {
+func (rm *amqpModule) LoadConsumers(c *container.Container) []consumer.Comsumer {
 	return []consumer.Comsumer{
 		consume_user_create.NewConsumer(c),
 		consumer_user_list.NewConsumer(c),

@@ -1,9 +1,8 @@
 package amqpclient
 
 import (
+	"go-api/src/infra/adapters/rabbitmq"
 	typesclient "go-api/src/infra/integrations/amqp/client/types"
-	amqphelper "go-api/src/main/modules/amqp/helper"
-	"log"
 
 	"github.com/streadway/amqp"
 )
@@ -13,18 +12,8 @@ type amqpClient struct {
 }
 
 func New() AmqpClient {
-	conn, err_conn := amqp.Dial(
-		amqphelper.GetConnection(),
-	)
-
-	failOnError(err_conn, "Failed to connect to RabbitMQ")
-
-	ch, err := conn.Channel()
-
-	failOnError(err, "Failed to open a channel")
-
 	return &amqpClient{
-		channel: ch,
+		channel: rabbitmq.GetChanel(),
 	}
 }
 
@@ -41,10 +30,4 @@ func (ampcc *amqpClient) Publish(body []byte, config typesclient.ConfigAmqpClien
 	)
 
 	return err
-}
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
 }

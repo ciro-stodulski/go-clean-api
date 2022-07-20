@@ -1,7 +1,7 @@
 package database
 
 import (
-	repositoryUser "go-api/src/infra/repositories/user"
+	repositoryUser "go-api/src/infra/repositories/sql/user"
 
 	"github.com/jinzhu/gorm"
 )

@@ -1,4 +1,4 @@
-package amqp_helper
+package rabbitmq
 
 import (
 	"go-api/src/shared/env"
