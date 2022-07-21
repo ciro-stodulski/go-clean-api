@@ -1,4 +1,4 @@
-package ports
+package userepository
 
 import (
 	entity_root "go-api/cmd/core/entities"

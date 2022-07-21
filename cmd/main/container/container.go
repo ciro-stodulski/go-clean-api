@@ -11,7 +11,7 @@ import (
 
 	create_user_amqp "go-api/cmd/infra/integrations/amqp/producer/user-create"
 	json_place_holder "go-api/cmd/infra/integrations/http/jsonplaceholder"
-	users_cache "go-api/cmd/infra/repositories/cache/users"
+	usersjsonplaceholder "go-api/cmd/infra/repositories/cache/users-jsonplaceholder"
 	model_user "go-api/cmd/infra/repositories/sql/user"
 
 	amqp_client "go-api/cmd/infra/integrations/amqp/client"
@@ -20,6 +20,7 @@ import (
 	"go-api/cmd/infra/integrations/grpc/user/get-user/pb"
 	http_service "go-api/cmd/infra/integrations/http/client"
 	cache_client "go-api/cmd/infra/repositories/cache"
+	userservice "go-api/cmd/infra/services/user"
 
 	database "go-api/cmd/infra/adapters/mysql"
 
@@ -61,19 +62,20 @@ func New() *Container {
 	user_repository := model_user.NewUserRepository(db.Db)
 
 	cache_client := cache_client.New()
-	users_cache := users_cache.New(cache_client)
+	users_cache := usersjsonplaceholder.New(cache_client)
+
+	user_service := userservice.New(user_repository, json_place_holder_integration, users_cache)
 
 	return &Container{
 		GetUserGrpcUseCase: get_user_grpc.New(find_user_service),
 		GetUserUseCase: get_user_use_case.New(
-			user_repository,
-			json_place_holder_integration,
+			user_service,
 		),
 		CreateUserUseCase: create_user_use_case.New(
-			user_repository,
+			user_service,
 		),
-		DeleteUserUseCase:         delete_user.New(user_repository),
-		ListUsersUseCase:          list_users.New(json_place_holder_integration, users_cache),
+		DeleteUserUseCase:         delete_user.New(user_service),
+		ListUsersUseCase:          list_users.New(user_service),
 		CreateUserProducerUseCase: create_user_producer_use_case.New(create_user_amqp),
 	}
 }

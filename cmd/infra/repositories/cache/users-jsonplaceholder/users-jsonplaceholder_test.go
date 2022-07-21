@@ -1,4 +1,4 @@
-package users_cache
+package usersjsonplaceholdercache
 
 import (
 	"encoding/json"

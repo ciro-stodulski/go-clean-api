@@ -1,11 +1,22 @@
-package users_cache
+package usersjsonplaceholdercache
 
 import (
 	"encoding/json"
 	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	cache_client "go-api/cmd/infra/repositories/cache"
 )
 
-func (uc *usersCache) Get(key string) ([]response_jsonplaceholder.User, error) {
+type usersJsonplaceholderCache struct {
+	client cache_client.CacheClient
+}
+
+func New(cli cache_client.CacheClient) UsersJsonPlaceholderCache {
+	return &usersJsonplaceholderCache{
+		client: cli,
+	}
+}
+
+func (uc *usersJsonplaceholderCache) Get(key string) ([]response_jsonplaceholder.User, error) {
 	val, err := uc.client.Get(key)
 
 	if err != nil {
@@ -26,7 +37,7 @@ func (uc *usersCache) Get(key string) ([]response_jsonplaceholder.User, error) {
 	return users, nil
 }
 
-func (uc *usersCache) Set(key string, value []response_jsonplaceholder.User, timeEx int) {
+func (uc *usersJsonplaceholderCache) Set(key string, value []response_jsonplaceholder.User, timeEx int) {
 	out, err := json.Marshal(value)
 
 	if err != nil {
@@ -38,5 +49,4 @@ func (uc *usersCache) Set(key string, value []response_jsonplaceholder.User, tim
 	if err_client != nil {
 		panic(err)
 	}
-
 }

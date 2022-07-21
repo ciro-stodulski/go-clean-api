@@ -1,9 +1,8 @@
-package repository
+package userepository
 
 import (
 	entity_root "go-api/cmd/core/entities"
 	entity "go-api/cmd/core/entities/user"
-	ports "go-api/cmd/core/ports"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -15,7 +14,7 @@ type (
 	}
 )
 
-func NewUserRepository(db *gorm.DB) (repository ports.UserRepository) {
+func NewUserRepository(db *gorm.DB) (repository UserRepository) {
 	return &repositoryUser{db}
 }
 

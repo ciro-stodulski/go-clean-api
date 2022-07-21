@@ -1,55 +1,22 @@
 package createuserusecase
 
 import (
-	entity "go-api/cmd/core/entities"
-	user "go-api/cmd/core/entities/user"
 	create_dto "go-api/cmd/interface/amqp/consumers/users/create/dto"
+	mocks "go-api/cmd/shared/mocks"
+	mockservicesuser "go-api/cmd/shared/mocks/services/user"
 	"testing"
 
-	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
-
-func newMockUser() *user.User {
-	u, _ := user.New("test", "test", "test")
-	return u
-}
-
-type MockRepository struct {
-	mock.Mock
-}
-
-func (mock *MockRepository) GetById(id entity.ID) (*user.User, error) {
-	arg := mock.Called()
-	result := arg.Get(0)
-	return result.(*user.User), arg.Error(1)
-}
-
-func (mock *MockRepository) GetByEmail(id string) (*user.User, error) {
-	arg := mock.Called()
-	result := arg.Get(0)
-	return result.(*user.User), arg.Error(1)
-}
-
-func (mock *MockRepository) DeleteById(id entity.ID) error {
-	arg := mock.Called()
-	return arg.Error(1)
-}
-
-func (mock *MockRepository) Create(u *user.User) {
-	mock.Called()
-}
 
 func Test_UseCase_CreateUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		mr := new(MockRepository)
-		umock := &user.User{ID: uuid.Nil}
+		mockServices := new(mockservicesuser.MockServices)
+		userMock := mocks.NewMockUser()
 
-		mr.On("GetByEmail").Return(umock, nil)
-		mr.On("Create")
+		mockServices.On("CreateUser").Return(userMock, nil)
 
-		usecase := New(mr)
+		usecase := New(mockServices)
 
 		dto := create_dto.CreateDto{
 			Name:     "test",
@@ -60,29 +27,6 @@ func Test_UseCase_CreateUser(t *testing.T) {
 		result, err := usecase.CreateUser(dto)
 
 		assert.Nil(t, err)
-		assert.Equal(t, dto.Name, result.Name)
-		assert.Equal(t, dto.Email, result.Email)
-	})
-
-	t.Run("user already exists", func(t *testing.T) {
-		mockRepo := new(MockRepository)
-		userMockResult := newMockUser()
-
-		mockRepo.On("GetByEmail").Return(userMockResult, nil)
-		mockRepo.On("Create")
-
-		usecase := New(mockRepo)
-
-		dto := create_dto.CreateDto{
-			Name:     "test",
-			Email:    "test@test",
-			Password: "test",
-		}
-
-		result, err := usecase.CreateUser(dto)
-
-		assert.Nil(t, result)
-		assert.NotNil(t, err)
-		assert.Equal(t, err.Error(), user.ErrUserAlreadyExists.Error())
+		assert.Equal(t, userMock, result)
 	})
 }

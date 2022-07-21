@@ -1,4 +1,4 @@
-package repository
+package userepository
 
 import (
 	entity "go-api/cmd/core/entities/user"
