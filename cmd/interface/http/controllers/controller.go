@@ -5,6 +5,8 @@ import ports_http "go-api/cmd/interface/http/ports"
 type (
 	Controller interface {
 		LoadRoute() CreateRoute
+		Handle(req ports_http.HttpRequest) (*ports_http.HttpResponse, error)
+		HandleError(err error) *ports_http.HttpResponseError
 	}
 
 	Middleware func(req ports_http.HttpRequest)
@@ -15,6 +17,5 @@ type (
 		Path        string
 		Middlewares []Middleware
 		Dto         interface{}
-		Handle      func(req ports_http.HttpRequest) (*ports_http.HttpResponse, *ports_http.HttpResponseError)
 	}
 )

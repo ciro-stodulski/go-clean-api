@@ -10,6 +10,11 @@ func NewMockUser() *user.User {
 	return user
 }
 
+func CreateMockUser(name string, email string, password string) *user.User {
+	user, _ := user.New(name, email, password)
+	return user
+}
+
 func NewMockUserIntegration() []response_jsonplaceholder.User {
 	return []response_jsonplaceholder.User{{
 		Id:       12,

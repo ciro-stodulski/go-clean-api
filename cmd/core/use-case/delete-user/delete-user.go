@@ -4,9 +4,14 @@ import (
 	portsservice "go-api/cmd/core/ports"
 )
 
-type deleteUserUseCase struct {
-	UserService portsservice.UserService
-}
+type (
+	DeleteUserUseCase interface {
+		DeleteUser(id string) error
+	}
+	deleteUserUseCase struct {
+		UserService portsservice.UserService
+	}
+)
 
 func New(us portsservice.UserService) DeleteUserUseCase {
 	return &deleteUserUseCase{

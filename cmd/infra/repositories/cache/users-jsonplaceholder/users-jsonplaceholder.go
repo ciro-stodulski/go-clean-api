@@ -6,9 +6,15 @@ import (
 	cache_client "go-api/cmd/infra/repositories/cache"
 )
 
-type usersJsonplaceholderCache struct {
-	client cache_client.CacheClient
-}
+type (
+	UsersJsonPlaceholderCache interface {
+		Set(key string, user []response_jsonplaceholder.User, time int)
+		Get(key string) ([]response_jsonplaceholder.User, error)
+	}
+	usersJsonplaceholderCache struct {
+		client cache_client.CacheClient
+	}
+)
 
 func New(cli cache_client.CacheClient) UsersJsonPlaceholderCache {
 	return &usersJsonplaceholderCache{

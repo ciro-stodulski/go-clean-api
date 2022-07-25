@@ -7,7 +7,30 @@ import (
 	user "go-api/cmd/core/entities/user"
 	"go-api/cmd/infra/integrations/grpc/user/get-user/pb"
 	"time"
+
+	"google.golang.org/grpc"
 )
+
+type (
+	PbGetUserService interface {
+		GetUser(context.Context, *pb.NewRequestGetUser, ...grpc.CallOption) (*pb.NewResponseGetUser, error)
+	}
+
+	GetUserService interface {
+		GetUser(id string) (*user.User, error)
+	}
+
+	getUserService struct {
+		service PbGetUserService
+	}
+)
+
+func New(service PbGetUserService) GetUserService {
+
+	return &getUserService{
+		service: service,
+	}
+}
 
 func (findUser *getUserService) GetUser(id string) (*user.User, error) {
 	req := &pb.NewRequestGetUser{

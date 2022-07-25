@@ -13,7 +13,7 @@ import (
 func (us *userService) GetUser(id string) (*user.User, error) {
 	iu := entity.ConvertId(id)
 
-	u, err := us.RepositoryUser.GetById(iu)
+	u, err := us.SqlUser.GetById(iu)
 
 	if u.ID == uuid.Nil {
 		ujs, err := us.IntegrationJsonPlaceHolder.GetUsers()

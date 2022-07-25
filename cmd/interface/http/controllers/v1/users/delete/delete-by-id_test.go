@@ -29,7 +29,7 @@ func Test_Controller_Delete(t *testing.T) {
 			DeleteUserUseCase: mockRepo,
 		})
 
-		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
+		result, err := testService.Handle(ports_http.HttpRequest{
 			Params: ports_http.Params{
 				ports_http.Param{Key: "id", Value: id},
 			},

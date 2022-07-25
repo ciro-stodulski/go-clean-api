@@ -1,7 +1,7 @@
 package jsonplaceholder
 
 import (
-	http_service "go-api/cmd/infra/integrations/http/client"
+	http_service "go-api/cmd/infra/integrations/http"
 	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
 	"go-api/cmd/shared/env"
 	"log"
@@ -9,10 +9,16 @@ import (
 	"encoding/json"
 )
 
-type jsonPlaceholderIntegration struct {
-	Http    http_service.HttpClient
-	rootUrl string
-}
+type (
+	JsonPlaceholderIntegration interface {
+		GetUsers() ([]response_jsonplaceholder.User, error)
+	}
+
+	jsonPlaceholderIntegration struct {
+		Http    http_service.HttpClient
+		rootUrl string
+	}
+)
 
 func New(http http_service.HttpClient) JsonPlaceholderIntegration {
 

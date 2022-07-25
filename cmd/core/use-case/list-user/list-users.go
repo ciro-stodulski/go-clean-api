@@ -6,9 +6,15 @@ import (
 	"log"
 )
 
-type listUsersUseCase struct {
-	UserService portsservice.UserService
-}
+type (
+	listUsersUseCase struct {
+		UserService portsservice.UserService
+	}
+
+	ListUsersUseCase interface {
+		ListUsers()
+	}
+)
 
 func New(us portsservice.UserService) ListUsersUseCase {
 	return &listUsersUseCase{

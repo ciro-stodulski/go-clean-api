@@ -5,9 +5,15 @@ import (
 	portsservice "go-api/cmd/core/ports"
 )
 
-type getUserUseCase struct {
-	UserService portsservice.UserService
-}
+type (
+	GetUserUseCase interface {
+		GetUser(id string) (*user.User, error)
+	}
+
+	getUserUseCase struct {
+		UserService portsservice.UserService
+	}
+)
 
 func New(us portsservice.UserService) GetUserUseCase {
 	return &getUserUseCase{

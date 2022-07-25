@@ -3,38 +3,23 @@ package getuserservice
 import (
 	"context"
 	"go-api/cmd/infra/integrations/grpc/user/get-user/pb"
+	mockgrpcuser "go-api/cmd/shared/mocks/infra/integrations/grpc/user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"google.golang.org/grpc"
 )
-
-type MockService struct {
-	mock.Mock
-}
-
-func (mock *MockService) GetUser(c context.Context, pbm *pb.NewRequestGetUser, op ...grpc.CallOption) (*pb.NewResponseGetUser, error) {
-	arg := mock.Called(c, pbm, "test")
-	result := arg.Get(0)
-	return result.(*pb.NewResponseGetUser), arg.Error(1)
-}
-
-func newMockUsers() *pb.NewResponseGetUser {
-	return &pb.NewResponseGetUser{
-		Customer: &pb.Customer{
-			ID:        "346",
-			Name:      "test",
-			Email:     "test@test",
-			CreatedAt: "2022-05-01",
-		},
-	}
-}
 
 func Test_GetUserService_GetUser(t *testing.T) {
 	t.Run("should get user with succeffully", func(t *testing.T) {
-		userMock := newMockUsers()
-		mockService := new(MockService)
+		userMock := &pb.NewResponseGetUser{
+			Customer: &pb.Customer{
+				ID:        "346",
+				Name:      "test",
+				Email:     "test@test",
+				CreatedAt: "2022-05-01",
+			},
+		}
+		mockService := new(mockgrpcuser.MockService)
 		ctx := context.Background()
 
 		request := &pb.NewRequestGetUser{

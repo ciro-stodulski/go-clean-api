@@ -6,7 +6,7 @@ import (
 	registeruserusecase "go-api/cmd/core/use-case/register-user"
 	ports_http "go-api/cmd/interface/http/ports"
 	"go-api/cmd/main/container"
-	createuserusecasemock "go-api/cmd/shared/mocks/use-cases/create-user"
+	createuserusecasemock "go-api/cmd/shared/mocks/core/use-cases/create-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -28,7 +28,7 @@ func Test_Controller_User_Create(t *testing.T) {
 			RegisterUserUseCase: mockUse,
 		})
 
-		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
+		result, err := testService.Handle(ports_http.HttpRequest{
 			Body: dto,
 		})
 
@@ -54,7 +54,7 @@ func Test_Controller_User_Create(t *testing.T) {
 			RegisterUserUseCase: mockUse,
 		})
 
-		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
+		result, err := testService.Handle(ports_http.HttpRequest{
 			Body: dto,
 		})
 

@@ -2,7 +2,7 @@ package amqp
 
 import (
 	"encoding/json"
-	"go-api/cmd/infra/adapters/rabbitmq"
+	rabbitmqadapter "go-api/cmd/infra/adapters/rabbitmq"
 	consumer_type "go-api/cmd/interface/amqp/consumers"
 	ports_amqp "go-api/cmd/interface/amqp/ports"
 	"go-api/cmd/main/container"
@@ -30,7 +30,7 @@ func (am *amqpModule) RunGo() bool {
 func (am *amqpModule) Stop() {}
 
 func (am *amqpModule) Start() error {
-	am.channel = rabbitmq.GetChanel()
+	am.channel = rabbitmqadapter.GetChanel()
 
 	constumers := am.LoadConsumers(am.container)
 
@@ -43,12 +43,12 @@ func (am *amqpModule) Start() error {
 
 func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, position int) {
 	queue, err := am.channel.QueueDeclarePassive(
-		constumers[position].GetQueue(), // name
-		false,                           // durable
-		false,                           // delete when unused
-		false,                           // exclusive
-		false,                           // no-wait
-		nil,                             // arguments
+		constumers[position].GetConfig().Queue, // name
+		false,                                  // durable
+		false,                                  // delete when unused
+		false,                                  // exclusive
+		false,                                  // no-wait
+		nil,                                    // arguments
 	)
 
 	failOnError(err, "Failed to declare a queue")
@@ -67,7 +67,7 @@ func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, positi
 	log.Default().Print("RabbitMq: Started queue " + queue.Name + " to consume")
 
 	for msg := range msgs {
-		schema := constumers[position].GetSchema()
+		schema := constumers[position].GetConfig().Schema
 		err := json.Unmarshal(msg.Body, &schema)
 
 		if err != nil {

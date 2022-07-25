@@ -5,7 +5,7 @@ import (
 )
 
 func (cuuc *userService) GetByEmail(email string) (*user.User, error) {
-	u, err := cuuc.RepositoryUser.GetByEmail(email)
+	u, err := cuuc.SqlUser.GetByEmail(email)
 
 	if err != nil {
 		return nil, err

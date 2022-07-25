@@ -1,11 +1,11 @@
-package create
+package usercreateconsumer
 
 import (
 	"go-api/cmd/core/entities/user"
 	registeruserusecase "go-api/cmd/core/use-case/register-user"
 	"go-api/cmd/main/container"
 	"go-api/cmd/shared/mocks"
-	createuserusecasemock "go-api/cmd/shared/mocks/use-cases/create-user"
+	createuserusecasemock "go-api/cmd/shared/mocks/core/use-cases/create-user"
 
 	ports_amqp "go-api/cmd/interface/amqp/ports"
 	"testing"
@@ -26,7 +26,7 @@ func Test_Consumer_User_Create(t *testing.T) {
 
 		mockRepo.On("Register", dto).Return(userMock, nil)
 
-		testService := NewConsumer(&container.Container{
+		testService := New(&container.Container{
 			RegisterUserUseCase: mockRepo,
 		})
 
@@ -49,7 +49,7 @@ func Test_Consumer_User_Create(t *testing.T) {
 
 		mockRepo.On("Register", dto).Return(&user.User{}, user.ErrUserAlreadyExists)
 
-		testService := NewConsumer(&container.Container{
+		testService := New(&container.Container{
 			RegisterUserUseCase: mockRepo,
 		})
 

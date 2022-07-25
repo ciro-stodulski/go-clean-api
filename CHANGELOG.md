@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- refactored presentation structure amqp and http 
 - create service notification
 - restructure name files for according to your layers
 - create mock for shared ful app

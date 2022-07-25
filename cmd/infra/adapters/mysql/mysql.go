@@ -1,4 +1,4 @@
-package database
+package msyqladapter
 
 import (
 	"go-api/cmd/shared/env"

@@ -6,7 +6,7 @@ import (
 
 func (cuuc *userService) Register(user *user.User) (*user.User, error) {
 
-	err := cuuc.RepositoryUser.Create(user)
+	err := cuuc.SqlUser.Create(user)
 
 	return user, err
 }

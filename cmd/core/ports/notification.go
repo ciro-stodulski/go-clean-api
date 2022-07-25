@@ -1,7 +1,7 @@
 package portsservice
 
 import (
-	notificationproducer "go-api/cmd/infra/integrations/amqp/producer/notification"
+	notificationproducer "go-api/cmd/infra/integrations/amqp/notification"
 )
 
 type (

@@ -11,7 +11,7 @@ import (
 func (duuc *userService) DeleteUser(id string) error {
 	id_uuid := entity.ConvertId(id)
 
-	u, err := duuc.RepositoryUser.GetById(id_uuid)
+	u, err := duuc.SqlUser.GetById(id_uuid)
 
 	if u.ID == uuid.Nil {
 		log.Default().Print("Not found user with id:" + id)
@@ -22,7 +22,7 @@ func (duuc *userService) DeleteUser(id string) error {
 		return err
 	}
 
-	duuc.RepositoryUser.DeleteById(id_uuid)
+	duuc.SqlUser.DeleteById(id_uuid)
 
 	return nil
 }

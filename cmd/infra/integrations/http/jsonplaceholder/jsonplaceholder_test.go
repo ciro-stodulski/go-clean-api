@@ -4,30 +4,20 @@ import (
 	"encoding/json"
 	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
 	"go-api/cmd/shared/env"
+	mockhttpclient "go-api/cmd/shared/mocks/infra/integrations/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
-type MockIntegration struct {
-	mock.Mock
-}
-
-func (mock *MockIntegration) Get(url string) ([]byte, error) {
-	arg := mock.Called(url)
-	result := arg.Get(0)
-	return result.([]byte), arg.Error(1)
-}
-
-func newMockUsers() []byte {
+func newMockResponseUsers() []byte {
 	return []byte(`[{"id": 1,"name": "Leanne Graham","username": "Bret","email": "Sincere@april.biz","address": {"street": "Kulas Light","suite": "Apt. 556","city": "Gwenborough","zipcode": "92998-3874","geo": { "lat": "-37.3159","lng":"81.1496"}},"phone": "1-770-736-8031 x56442","website": "hildegard.org","company": {"name": "Romaguera-Crona","catchPhrase": "Multi-layered client-server neural-net","bs": "harness real-time e-markets"}}]`)
 }
 
 func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		userMock := newMockUsers()
-		mockInt := new(MockIntegration)
+		userMock := newMockResponseUsers()
+		mockInt := new(mockhttpclient.MockHttpClient)
 
 		var usersFake []response_jsonplaceholder.User
 		_ = json.Unmarshal(userMock, &usersFake)

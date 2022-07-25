@@ -1,4 +1,4 @@
-package database
+package msyqladapter
 
 import (
 	repositoryUser "go-api/cmd/infra/repositories/sql/user"

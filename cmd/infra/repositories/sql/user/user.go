@@ -1,4 +1,4 @@
-package userepository
+package usersql
 
 import (
 	"errors"
@@ -10,17 +10,20 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+var mysqlErr *mysql.MySQLError
+
 type (
-	repositoryUser struct {
+	UserSql interface {
+		DeleteById(id entity_root.ID) error
+		GetById(id entity_root.ID) (*entity.User, error)
+		GetByEmail(email string) (*entity.User, error)
+		Create(u *entity.User) error
+	}
+
+	userSql struct {
 		db *gorm.DB
 	}
 )
-
-var mysqlErr *mysql.MySQLError
-
-func NewUserRepository(db *gorm.DB) (repository UserRepository) {
-	return &repositoryUser{db}
-}
 
 func InitMigrate(db *gorm.DB) {
 	log.Default().Println("Run migration for user")
@@ -28,29 +31,36 @@ func InitMigrate(db *gorm.DB) {
 	db.AutoMigrate(&entity.User{})
 }
 
-func (ru *repositoryUser) GetById(id entity_root.ID) (user *entity.User, er error) {
+func NewUserRepository(db *gorm.DB) (repository UserSql) {
+	return &userSql{db}
+}
+
+func (ru *userSql) GetById(id entity_root.ID) (user *entity.User, er error) {
 	user = &entity.User{}
 	ru.db.First(user, "id = ?", id)
 	return
 }
 
-func (ru *repositoryUser) GetByEmail(email string) (user *entity.User, er error) {
+func (ru *userSql) GetByEmail(email string) (user *entity.User, er error) {
 	user = &entity.User{}
 	ru.db.First(user, "email = ?", email)
 	return
 }
 
-func (ru *repositoryUser) Create(user *entity.User) error {
+func (ru *userSql) Create(user *entity.User) error {
 	err := ru.db.Create(user)
 
-	if errors.As(err.Error, &mysqlErr) && mysqlErr.Number == 1062 {
-		return entity.ErrUserAlreadyExists
+	if err != nil {
+		if errors.As(err.Error, &mysqlErr) && mysqlErr.Number == 1062 {
+			return entity.ErrUserAlreadyExists
+		}
+		return err.Error
 	}
 
 	return nil
 }
 
-func (ru *repositoryUser) DeleteById(id entity_root.ID) (er error) {
+func (ru *userSql) DeleteById(id entity_root.ID) (er error) {
 	ru.db.Where("id = ?", id).Delete(&entity.User{})
 	return
 }

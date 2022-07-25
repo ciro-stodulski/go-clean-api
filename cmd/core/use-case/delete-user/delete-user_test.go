@@ -2,7 +2,7 @@ package deleteuserusecase
 
 import (
 	"go-api/cmd/shared/mocks"
-	mockservicesuser "go-api/cmd/shared/mocks/services/user"
+	mockservicesuser "go-api/cmd/shared/mocks/infra/services/user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

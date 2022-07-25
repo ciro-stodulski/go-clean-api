@@ -3,7 +3,6 @@ package container
 import (
 	delete_user "go-api/cmd/core/use-case/delete-user"
 	get_user_use_case "go-api/cmd/core/use-case/get-user"
-	get_user_grpc "go-api/cmd/core/use-case/get-user-grpc"
 	list_users "go-api/cmd/core/use-case/list-user"
 	registeruserusecase "go-api/cmd/core/use-case/register-user"
 	"go-api/cmd/shared/env"
@@ -12,10 +11,10 @@ import (
 	usersjsonplaceholder "go-api/cmd/infra/repositories/cache/users-jsonplaceholder"
 	model_user "go-api/cmd/infra/repositories/sql/user"
 
-	grpc_client "go-api/cmd/infra/integrations/grpc/client"
+	grpc_client "go-api/cmd/infra/integrations/grpc"
 	find_user_service "go-api/cmd/infra/integrations/grpc/user/get-user"
 	"go-api/cmd/infra/integrations/grpc/user/get-user/pb"
-	http_service "go-api/cmd/infra/integrations/http/client"
+	http_service "go-api/cmd/infra/integrations/http"
 	cache_client "go-api/cmd/infra/repositories/cache"
 	notificationService "go-api/cmd/infra/services/notification"
 	userservice "go-api/cmd/infra/services/user"
@@ -32,7 +31,6 @@ type (
 
 	Container struct {
 		GetUserUseCase      get_user_use_case.GetUserUseCase
-		GetUserGrpcUseCase  get_user_grpc.GetUserGrpcUseCase
 		RegisterUserUseCase registeruserusecase.RegisterUserUseCase
 		ListUsersUseCase    list_users.ListUsersUseCase
 		DeleteUserUseCase   delete_user.DeleteUserUseCase
@@ -65,7 +63,6 @@ func New() *Container {
 	notification_service := notificationService.New(find_user_service)
 
 	return &Container{
-		GetUserGrpcUseCase: get_user_grpc.New(find_user_service),
 		GetUserUseCase: get_user_use_case.New(
 			user_service,
 		),

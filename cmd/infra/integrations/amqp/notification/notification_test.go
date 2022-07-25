@@ -1,0 +1,37 @@
+package notificationproducer
+
+import (
+	"encoding/json"
+	mockamqpnotification "go-api/cmd/shared/mocks/infra/integrations/amqp/notification"
+
+	amqp "go-api/cmd/infra/integrations/amqp"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func Test_User_Create_Producer(t *testing.T) {
+	t.Run("succeffully", func(t *testing.T) {
+		mac := new(mockamqpnotification.MockAmqpClient)
+		dto := Dto{
+			Name:  "test",
+			Event: "test",
+		}
+
+		config := amqp.ConfigAmqpClient{
+			Exchange:    "notification.dx",
+			Routing_key: "notify.create",
+		}
+
+		result, _ := json.Marshal(&dto)
+
+		mac.On("Publish", []byte(string(result)), config).Return(nil)
+
+		testService := New(mac)
+
+		err := testService.SendNotify(dto)
+
+		assert.Nil(t, err)
+		mac.AssertCalled(t, "Publish", []byte(string(result)), config)
+	})
+}
