@@ -11,7 +11,7 @@ func (createConsumer *createConsumer) MessageHandler(msg ports_amqp.Message) err
 	dto := createConsumer.schema
 	mapstructure.Decode(msg.Body, &dto)
 
-	new_user, err := createConsumer.container.CreateUserUseCase.CreateUser(dto)
+	new_user, err := createConsumer.container.RegisterUserUseCase.Register(dto)
 
 	if err != nil {
 		return err

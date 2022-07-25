@@ -1,8 +1,7 @@
-package usercreateproducer
+package notificationproducer
 
 import (
 	"encoding/json"
-	"go-api/cmd/core/ports"
 	types_client "go-api/cmd/infra/integrations/amqp/client/types"
 	"testing"
 
@@ -23,15 +22,14 @@ func (mock *MockAmqpClient) Publish(body []byte, config types_client.ConfigAmqpC
 func Test_User_Create_Producer(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mac := new(MockAmqpClient)
-		dto := ports.CreateDto{
-			Name:     "test",
-			Email:    "test",
-			Password: "test",
+		dto := Dto{
+			Name:  "test",
+			Event: "test",
 		}
 
 		config := types_client.ConfigAmqpClient{
-			Exchange:    "user.dx",
-			Routing_key: "user.create",
+			Exchange:    "notification.dx",
+			Routing_key: "notify.create",
 		}
 
 		result, _ := json.Marshal(&dto)
@@ -40,7 +38,7 @@ func Test_User_Create_Producer(t *testing.T) {
 
 		testService := New(mac)
 
-		err := testService.CreateUser(dto)
+		err := testService.SendNotify(dto)
 
 		assert.Nil(t, err)
 		mac.AssertCalled(t, "Publish", []byte(string(result)), config)

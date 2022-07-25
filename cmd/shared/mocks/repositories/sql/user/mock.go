@@ -23,8 +23,9 @@ func (mock *MockRepository) GetByEmail(id string) (*user.User, error) {
 	return result.(*user.User), arg.Error(1)
 }
 
-func (mock *MockRepository) Create(user *user.User) {
-	mock.Called()
+func (mock *MockRepository) Create(user *user.User) error {
+	arg := mock.Called()
+	return arg.Error(0)
 }
 
 func (mock *MockRepository) DeleteById(id entity_root.ID) error {

@@ -2,45 +2,32 @@ package create
 
 import (
 	"go-api/cmd/core/entities/user"
+	registeruserusecase "go-api/cmd/core/use-case/register-user"
 	"go-api/cmd/main/container"
+	"go-api/cmd/shared/mocks"
+	createuserusecasemock "go-api/cmd/shared/mocks/use-cases/create-user"
 
-	create_dto "go-api/cmd/interface/amqp/consumers/users/create/dto"
 	ports_amqp "go-api/cmd/interface/amqp/ports"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
-type MockUserCase struct {
-	mock.Mock
-}
-
-func (mock *MockUserCase) CreateUser(dto create_dto.CreateDto) (*user.User, error) {
-	arg := mock.Called(dto)
-	result := arg.Get(0)
-	return result.(*user.User), arg.Error(1)
-}
-
-func newMockUser() *user.User {
-	user, _ := user.New("test", "test", "test")
-	return user
-}
 func Test_Consumer_User_Create(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		userMock := newMockUser()
-		mockRepo := new(MockUserCase)
+		userMock := mocks.NewMockUser()
+		mockRepo := new(createuserusecasemock.MockUserCase)
 
-		dto := create_dto.CreateDto{
+		dto := registeruserusecase.Dto{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",
 		}
 
-		mockRepo.On("CreateUser", dto).Return(userMock, nil)
+		mockRepo.On("Register", dto).Return(userMock, nil)
 
 		testService := NewConsumer(&container.Container{
-			CreateUserUseCase: mockRepo,
+			RegisterUserUseCase: mockRepo,
 		})
 
 		err := testService.MessageHandler(ports_amqp.Message{
@@ -48,22 +35,22 @@ func Test_Consumer_User_Create(t *testing.T) {
 		})
 
 		assert.Nil(t, err)
-		mockRepo.AssertCalled(t, "CreateUser", dto)
+		mockRepo.AssertCalled(t, "Register", dto)
 	})
 
 	t.Run("return error in create use case", func(t *testing.T) {
-		mockRepo := new(MockUserCase)
+		mockRepo := new(createuserusecasemock.MockUserCase)
 
-		dto := create_dto.CreateDto{
+		dto := registeruserusecase.Dto{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",
 		}
 
-		mockRepo.On("CreateUser", dto).Return(&user.User{}, user.ErrUserAlreadyExists)
+		mockRepo.On("Register", dto).Return(&user.User{}, user.ErrUserAlreadyExists)
 
 		testService := NewConsumer(&container.Container{
-			CreateUserUseCase: mockRepo,
+			RegisterUserUseCase: mockRepo,
 		})
 
 		err := testService.MessageHandler(ports_amqp.Message{
@@ -71,6 +58,6 @@ func Test_Consumer_User_Create(t *testing.T) {
 		})
 
 		assert.NotNil(t, err)
-		mockRepo.AssertCalled(t, "CreateUser", dto)
+		mockRepo.AssertCalled(t, "Register", dto)
 	})
 }

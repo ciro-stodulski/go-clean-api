@@ -1,15 +1,15 @@
 package getusergrpcusecase
 
 import (
-	"go-api/cmd/core/ports"
+	getuserservice "go-api/cmd/infra/integrations/grpc/user/get-user"
 )
 
 type getUserGrpcUseCase struct {
-	GetUserService ports.GetUserService
+	GetUserService getuserservice.GetUserService
 }
 
 func New(
-	gus ports.GetUserService,
+	gus getuserservice.GetUserService,
 ) GetUserGrpcUseCase {
 	return &getUserGrpcUseCase{
 		GetUserService: gus,

@@ -1,10 +1,12 @@
 package userepository
 
 import (
+	"errors"
 	entity_root "go-api/cmd/core/entities"
 	entity "go-api/cmd/core/entities/user"
 	"log"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
@@ -13,6 +15,8 @@ type (
 		db *gorm.DB
 	}
 )
+
+var mysqlErr *mysql.MySQLError
 
 func NewUserRepository(db *gorm.DB) (repository UserRepository) {
 	return &repositoryUser{db}
@@ -36,8 +40,14 @@ func (ru *repositoryUser) GetByEmail(email string) (user *entity.User, er error)
 	return
 }
 
-func (ru *repositoryUser) Create(user *entity.User) {
-	ru.db.Create(user)
+func (ru *repositoryUser) Create(user *entity.User) error {
+	err := ru.db.Create(user)
+
+	if errors.As(err.Error, &mysqlErr) && mysqlErr.Number == 1062 {
+		return entity.ErrUserAlreadyExists
+	}
+
+	return nil
 }
 
 func (ru *repositoryUser) DeleteById(id entity_root.ID) (er error) {

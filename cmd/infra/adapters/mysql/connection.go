@@ -10,7 +10,9 @@ import (
 )
 
 func GetDatabase() (*gorm.DB, error) {
-	database, err := gorm.Open(env.Env().DBDrive, mountConnectionString()+"&parseTime=true")
+	database, err := gorm.Open(
+		env.Env().DBDrive, mountConnectionString()+"&parseTime=true",
+	)
 
 	if err == nil {
 		err = database.DB().Ping()

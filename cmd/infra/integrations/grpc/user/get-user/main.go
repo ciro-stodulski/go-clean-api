@@ -1,14 +1,10 @@
 package getuserservice
 
-import (
-	ports "go-api/cmd/core/ports"
-)
-
 type getUserService struct {
-	service GetUserService
+	service PbGetUserService
 }
 
-func New(service GetUserService) ports.GetUserService {
+func New(service PbGetUserService) GetUserService {
 
 	return &getUserService{
 		service: service,

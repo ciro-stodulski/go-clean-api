@@ -2,30 +2,11 @@ package userservice
 
 import (
 	"go-api/cmd/core/entities/user"
-	dto "go-api/cmd/interface/amqp/consumers/users/create/dto"
-
-	"github.com/google/uuid"
 )
 
-func (cuuc *userService) CreateUser(dto dto.CreateDto) (*user.User, error) {
+func (cuuc *userService) Register(user *user.User) (*user.User, error) {
 
-	u, err := cuuc.RepositoryUser.GetByEmail(dto.Email)
+	err := cuuc.RepositoryUser.Create(user)
 
-	if err != nil {
-		return nil, err
-	}
-
-	if u.ID != uuid.Nil {
-		return nil, user.ErrUserAlreadyExists
-	}
-
-	new_u, err := user.New(dto.Email, dto.Password, dto.Name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	cuuc.RepositoryUser.Create(new_u)
-
-	return new_u, err
+	return user, err
 }

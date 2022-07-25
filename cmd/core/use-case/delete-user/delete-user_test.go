@@ -10,7 +10,7 @@ import (
 
 func Test_UseCase_DeleteUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		mockServices := new(mockservicesuser.MockServices)
+		mockServices := new(mockservicesuser.MockUserServices)
 		userMock := mocks.NewMockUser()
 
 		mockServices.On("DeleteUser").Return(nil)

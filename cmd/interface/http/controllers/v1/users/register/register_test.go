@@ -1,39 +1,31 @@
-package v1_user_create
+package controllerv1userregister
 
 import (
 	"errors"
-	"go-api/cmd/core/ports"
+	"go-api/cmd/core/entities/user"
+	registeruserusecase "go-api/cmd/core/use-case/register-user"
 	ports_http "go-api/cmd/interface/http/ports"
 	"go-api/cmd/main/container"
+	createuserusecasemock "go-api/cmd/shared/mocks/use-cases/create-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
-type MockUserCase struct {
-	mock.Mock
-}
-
-func (mock *MockUserCase) CreateUser(dto ports.CreateDto) error {
-	arg := mock.Called(dto)
-	return arg.Error(0)
-}
-
-func Test_Consumer_User_Create(t *testing.T) {
+func Test_Controller_User_Create(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		mockUse := new(MockUserCase)
+		mockUse := new(createuserusecasemock.MockUserCase)
 
-		dto := ports.CreateDto{
+		dto := registeruserusecase.Dto{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",
 		}
 
-		mockUse.On("CreateUser", dto).Return(nil)
+		mockUse.On("Register", dto).Return(&user.User{}, nil)
 
 		testService := New(&container.Container{
-			CreateUserProducerUseCase: mockUse,
+			RegisterUserUseCase: mockUse,
 		})
 
 		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{
@@ -43,23 +35,23 @@ func Test_Consumer_User_Create(t *testing.T) {
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
 		assert.Equal(t, &ports_http.HttpResponse{
-			Status: 200,
+			Status: 201,
 		}, result)
 	})
 
 	t.Run("internal error", func(t *testing.T) {
-		mockUse := new(MockUserCase)
+		mockUse := new(createuserusecasemock.MockUserCase)
 
-		dto := ports.CreateDto{
+		dto := registeruserusecase.Dto{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",
 		}
 
-		mockUse.On("CreateUser", dto).Return(errors.New(""))
+		mockUse.On("Register", dto).Return(&user.User{}, errors.New(""))
 
 		testService := New(&container.Container{
-			CreateUserProducerUseCase: mockUse,
+			RegisterUserUseCase: mockUse,
 		})
 
 		result, err := testService.LoadRoute().Handle(ports_http.HttpRequest{

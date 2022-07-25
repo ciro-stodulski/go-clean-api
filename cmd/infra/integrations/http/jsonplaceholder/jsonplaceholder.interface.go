@@ -1,4 +1,4 @@
-package ports
+package jsonplaceholder
 
 import (
 	integration "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"

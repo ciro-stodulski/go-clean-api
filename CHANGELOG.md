@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- create service notification
+- restructure name files for according to your layers
+- create mock for shared ful app
+- refactored service layer
+- refactored crete user for register user
 - create adapter and refactored in infra layer
 - refactored start app and refactored modules already created
 - renamed presentation for interface

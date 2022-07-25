@@ -2,7 +2,6 @@ package userservice
 
 import (
 	user "go-api/cmd/core/entities/user"
-	create_dto "go-api/cmd/interface/amqp/consumers/users/create/dto"
 	mocks "go-api/cmd/shared/mocks"
 	mockhttpjsonplaceholder "go-api/cmd/shared/mocks/integrations/http/jsonplaceholder"
 	mockusercache "go-api/cmd/shared/mocks/repositories/cache/user"
@@ -13,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Service_CreateUser(t *testing.T) {
+func Test_Service_Register(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mr := new(mocksqluser.MockRepository)
 		mi := new(mockhttpjsonplaceholder.MockIntegration)
@@ -23,19 +22,19 @@ func Test_Service_CreateUser(t *testing.T) {
 		mr.On("GetByEmail").Return(umock, nil)
 		mr.On("Create")
 
-		usecase := New(mr, mi, mockCache)
+		service := New(mr, mi, mockCache)
 
-		dto := create_dto.CreateDto{
+		u := &user.User{
 			Name:     "test",
 			Email:    "test@test",
 			Password: "test",
 		}
 
-		result, err := usecase.CreateUser(dto)
+		result, err := service.Register(u)
 
 		assert.Nil(t, err)
-		assert.Equal(t, dto.Name, result.Name)
-		assert.Equal(t, dto.Email, result.Email)
+		assert.Equal(t, u.Name, result.Name)
+		assert.Equal(t, u.Email, result.Email)
 	})
 
 	t.Run("user already exists", func(t *testing.T) {
@@ -47,15 +46,14 @@ func Test_Service_CreateUser(t *testing.T) {
 		mr.On("GetByEmail").Return(userMockResult, nil)
 		mr.On("Create")
 
-		usecase := New(mr, mi, mockCache)
+		service := New(mr, mi, mockCache)
 
-		dto := create_dto.CreateDto{
+		u := &user.User{
 			Name:     "test",
 			Email:    "test@test",
 			Password: "test",
 		}
-
-		result, err := usecase.CreateUser(dto)
+		result, err := service.Register(u)
 
 		assert.Nil(t, result)
 		assert.NotNil(t, err)

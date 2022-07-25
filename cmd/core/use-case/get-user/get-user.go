@@ -2,7 +2,7 @@ package getuserusecase
 
 import (
 	"go-api/cmd/core/entities/user"
-	portsservice "go-api/cmd/core/ports-service"
+	portsservice "go-api/cmd/core/ports"
 )
 
 type getUserUseCase struct {

@@ -10,12 +10,12 @@ func Test_UseCase_ListUsers(t *testing.T) {
 	t.Run("user found integration without cache", func(t *testing.T) {
 		userIntMock := mocks.NewMockUserIntegration()
 
-		mockServices := new(mockservicesuser.MockServices)
+		mockUserServices := new(mockservicesuser.MockUserServices)
 
-		usecase := New(mockServices)
-		mockServices.On("ListUsers").Return(userIntMock)
+		usecase := New(mockUserServices)
+		mockUserServices.On("ListUsers").Return(userIntMock)
 
 		usecase.ListUsers()
-		mockServices.AssertCalled(t, "ListUsers")
+		mockUserServices.AssertCalled(t, "ListUsers")
 	})
 }

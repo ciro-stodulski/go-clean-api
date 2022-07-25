@@ -10,6 +10,6 @@ type (
 		DeleteById(id entity_root.ID) error
 		GetById(id entity_root.ID) (*entity.User, error)
 		GetByEmail(email string) (*entity.User, error)
-		Create(u *entity.User)
+		Create(u *entity.User) error
 	}
 )

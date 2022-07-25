@@ -1,13 +1,28 @@
 package jsonplaceholder
 
 import (
+	http_service "go-api/cmd/infra/integrations/http/client"
 	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	"go-api/cmd/shared/env"
 	"log"
 
 	"encoding/json"
 )
 
-func (jpi *JsonPlaceholderIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
+type jsonPlaceholderIntegration struct {
+	Http    http_service.HttpClient
+	rootUrl string
+}
+
+func New(http http_service.HttpClient) JsonPlaceholderIntegration {
+
+	return &jsonPlaceholderIntegration{
+		Http:    http,
+		rootUrl: env.Env().JsonPlaceOlderIntegrationUrl,
+	}
+}
+
+func (jpi *jsonPlaceholderIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
 	response, err := jpi.Http.Get(jpi.rootUrl + "/users")
 
 	if err != nil {

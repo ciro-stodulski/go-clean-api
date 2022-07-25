@@ -1,7 +1,7 @@
 package deleteuserusecase
 
 import (
-	portsservice "go-api/cmd/core/ports-service"
+	portsservice "go-api/cmd/core/ports"
 )
 
 type deleteUserUseCase struct {

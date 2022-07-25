@@ -10,7 +10,7 @@ import (
 
 func Test_UseCase_GetUser(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		mockServices := new(mockservicesuser.MockServices)
+		mockServices := new(mockservicesuser.MockUserServices)
 		userMock := mocks.NewMockUser()
 
 		mockServices.On("GetUser").Return(userMock, nil)
