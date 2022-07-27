@@ -13,6 +13,7 @@ import (
 
 func Test_Consumer_verify(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
+		// make mock
 		mockUseCase := new(verifynotificationusecasemock.MockUseCase)
 
 		dto := portsservice.Dto{
@@ -21,17 +22,21 @@ func Test_Consumer_verify(t *testing.T) {
 		}
 
 		mockUseCase.On("Notify", dto).Return(nil)
+		//
 
+		// test func
 		testService := New(&container.Container{
 			VerifyUseCase: mockUseCase,
 		})
+		//
 
 		err := testService.MessageHandler(ports_amqp.Message{
 			Body: dto,
 		})
 
+		// asserts
 		assert.Nil(t, err)
 		mockUseCase.AssertCalled(t, "Notify", dto)
+		//
 	})
-
 }

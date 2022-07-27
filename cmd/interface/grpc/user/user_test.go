@@ -14,11 +14,14 @@ import (
 
 func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
+		// make mock
 		mockUseCase := new(listuserusecasemock.MockUseCase)
 		userMock := mocks.NewMockUser()
 
 		mockUseCase.On("ListUsers").Return(userMock, nil)
+		//
 
+		// test func
 		testPb := New(&container.Container{
 			ListUsersUseCase: mockUseCase,
 		})
@@ -27,9 +30,12 @@ func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
 		ctx := context.Background()
 
 		result, err := testPb.Verify(ctx, pb)
+		//
 
+		// asserts
 		assert.Nil(t, err)
 		mockUseCase.AssertCalled(t, "ListUsers")
 		assert.NotNil(t, result)
+		//
 	})
 }

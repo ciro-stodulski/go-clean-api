@@ -16,6 +16,6 @@ func (mock *MockNotificationServices) SendNotify(dto portsservice.Dto) error {
 }
 
 func (mock *MockNotificationServices) CheckNotify(msg string) (string error) {
-	arg := mock.Called()
+	arg := mock.Called(msg)
 	return arg.Error(1)
 }

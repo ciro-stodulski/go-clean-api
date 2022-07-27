@@ -1,4 +1,4 @@
-package createuserusecasemock
+package deleteeuserusecasemock
 
 import (
 	"github.com/stretchr/testify/mock"
@@ -11,5 +11,5 @@ type MockUseCase struct {
 func (mock *MockUseCase) DeleteUser(id string) error {
 	arg := mock.Called(id)
 
-	return arg.Error(1)
+	return arg.Error(0)
 }

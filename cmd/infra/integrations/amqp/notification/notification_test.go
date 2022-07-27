@@ -13,6 +13,7 @@ import (
 
 func Test_User_Create_Producer(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
+		// make mock
 		mac := new(mockamqpnotification.MockAmqpClient)
 		dto := portsservice.Dto{
 			Name:  "test",
@@ -27,12 +28,16 @@ func Test_User_Create_Producer(t *testing.T) {
 		result, _ := json.Marshal(&dto)
 
 		mac.On("Publish", []byte(string(result)), config).Return(nil)
+		//
 
+		// test func
 		testService := New(mac)
-
 		err := testService.SendNotify(dto)
+		//
 
+		// asserts
 		assert.Nil(t, err)
 		mac.AssertCalled(t, "Publish", []byte(string(result)), config)
+		//
 	})
 }

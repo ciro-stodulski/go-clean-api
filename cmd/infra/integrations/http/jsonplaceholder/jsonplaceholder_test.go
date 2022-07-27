@@ -16,6 +16,7 @@ func newMockResponseUsers() []byte {
 
 func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
+		// make mock
 		userMock := newMockResponseUsers()
 		mockInt := new(mockhttpclient.MockHttpClient)
 
@@ -23,13 +24,18 @@ func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 		_ = json.Unmarshal(userMock, &usersFake)
 
 		mockInt.On("Get", env.Env().JsonPlaceOlderIntegrationUrl+"/users").Return(userMock, nil)
+		//
+
+		// test func
 		testService := New(mockInt)
-
 		result, err := testService.GetUsers()
+		//
 
+		// asserts
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
 		assert.Equal(t, result, usersFake)
 		mockInt.AssertCalled(t, "Get", env.Env().JsonPlaceOlderIntegrationUrl+"/users")
+		//
 	})
 }

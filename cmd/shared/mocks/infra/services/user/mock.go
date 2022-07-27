@@ -18,7 +18,7 @@ func (mock *MockUserServices) GetByEmail(id string) (*user.User, error) {
 }
 
 func (mock *MockUserServices) GetUser(id string) (*user.User, error) {
-	arg := mock.Called()
+	arg := mock.Called(id)
 	result := arg.Get(0)
 	return result.(*user.User), arg.Error(1)
 }
@@ -30,7 +30,7 @@ func (mock *MockUserServices) ListUsers() []response_jsonplaceholder.User {
 }
 
 func (mock *MockUserServices) DeleteUser(id string) error {
-	arg := mock.Called()
+	arg := mock.Called(id)
 	return arg.Error(0)
 }
 
