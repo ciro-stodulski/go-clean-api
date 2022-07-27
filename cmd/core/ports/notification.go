@@ -1,12 +1,13 @@
 package portsservice
 
-import (
-	notificationproducer "go-api/cmd/infra/integrations/amqp/notification"
-)
-
 type (
+	Dto struct {
+		Name  string `json:"name"`
+		Event string `json:"event"`
+	}
+
 	NotificationService interface {
-		SendNotify(dto notificationproducer.Dto) error
+		SendNotify(dto Dto) error
 		CheckNotify(msg string) (string error)
 	}
 )

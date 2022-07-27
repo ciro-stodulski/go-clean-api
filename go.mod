@@ -20,6 +20,7 @@ require (
 )
 
 require (
+	bou.ke/monkey v1.0.2
 	github.com/aws/aws-sdk-go-v2 v1.8.1 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.6.1 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.3.3 // indirect
