@@ -2,6 +2,7 @@ package controllerv1userregister
 
 import (
 	"errors"
+	entity "go-api/cmd/core/entities"
 	"go-api/cmd/core/entities/user"
 	registeruserusecase "go-api/cmd/core/use-case/register-user"
 	ports_http "go-api/cmd/interface/http/ports"
@@ -12,9 +13,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Controller_User_Create(t *testing.T) {
+func Test_Controller_User_Register(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
-		mockUse := new(createuserusecasemock.MockUserCase)
+		mockUse := new(createuserusecasemock.MockUseCase)
 
 		dto := registeruserusecase.Dto{
 			Name:     "test",
@@ -39,33 +40,60 @@ func Test_Controller_User_Create(t *testing.T) {
 		}, result)
 	})
 
-	t.Run("internal error", func(t *testing.T) {
-		mockUse := new(createuserusecasemock.MockUserCase)
-
-		dto := registeruserusecase.Dto{
-			Name:     "test",
-			Email:    "test",
-			Password: "test",
-		}
-
-		mockUse.On("Register", dto).Return(&user.User{}, errors.New(""))
+	t.Run("error INVALID_DATA", func(t *testing.T) {
+		mockUse := new(createuserusecasemock.MockUseCase)
 
 		testService := New(&container.Container{
 			RegisterUserUseCase: mockUse,
 		})
 
-		result, err := testService.Handle(ports_http.HttpRequest{
-			Body: dto,
+		err_http := testService.HandleError(entity.ErrInvalidEntity)
+
+		assert.NotNil(t, err_http)
+		assert.Equal(t, &ports_http.HttpResponseError{
+			Data: ports_http.HttpError{
+				Code:    "INVALID_DATA",
+				Message: entity.ErrInvalidEntity.Error(),
+			},
+			Status: 400,
+		}, err_http)
+	})
+
+	t.Run("error USER_ALREADY_EXISTS", func(t *testing.T) {
+		mockUse := new(createuserusecasemock.MockUseCase)
+
+		testService := New(&container.Container{
+			RegisterUserUseCase: mockUse,
 		})
 
-		assert.Nil(t, result)
-		assert.NotNil(t, err)
+		err_http := testService.HandleError(user.ErrUserAlreadyExists)
+
+		assert.NotNil(t, err_http)
+		assert.Equal(t, &ports_http.HttpResponseError{
+			Data: ports_http.HttpError{
+				Code:    "USER_ALREADY_EXISTS",
+				Message: user.ErrUserAlreadyExists.Error(),
+			},
+			Status: 400,
+		}, err_http)
+	})
+
+	t.Run("error INTERNAL_ERROR", func(t *testing.T) {
+		mockUse := new(createuserusecasemock.MockUseCase)
+
+		testService := New(&container.Container{
+			RegisterUserUseCase: mockUse,
+		})
+
+		err_http := testService.HandleError(errors.New("test"))
+
+		assert.NotNil(t, err_http)
 		assert.Equal(t, &ports_http.HttpResponseError{
 			Data: ports_http.HttpError{
 				Code:    "INTERNAL_ERROR",
 				Message: "internal error",
 			},
 			Status: 500,
-		}, err)
+		}, err_http)
 	})
 }

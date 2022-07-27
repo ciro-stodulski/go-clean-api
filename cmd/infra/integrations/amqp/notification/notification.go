@@ -2,17 +2,13 @@ package notificationproducer
 
 import (
 	"encoding/json"
+	portsservice "go-api/cmd/core/ports"
 	amqpclient "go-api/cmd/infra/integrations/amqp"
 )
 
 type (
-	Dto struct {
-		Name  string `json:"name"`
-		Event string `json:"event"`
-	}
-
 	NotificationProducer interface {
-		SendNotify(dto Dto) error
+		SendNotify(dto portsservice.Dto) error
 	}
 
 	userCreateProducer struct {
@@ -30,7 +26,7 @@ func New(amqpc amqpclient.AmqpClient) NotificationProducer {
 	}
 }
 
-func (ucp *userCreateProducer) SendNotify(dto Dto) error {
+func (ucp *userCreateProducer) SendNotify(dto portsservice.Dto) error {
 	config := amqpclient.ConfigAmqpClient{
 		Exchange:    ucp.exchange,
 		Routing_key: ucp.routing_key,

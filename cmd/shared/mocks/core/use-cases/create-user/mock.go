@@ -7,11 +7,11 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type MockUserCase struct {
+type MockUseCase struct {
 	mock.Mock
 }
 
-func (mock *MockUserCase) Register(dto registeruserusecase.Dto) (*user.User, error) {
+func (mock *MockUseCase) Register(dto registeruserusecase.Dto) (*user.User, error) {
 	arg := mock.Called(dto)
 	result := arg.Get(0)
 

@@ -2,6 +2,7 @@ package notificationproducer
 
 import (
 	"encoding/json"
+	portsservice "go-api/cmd/core/ports"
 	mockamqpnotification "go-api/cmd/shared/mocks/infra/integrations/amqp/notification"
 
 	amqp "go-api/cmd/infra/integrations/amqp"
@@ -13,7 +14,7 @@ import (
 func Test_User_Create_Producer(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		mac := new(mockamqpnotification.MockAmqpClient)
-		dto := Dto{
+		dto := portsservice.Dto{
 			Name:  "test",
 			Event: "test",
 		}

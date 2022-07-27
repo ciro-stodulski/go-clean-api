@@ -12,7 +12,7 @@ type MockRepository struct {
 }
 
 func (mock *MockRepository) GetById(id entity_root.ID) (*user.User, error) {
-	arg := mock.Called()
+	arg := mock.Called(id)
 	result := arg.Get(0)
 	return result.(*user.User), arg.Error(1)
 }
@@ -29,6 +29,6 @@ func (mock *MockRepository) Create(user *user.User) error {
 }
 
 func (mock *MockRepository) DeleteById(id entity_root.ID) error {
-	arg := mock.Called()
+	arg := mock.Called(id)
 	return arg.Error(0)
 }

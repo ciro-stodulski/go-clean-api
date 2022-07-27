@@ -4,11 +4,11 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type MockUserCase struct {
+type MockUseCase struct {
 	mock.Mock
 }
 
-func (mock *MockUserCase) DeleteUser(id string) error {
+func (mock *MockUseCase) DeleteUser(id string) error {
 	arg := mock.Called(id)
 
 	return arg.Error(1)

@@ -1,9 +1,14 @@
 package notificationservice
 
 import (
-	notificationproducer "go-api/cmd/infra/integrations/amqp/notification"
+	portsservice "go-api/cmd/core/ports"
+	"log"
 )
 
-func (ns notificationService) SendNotify(dto notificationproducer.Dto) error {
+func (ns notificationService) SendNotify(dto portsservice.Dto) error {
+
+	ns.NotificationProducer.SendNotify(dto)
+
+	log.Default().Println("Send notification with succeffully.")
 	return nil
 }

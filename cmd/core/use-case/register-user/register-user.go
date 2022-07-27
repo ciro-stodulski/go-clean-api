@@ -36,5 +36,18 @@ func (cuuc *registerUserUseCase) Register(dto Dto) (*user.User, error) {
 
 	new_u, err := cuuc.UserService.Register(u)
 
-	return new_u, err
+	if err != nil {
+		return nil, err
+	}
+
+	err = cuuc.NotificationService.SendNotify(portsservice.Dto{
+		Name:  "REGISTERED_USER",
+		Event: "USER",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return new_u, nil
 }

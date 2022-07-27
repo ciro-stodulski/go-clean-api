@@ -34,8 +34,8 @@ func (mock *MockUserServices) DeleteUser(id string) error {
 	return arg.Error(0)
 }
 
-func (mock *MockUserServices) Register(*user.User) (*user.User, error) {
-	arg := mock.Called()
+func (mock *MockUserServices) Register(u *user.User) (*user.User, error) {
+	arg := mock.Called(u)
 	result := arg.Get(0)
 	return result.(*user.User), arg.Error(1)
 }
