@@ -1,6 +1,8 @@
 # go-architecture-api
 
-*initial structure of an api that implements principles of a clean architecture in golang*
+design based on clean architecture
+
+https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
 
 ## Main stacks used
 
@@ -39,7 +41,15 @@ docker-compose up
 
 # gRPC tips
 
+### start server to test client grpc
+```bash
+cd server-client-grpc
+go run .
+```
+
 ### protoc command
+
+How generate protobufjs
 
 [--proto_path=] path where is proto [cmd/infra/integrations/grpc/notification/proto,cmd/infra/integrations/grpc/notification/proto/notification.proto]
 
@@ -78,7 +88,7 @@ source ~/.bash_profile
 ```
 
 
-# evans 
+## evans (test to server grpc)
 
 ```bash
 evans -r --host localhost -p 50055
@@ -103,6 +113,8 @@ id (TYPE_STRING) => 1
   }
 }
 ```
+
+
 
 #### Current version
 
