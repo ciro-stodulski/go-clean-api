@@ -1,25 +1,25 @@
 package container
 
 import (
-	create_user_use_case "go-api/cmd/core/use-case/create-user"
-	create_user_producer_use_case "go-api/cmd/core/use-case/create-user-producer"
 	delete_user "go-api/cmd/core/use-case/delete-user"
 	get_user_use_case "go-api/cmd/core/use-case/get-user"
-	get_user_grpc "go-api/cmd/core/use-case/get-user-grpc"
 	list_users "go-api/cmd/core/use-case/list-user"
+	registeruserusecase "go-api/cmd/core/use-case/register-user"
+	verifynotificationusecase "go-api/cmd/core/use-case/verify-notification"
+	amqpclient "go-api/cmd/infra/integrations/amqp"
+	notificationproducer "go-api/cmd/infra/integrations/amqp/notification"
+	json_place_holder "go-api/cmd/infra/integrations/http/jsonplaceholder"
+	usersjsonplaceholder "go-api/cmd/infra/repositories/cache/users-jsonplaceholder"
+	model_user "go-api/cmd/infra/repositories/sql/user"
 	"go-api/cmd/shared/env"
 
-	create_user_amqp "go-api/cmd/infra/integrations/amqp/producer/user-create"
-	json_place_holder "go-api/cmd/infra/integrations/http/jsonplaceholder"
-	users_cache "go-api/cmd/infra/repositories/cache/users"
-	model_user "go-api/cmd/infra/repositories/sql/user"
-
-	amqp_client "go-api/cmd/infra/integrations/amqp/client"
-	grpc_client "go-api/cmd/infra/integrations/grpc/client"
-	find_user_service "go-api/cmd/infra/integrations/grpc/user/get-user"
-	"go-api/cmd/infra/integrations/grpc/user/get-user/pb"
-	http_service "go-api/cmd/infra/integrations/http/client"
+	grpc_client "go-api/cmd/infra/integrations/grpc"
+	notificationpbgrpc "go-api/cmd/infra/integrations/grpc/notification"
+	"go-api/cmd/infra/integrations/grpc/notification/pb"
+	http_service "go-api/cmd/infra/integrations/http"
 	cache_client "go-api/cmd/infra/repositories/cache"
+	notificationService "go-api/cmd/infra/services/notification"
+	userservice "go-api/cmd/infra/services/user"
 
 	database "go-api/cmd/infra/adapters/mysql"
 
@@ -32,12 +32,11 @@ type (
 	}
 
 	Container struct {
-		GetUserUseCase            get_user_use_case.GetUserUseCase
-		GetUserGrpcUseCase        get_user_grpc.GetUserGrpcUseCase
-		CreateUserUseCase         create_user_use_case.CreateUserUseCase
-		CreateUserProducerUseCase create_user_producer_use_case.CreateUserUseCase
-		ListUsersUseCase          list_users.ListUsersUseCase
-		DeleteUserUseCase         delete_user.DeleteUserUseCase
+		GetUserUseCase      get_user_use_case.GetUserUseCase
+		RegisterUserUseCase registeruserusecase.RegisterUserUseCase
+		ListUsersUseCase    list_users.ListUsersUseCase
+		DeleteUserUseCase   delete_user.DeleteUserUseCase
+		VerifyUseCase       verifynotificationusecase.NotifyUserUseCase
 	}
 )
 
@@ -47,13 +46,13 @@ func New() *Container {
 	db.ConnectToDatabase()
 
 	grpc_client := grpc_client.New()
-	find_user_service := find_user_service.New(
-		pb.NewGetUserServiceClient(
+	find_user_service := notificationpbgrpc.New(
+		pb.NewNotificationPbClient(
 			grpc_client.GetConnection(
-				env.Environment{}.FindUserServiceUrl)))
+				env.Env().GrpcClientUrl)))
 
-	amqp_client := amqp_client.New()
-	create_user_amqp := create_user_amqp.New(amqp_client)
+	amqp_client := amqpclient.New()
+	notification_amqp := notificationproducer.New(amqp_client)
 
 	http_service := http_service.New()
 	json_place_holder_integration := json_place_holder.New(http_service)
@@ -61,19 +60,20 @@ func New() *Container {
 	user_repository := model_user.NewUserRepository(db.Db)
 
 	cache_client := cache_client.New()
-	users_cache := users_cache.New(cache_client)
+	users_cache := usersjsonplaceholder.New(cache_client)
+
+	user_service := userservice.New(user_repository, json_place_holder_integration, users_cache)
+	notification_service := notificationService.New(find_user_service, notification_amqp)
 
 	return &Container{
-		GetUserGrpcUseCase: get_user_grpc.New(find_user_service),
 		GetUserUseCase: get_user_use_case.New(
-			user_repository,
-			json_place_holder_integration,
+			user_service,
 		),
-		CreateUserUseCase: create_user_use_case.New(
-			user_repository,
+		RegisterUserUseCase: registeruserusecase.New(
+			user_service, notification_service,
 		),
-		DeleteUserUseCase:         delete_user.New(user_repository),
-		ListUsersUseCase:          list_users.New(json_place_holder_integration, users_cache),
-		CreateUserProducerUseCase: create_user_producer_use_case.New(create_user_amqp),
+		DeleteUserUseCase: delete_user.New(user_service),
+		ListUsersUseCase:  list_users.New(user_service),
+		VerifyUseCase:     verifynotificationusecase.New(notification_service),
 	}
 }

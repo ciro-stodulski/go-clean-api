@@ -1,28 +1,26 @@
 package deleteuserusecase
 
 import (
-	entity "go-api/cmd/core/entities"
-	user "go-api/cmd/core/entities/user"
-	"log"
-
-	"github.com/google/uuid"
+	portsservice "go-api/cmd/core/ports"
 )
 
-func (duuc *deleteUserUseCase) DeleteUser(id string) error {
-	id_uuid := entity.ConvertId(id)
-
-	u, err := duuc.RepositoryUser.GetById(id_uuid)
-
-	if u.ID == uuid.Nil {
-		log.Default().Print("Not found user with id:" + id)
-		return user.ErrUserNotFound
+type (
+	DeleteUserUseCase interface {
+		DeleteUser(id string) error
 	}
-
-	if err != nil {
-		return err
+	deleteUserUseCase struct {
+		UserService portsservice.UserService
 	}
+)
 
-	duuc.RepositoryUser.DeleteById(id_uuid)
+func New(us portsservice.UserService) DeleteUserUseCase {
+	return &deleteUserUseCase{
+		UserService: us,
+	}
+}
 
-	return nil
+func (duuc *deleteUserUseCase) DeleteUser(id string) (err error) {
+	duuc.UserService.DeleteUser(id)
+
+	return
 }

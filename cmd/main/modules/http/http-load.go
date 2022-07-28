@@ -9,26 +9,28 @@ import (
 
 func loadRoutes(controllers []controllers.Controller, api gin.RouterGroup) {
 	for _, ctr := range controllers {
-		route := ctr.LoadRoute()
+		route := ctr
+		route_config := ctr.LoadRoute()
 
-		if route.PathRoot == "" {
+		if route_config.PathRoot == "" {
 			return
 		}
 
-		api_group := api.Group(route.PathRoot)
+		api_group := api.Group(route_config.PathRoot)
 
-		loadMiddlewares(route, api_group)
+		loadMiddlewares(route_config, api_group)
+
 		function := func(gin_context *gin.Context) {
 			params := loadParams(gin_context)
 
-			if route.Dto != nil {
-				if err := gin_context.BindJSON(&route.Dto); err != nil {
+			if route_config.Dto != nil {
+				if err := gin_context.BindJSON(&route_config.Dto); err != nil {
 					return
 				}
 			}
 
 			result, err := route.Handle(ports_http.HttpRequest{
-				Body:    route.Dto,
+				Body:    route_config.Dto,
 				Params:  params,
 				Query:   gin_context.Request.URL.Query(),
 				Headers: gin_context.Request.Header,
@@ -37,11 +39,13 @@ func loadRoutes(controllers []controllers.Controller, api gin.RouterGroup) {
 			if err != nil {
 				status := 500
 
-				if err.Status != 0 {
-					status = err.Status
+				result_error := route.HandleError(err)
+
+				if result_error.Status != 0 {
+					status = result_error.Status
 				}
 
-				gin_context.JSON(status, err.Data)
+				gin_context.JSON(status, result_error.Data)
 			} else {
 				if result.Headers != nil {
 					for _, header := range result.Headers {
@@ -64,20 +68,19 @@ func loadRoutes(controllers []controllers.Controller, api gin.RouterGroup) {
 			}
 		}
 
-		switch route.Method {
+		switch route_config.Method {
 		case "get":
-			api_group.GET(route.Path, function)
+			api_group.GET(route_config.Path, function)
 		case "post":
-			api_group.POST(route.Path, function)
+			api_group.POST(route_config.Path, function)
 		case "put":
-			api_group.PUT(route.Path, function)
+			api_group.PUT(route_config.Path, function)
 		case "patch":
-			api_group.PATCH(route.Path, function)
+			api_group.PATCH(route_config.Path, function)
 		case "delete":
-			api_group.DELETE(route.Path, function)
+			api_group.DELETE(route_config.Path, function)
 		default:
 		}
-
 	}
 }
 

@@ -1,14 +1,18 @@
-package rabbitmq
+package rabbitmqadapter
 
 import (
 	"log"
+	"time"
 
 	"github.com/streadway/amqp"
 )
 
 func GetChanel() *amqp.Channel {
-	conn, err_conn := amqp.Dial(
+	conn, err_conn := amqp.DialConfig(
 		GetConnection(),
+		amqp.Config{
+			Heartbeat: 5 * time.Second,
+		},
 	)
 
 	failOnError(err_conn, "Failed to connect to RabbitMQ")

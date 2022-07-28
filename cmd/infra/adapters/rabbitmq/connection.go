@@ -1,4 +1,4 @@
-package rabbitmq
+package rabbitmqadapter
 
 import (
 	"go-api/cmd/shared/env"

@@ -7,7 +7,7 @@ import (
 type Environment struct {
 	HostPort                     string `env:"HOST_PORT"`
 	HostHttp                     string `env:"HOST_HTTP"`
-	FindUserServiceUrl           string `env:"FIND_USER_SERVICE_URL"`
+	GrpcClientUrl                string `env:"GRPC_CLIENT_URL"`
 	JsonPlaceOlderIntegrationUrl string `env:"JSON_PLACE_OLDER_INTEGRATION_URL"`
 	DBDrive                      string `env:"DB_DRIVE"`
 	DBHost                       string `env:"DB_HOST"`

@@ -2,7 +2,7 @@ package amqp
 
 import (
 	"encoding/json"
-	"go-api/cmd/infra/adapters/rabbitmq"
+	rabbitmqadapter "go-api/cmd/infra/adapters/rabbitmq"
 	consumer_type "go-api/cmd/interface/amqp/consumers"
 	ports_amqp "go-api/cmd/interface/amqp/ports"
 	"go-api/cmd/main/container"
@@ -30,7 +30,7 @@ func (am *amqpModule) RunGo() bool {
 func (am *amqpModule) Stop() {}
 
 func (am *amqpModule) Start() error {
-	am.channel = rabbitmq.GetChanel()
+	am.channel = rabbitmqadapter.GetChanel()
 
 	constumers := am.LoadConsumers(am.container)
 
@@ -43,12 +43,12 @@ func (am *amqpModule) Start() error {
 
 func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, position int) {
 	queue, err := am.channel.QueueDeclarePassive(
-		constumers[position].GetQueue(), // name
-		false,                           // durable
-		false,                           // delete when unused
-		false,                           // exclusive
-		false,                           // no-wait
-		nil,                             // arguments
+		constumers[position].GetConfig().Queue, // name
+		true,                                   // durable
+		false,                                  // delete when unused
+		false,                                  // exclusive
+		false,                                  // no-wait
+		nil,                                    // arguments
 	)
 
 	failOnError(err, "Failed to declare a queue")
@@ -56,7 +56,7 @@ func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, positi
 	msgs, err := am.channel.Consume(
 		queue.Name, // queue
 		queue.Name, // consumer
-		true,       // auto-ack
+		false,      // auto-ack
 		false,      // exclusive
 		false,      // no-local
 		false,      // no-wait
@@ -67,26 +67,28 @@ func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, positi
 	log.Default().Print("RabbitMq: Started queue " + queue.Name + " to consume")
 
 	for msg := range msgs {
-		schema := constumers[position].GetSchema()
+		schema := constumers[position].GetConfig().Schema
 		err := json.Unmarshal(msg.Body, &schema)
 
 		if err != nil {
 			log.Printf("Error decoding JSON: %s", err)
-			if err := msg.Ack(false); err != nil {
-				log.Println("unable to acknowledge the message, dropped", err)
-			}
-			am.NeedToReconnect(err, "ack message")
+
+			msg.Ack(true)
 		} else {
 			err_msg_consumer := constumers[position].MessageHandler(ports_amqp.Message{
 				Body: schema,
 			})
 
 			if err_msg_consumer != nil {
-				err_consumer := constumers[position].OnConsumerError(err_msg_consumer)
-				if err := msg.Ack(false); err != nil {
-					log.Println("unable to acknowledge the message, dropped", err)
+				shoudl_ack := constumers[position].OnConsumerError(err_msg_consumer)
+
+				if shoudl_ack.Requeue {
+					msg.Nack(shoudl_ack.Multiple, true)
+				} else {
+					msg.Ack(shoudl_ack.Multiple)
 				}
-				am.NeedToReconnect(err_consumer, "ack message")
+			} else {
+				msg.Ack(true)
 			}
 		}
 	}

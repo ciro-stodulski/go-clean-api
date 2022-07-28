@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package proto_notification;
+
+option go_package = "./;pb";
+
+message Event {
+   string Name = 1;
+   string Describe = 2;
+}
+
+message Request {
+    string Msg = 1;
+}
+
+message Reponse{
+    Event event = 1;
+}
+
+service NotificationPb {
+    rpc Verify (Request) returns (Reponse) {};
+}

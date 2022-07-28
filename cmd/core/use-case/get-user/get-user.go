@@ -1,49 +1,28 @@
 package getuserusecase
 
 import (
-	entity "go-api/cmd/core/entities"
 	"go-api/cmd/core/entities/user"
-	"log"
-	"strconv"
-	"time"
-
-	"github.com/google/uuid"
+	portsservice "go-api/cmd/core/ports"
 )
 
+type (
+	GetUserUseCase interface {
+		GetUser(id string) (*user.User, error)
+	}
+
+	getUserUseCase struct {
+		UserService portsservice.UserService
+	}
+)
+
+func New(us portsservice.UserService) GetUserUseCase {
+	return &getUserUseCase{
+		UserService: us,
+	}
+}
+
 func (guuc *getUserUseCase) GetUser(id string) (*user.User, error) {
-	iu := entity.ConvertId(id)
-
-	u, err := guuc.RepositoryUser.GetById(iu)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if u.ID == uuid.Nil {
-		ujs, err := guuc.IntegrationJsonPlaceHolder.GetUsers()
-
-		if err != nil {
-			return nil, err
-		}
-
-		for _, uj := range ujs {
-			id_string := strconv.Itoa(uj.Id)
-			if id_string == id {
-				log.Default().Print("Found user in integration:" + id)
-
-				return &user.User{
-					ID:        entity.NewID(),
-					Name:      uj.Username,
-					Email:     uj.Email,
-					Password:  "test_for_integration",
-					CreatedAt: time.Now(),
-				}, nil
-			}
-		}
-
-		log.Default().Print("not found user with id:" + id)
-		return nil, user.ErrUserNotFound
-	}
+	u, err := guuc.UserService.GetUser(id)
 
 	return u, err
 }

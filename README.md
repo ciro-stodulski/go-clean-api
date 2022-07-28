@@ -1,6 +1,8 @@
 # go-architecture-api
 
-*initial structure of an api that implements principles of a clean architecture in golang*
+design based on clean architecture
+
+https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
 
 ## Main stacks used
 
@@ -39,30 +41,54 @@ docker-compose up
 
 # gRPC tips
 
+### start server to test client grpc
+```bash
+cd server-client-grpc
+go run .
+```
+
 ### protoc command
 
-[--proto_path=] path where is proto [cmd/interface/grpc/services/user/find-user/proto,cmd/interface/grpc/services/user/find-user/proto/find-user.proto]
+How generate protobufjs
 
-[--go_out=] where proto buffer will be to create [plugins=grpc:cmd/interface/grpc/services/user/find-user/pb]
+[--proto_path=] path where is proto [cmd/infra/integrations/grpc/notification/proto,cmd/infra/integrations/grpc/notification/proto/notification.proto]
 
-exe: 
+[--go_out=] where proto buffer will be to create [plugins=grpc:cmd/infra/integrations/grpc/notification/pb]
+
+infra layer exe: 
 
 ```bash
-protoc --proto_path=cmd/interface/grpc/services/user/find-user/proto cmd/interface/grpc/services/user/find-user/proto/find-user.proto --go_out=plugins=grpc:cmd/interface/grpc/services/user/find-user/pb
+protoc --proto_path=cmd/infra/integrations/grpc/notification/proto cmd/infra/integrations/grpc/notification/proto/notification.proto --go_out=plugins=grpc:cmd/infra/integrations/grpc/notification/pb
+```
+
+interface layer exe: 
+
+```bash
+protoc --proto_path=cmd/interface/grpc/user/proto cmd/interface/grpc/user/proto/grpcuser.proto --go_out=plugins=grpc:/home/santa-fe/Documents/playground/myDev/go-architecture-api/cmd/interface/grpc/user/pb
 ```
 
 *program not found or is not executable*
 try: 
 
-Run vim ~/.bash_profile
+Run 
 
+```bash
+vim ~/.bash_profile
+```
+
+```bash
 export GO_PATH=~/go
 export PATH=$PATH:/$GO_PATH/bin
+```
 
-Run source ~/.bash_profile
+Run
+
+```bash
+source ~/.bash_profile
+```
 
 
-# evans 
+## evans (test to server grpc)
 
 ```bash
 evans -r --host localhost -p 50055
@@ -87,6 +113,8 @@ id (TYPE_STRING) => 1
   }
 }
 ```
+
+
 
 #### Current version
 
