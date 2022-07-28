@@ -48,8 +48,11 @@ func (createConsumer *verifiyConsumer) MessageHandler(msg ports_amqp.Message) er
 	return nil
 }
 
-func (createConsumer *verifiyConsumer) OnConsumerError(err error) error {
-	log.Default().Println("error:", err)
+func (createConsumer *verifiyConsumer) OnConsumerError(err error) consumer.AckConfig {
+	log.Default().Println("error verify consumer:", err)
 
-	return err
+	return consumer.AckConfig{
+		Multiple: false,
+		Requeue:  false,
+	}
 }

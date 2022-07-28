@@ -44,7 +44,7 @@ func (am *amqpModule) Start() error {
 func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, position int) {
 	queue, err := am.channel.QueueDeclarePassive(
 		constumers[position].GetConfig().Queue, // name
-		false,                                  // durable
+		true,                                   // durable
 		false,                                  // delete when unused
 		false,                                  // exclusive
 		false,                                  // no-wait
@@ -56,7 +56,7 @@ func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, positi
 	msgs, err := am.channel.Consume(
 		queue.Name, // queue
 		queue.Name, // consumer
-		true,       // auto-ack
+		false,      // auto-ack
 		false,      // exclusive
 		false,      // no-local
 		false,      // no-wait
@@ -72,21 +72,23 @@ func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, positi
 
 		if err != nil {
 			log.Printf("Error decoding JSON: %s", err)
-			if err := msg.Ack(false); err != nil {
-				log.Println("unable to acknowledge the message, dropped", err)
-			}
-			am.NeedToReconnect(err, "ack message")
+
+			msg.Ack(true)
 		} else {
 			err_msg_consumer := constumers[position].MessageHandler(ports_amqp.Message{
 				Body: schema,
 			})
 
 			if err_msg_consumer != nil {
-				err_consumer := constumers[position].OnConsumerError(err_msg_consumer)
-				if err := msg.Ack(false); err != nil {
-					log.Println("unable to acknowledge the message, dropped", err)
+				shoudl_ack := constumers[position].OnConsumerError(err_msg_consumer)
+
+				if shoudl_ack.Requeue {
+					msg.Nack(shoudl_ack.Multiple, true)
+				} else {
+					msg.Ack(shoudl_ack.Multiple)
 				}
-				am.NeedToReconnect(err_consumer, "ack message")
+			} else {
+				msg.Ack(true)
 			}
 		}
 	}

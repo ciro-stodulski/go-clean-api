@@ -7,9 +7,14 @@ type (
 		Queue  string
 		Schema interface{}
 	}
+
+	AckConfig struct {
+		Multiple bool
+		Requeue  bool
+	}
 	Comsumer interface {
 		GetConfig() ConsumeConfig
 		MessageHandler(ports_amqp.Message) error
-		OnConsumerError(error) error
+		OnConsumerError(error) AckConfig
 	}
 )
