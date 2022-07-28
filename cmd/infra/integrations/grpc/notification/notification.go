@@ -35,7 +35,7 @@ func (npbgrpc *notificationPbGrpc) Verify(msg string) error {
 		Msg: msg,
 	}
 
-	res, err := npbgrpc.service.Verify(context.Background(), req, nil)
+	res, err := npbgrpc.service.Verify(context.Background(), req)
 
 	if err != nil {
 		fmt.Println(err)

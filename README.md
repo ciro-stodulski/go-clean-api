@@ -64,7 +64,7 @@ protoc --proto_path=cmd/infra/integrations/grpc/notification/proto cmd/infra/int
 interface layer exe: 
 
 ```bash
-protoc --proto_path=cmd/interface/grpc/notification/proto cmd/interface/grpc/notification/proto/notification.proto --go_out=plugins=grpc:/home/santa-fe/Documents/playground/myDev/go-architecture-api/cmd/interface/grpc/notification/pb
+protoc --proto_path=cmd/interface/grpc/user/proto cmd/interface/grpc/user/proto/grpcuser.proto --go_out=plugins=grpc:/home/santa-fe/Documents/playground/myDev/go-architecture-api/cmd/interface/grpc/user/pb
 ```
 
 *program not found or is not executable*
