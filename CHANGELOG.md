@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- add factories in container layer
 - improved module amqp 
 - create sample server grpc for functional tests
 - refactored and improved test case
