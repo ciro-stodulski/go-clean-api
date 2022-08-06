@@ -6,31 +6,10 @@ import (
 	list_users "go-api/cmd/core/use-case/list-user"
 	registeruserusecase "go-api/cmd/core/use-case/register-user"
 	verifynotificationusecase "go-api/cmd/core/use-case/verify-notification"
-	amqpclient "go-api/cmd/infra/integrations/amqp"
-	notificationproducer "go-api/cmd/infra/integrations/amqp/notification"
-	json_place_holder "go-api/cmd/infra/integrations/http/jsonplaceholder"
-	usersjsonplaceholder "go-api/cmd/infra/repositories/cache/users-jsonplaceholder"
-	model_user "go-api/cmd/infra/repositories/sql/user"
-	"go-api/cmd/shared/env"
-
-	grpc_client "go-api/cmd/infra/integrations/grpc"
-	notificationpbgrpc "go-api/cmd/infra/integrations/grpc/notification"
-	"go-api/cmd/infra/integrations/grpc/notification/pb"
-	http_service "go-api/cmd/infra/integrations/http"
-	cache_client "go-api/cmd/infra/repositories/cache"
-	notificationService "go-api/cmd/infra/services/notification"
-	userservice "go-api/cmd/infra/services/user"
-
-	database "go-api/cmd/infra/adapters/mysql"
-
-	"github.com/jinzhu/gorm"
+	"go-api/cmd/main/container/factories"
 )
 
 type (
-	ContainerConfig struct {
-		Database *gorm.DB
-	}
-
 	Container struct {
 		GetUserUseCase      get_user_use_case.GetUserUseCase
 		RegisterUserUseCase registeruserusecase.RegisterUserUseCase
@@ -40,30 +19,19 @@ type (
 	}
 )
 
-var db database.MysqlAdapter
-
 func New() *Container {
-	db.ConnectToDatabase()
+	container_config := newContainerConfig()
 
-	grpc_client := grpc_client.New()
-	find_user_service := notificationpbgrpc.New(
-		pb.NewNotificationPbClient(
-			grpc_client.GetConnection(
-				env.Env().GrpcClientUrl)))
+	infra_context := factories.MakeInfraContext(
+		container_config.Grpc_client,
+		container_config.Amqp_client,
+		container_config.Http_client,
+		container_config.Database,
+		container_config.Cache_client)
 
-	amqp_client := amqpclient.New()
-	notification_amqp := notificationproducer.New(amqp_client)
+	user_service := factories.MakeServiceContext(infra_context).User_service
 
-	http_service := http_service.New()
-	json_place_holder_integration := json_place_holder.New(http_service)
-
-	user_repository := model_user.NewUserRepository(db.Db)
-
-	cache_client := cache_client.New()
-	users_cache := usersjsonplaceholder.New(cache_client)
-
-	user_service := userservice.New(user_repository, json_place_holder_integration, users_cache)
-	notification_service := notificationService.New(find_user_service, notification_amqp)
+	notification_service := factories.MakeServiceContext(infra_context).Notification_service
 
 	return &Container{
 		GetUserUseCase: get_user_use_case.New(

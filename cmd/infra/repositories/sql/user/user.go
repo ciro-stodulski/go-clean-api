@@ -31,7 +31,7 @@ func InitMigrate(db *gorm.DB) {
 	db.AutoMigrate(&entity.User{})
 }
 
-func NewUserRepository(db *gorm.DB) (repository UserSql) {
+func New(db *gorm.DB) (repository UserSql) {
 	return &userSql{db}
 }
 

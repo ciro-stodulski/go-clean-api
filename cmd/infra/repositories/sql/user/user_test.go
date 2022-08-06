@@ -26,7 +26,7 @@ func Test_UserRepository_GetById(t *testing.T) {
 				sqlmock.NewRows([]string{"id", "name", "email", "password", "created_at"}).
 					AddRow(user_mock.ID, user_mock.Name, user_mock.Email, user_mock.Password, user_mock.CreatedAt))
 
-		repositoryUser := NewUserRepository(gdb)
+		repositoryUser := New(gdb)
 		//
 
 		// test func
@@ -59,7 +59,7 @@ func Test_UserRepository_GetByEmail(t *testing.T) {
 		//
 
 		// test func
-		repositoryUser := NewUserRepository(gdb)
+		repositoryUser := New(gdb)
 		result, err := repositoryUser.GetByEmail(user_mock.Email)
 		//
 
@@ -88,7 +88,7 @@ func Test_UserRepository_Create(t *testing.T) {
 		//
 
 		// test func
-		repositoryUser := NewUserRepository(gdb)
+		repositoryUser := New(gdb)
 		repositoryUser.Create(&entity.User{
 			ID:        user_mock.ID,
 			Name:      user_mock.Name,
@@ -118,7 +118,7 @@ func Test_UserRepository_DeleteById(t *testing.T) {
 		//
 
 		// test func
-		repositoryUser := NewUserRepository(gdb)
+		repositoryUser := New(gdb)
 		err_result := repositoryUser.DeleteById(user_mock.ID)
 		//
 
