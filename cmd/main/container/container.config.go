@@ -11,7 +11,7 @@ import (
 )
 
 type (
-	ContainerConfig struct {
+	containerConfig struct {
 		Database     *gorm.DB
 		Grpc_client  grpc_client.GRPCClient
 		Amqp_client  amqpclient.AmqpClient
@@ -22,10 +22,10 @@ type (
 
 var db database.MysqlAdapter
 
-func newContainerConfig() ContainerConfig {
+func newContainerConfig() containerConfig {
 	db.ConnectToDatabase()
 
-	return ContainerConfig{
+	return containerConfig{
 		Database:     db.Db,
 		Grpc_client:  grpc_client.New(),
 		Amqp_client:  amqpclient.New(),
