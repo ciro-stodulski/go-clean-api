@@ -19,6 +19,8 @@ require (
 	google.golang.org/protobuf v1.28.0
 )
 
+require github.com/isayme/go-amqp-reconnect v0.0.0-20210303120416-fc811b0bcda2 // indirect
+
 require (
 	bou.ke/monkey v1.0.2
 	github.com/aws/aws-sdk-go-v2 v1.8.1 // indirect

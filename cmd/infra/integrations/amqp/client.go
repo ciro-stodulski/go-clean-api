@@ -3,6 +3,7 @@ package amqpclient
 import (
 	rabbitmqadapter "go-api/cmd/infra/adapters/rabbitmq"
 
+	"github.com/isayme/go-amqp-reconnect/rabbitmq"
 	"github.com/streadway/amqp"
 )
 
@@ -16,7 +17,7 @@ type (
 		Publish(b []byte, c ConfigAmqpClient) error
 	}
 	amqpClient struct {
-		channel *amqp.Channel
+		channel *rabbitmq.Channel
 	}
 )
 

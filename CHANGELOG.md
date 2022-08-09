@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- refactored add reconnect rabbitmq solution
 - add factories in container layer
 - improved module amqp 
 - create sample server grpc for functional tests
