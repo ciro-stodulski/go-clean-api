@@ -11,12 +11,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/streadway/amqp"
+	"github.com/isayme/go-amqp-reconnect/rabbitmq"
 )
 
 type amqpModule struct {
 	container *container.Container
-	channel   *amqp.Channel
+	channel   *rabbitmq.Channel
 }
 
 func New(container *container.Container) modules.Module {
@@ -42,6 +42,7 @@ func (am *amqpModule) Start() error {
 }
 
 func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, position int) {
+
 	queue, err := am.channel.QueueDeclarePassive(
 		constumers[position].GetConfig().Queue, // name
 		true,                                   // durable

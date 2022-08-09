@@ -2,17 +2,15 @@ package rabbitmqadapter
 
 import (
 	"log"
-	"time"
 
-	"github.com/streadway/amqp"
+	"github.com/isayme/go-amqp-reconnect/rabbitmq"
 )
 
-func GetChanel() *amqp.Channel {
-	conn, err_conn := amqp.DialConfig(
+func GetChanel() *rabbitmq.Channel {
+	rabbitmq.Debug = true
+
+	conn, err_conn := rabbitmq.Dial(
 		GetConnection(),
-		amqp.Config{
-			Heartbeat: 5 * time.Second,
-		},
 	)
 
 	failOnError(err_conn, "Failed to connect to RabbitMQ")
