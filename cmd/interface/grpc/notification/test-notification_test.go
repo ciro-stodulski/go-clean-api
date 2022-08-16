@@ -1,8 +1,8 @@
-package userpb
+package notificaitonpb
 
 import (
 	"context"
-	"go-api/cmd/interface/grpc/user/pb"
+	"go-api/cmd/interface/grpc/notification/pb"
 	"go-api/cmd/main/container"
 	"go-api/cmd/shared/mocks"
 
@@ -26,7 +26,7 @@ func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
 			ListUsersUseCase: mockUseCase,
 		})
 
-		pb := &pb.ResquestUser{List: &pb.List{Name: "", Describe: ""}}
+		pb := &pb.ResquestNotification{List: &pb.List{Name: "", Describe: ""}}
 		ctx := context.Background()
 
 		result, err := testPb.Verify(ctx, pb)
