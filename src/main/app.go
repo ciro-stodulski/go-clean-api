@@ -8,7 +8,7 @@ import (
 	http_server "go-api/src/main/module/http"
 	"go-api/src/main/module/work"
 	"log"
-
+	"os"
 	"github.com/joho/godotenv"
 )
 
@@ -42,7 +42,8 @@ func New() (server *Server, err error) {
 }
 
 func InitEnvs() {
-	err := godotenv.Load(".env")
+	var environment = os.Getenv("GO_ENVIRONMENT")
+	err := godotenv.Load(".env." + environment)
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")

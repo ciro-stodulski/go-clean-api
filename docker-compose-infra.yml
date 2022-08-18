@@ -17,25 +17,6 @@ services:
         networks:
             - go-api-network
 
-    go-api-app:
-        image: go-api/app:latest
-        container_name: go-api-app
-        build:
-            context: .
-            dockerfile: Dockerfile
-        restart: always
-        ports:
-            - "80:8080"
-        depends_on:
-            - mysql-data-base
-            - go-api-rabbitmq
-        volumes:
-            - /.env.develop:/.env.develop
-        environment:
-            GO_ENVIRONMENT: "develop"
-        networks:
-            - go-api-network
-
     go-api-redis:
         image: redis:7.0.2
         container_name: go-api-redis

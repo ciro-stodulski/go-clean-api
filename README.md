@@ -20,16 +20,22 @@
 - remove .sample of .env.sample
 obs: you need to update the file with your env
 
-## Started api
+## Start api
 
 ```bash
 go run .
 ```
 
-## Started api with container
+## Start api with container
 
 ```bash
-docker-compose up
+docker-compose up -d
+```
+
+## Start infra container without api
+
+```bash
+docker-compose -f docker-compose-infra.yml up -d
 ```
 
 ## Run tests
