@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+- fix docker composer to star app
 - refactored add reconnect rabbitmq solution
 - add factories in container layer
 - improved module amqp 

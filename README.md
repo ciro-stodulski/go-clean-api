@@ -22,16 +22,14 @@ https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
 - remove .sample of .env.sample
 obs: you need to update the file with your env
 
-## Started api
+## Started 
+
+```bash
+docker-compose up -d
+```
 
 ```bash
 go run .
-```
-
-## Started api with container
-
-```bash
-docker-compose up
 ```
 
 ## Run tests
