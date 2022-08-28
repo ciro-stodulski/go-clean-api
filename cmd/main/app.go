@@ -6,6 +6,7 @@ import (
 	"go-api/cmd/main/modules/amqp"
 	"go-api/cmd/main/modules/grpc"
 	"go-api/cmd/main/modules/http"
+	"go-api/cmd/main/modules/work"
 	"go-api/cmd/shared/env"
 )
 
@@ -36,7 +37,7 @@ func New() error {
 		modules: []modules.Module{
 			amqp.New(c),
 			grpc.New(c),
-			//work.New(c),
+			work.New(c),
 			http.New(c),
 		},
 	}
