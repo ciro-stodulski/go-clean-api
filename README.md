@@ -37,7 +37,7 @@ go run .
  go test ./...
 ```
 
-# gRPC tips
+## gRPC tips
 
 ### start server to test client grpc
 ```bash
@@ -113,8 +113,30 @@ id (TYPE_STRING) => 1
 ```
 
 
+## Command line
 
-#### Current version
+- list commands 
+
+```bash
+go run ./cmd/main/modules/cli/main  list-commands
+```
+
+- run command <command>
+
+```bash
+go run ./cmd/main/modules/cli/main run-command  list-users
+```
+
+- help
+
+```bash
+go run ./cmd/main/modules/cli/main -h
+```
+
+*obs: -h, --help   help for this command*
+
+
+### Current version
 
 ## [2.2.1]
 
