@@ -9,7 +9,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/google/uuid v1.3.0
 	github.com/jinzhu/gorm v1.9.16
-	github.com/joho/godotenv v1.3.0
+	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.1
 	github.com/robfig/cron v1.2.0
 	github.com/streadway/amqp v1.0.0
@@ -19,7 +19,12 @@ require (
 	google.golang.org/protobuf v1.28.0
 )
 
-require github.com/isayme/go-amqp-reconnect v0.0.0-20210303120416-fc811b0bcda2 // indirect
+require github.com/isayme/go-amqp-reconnect v0.0.0-20210303120416-fc811b0bcda2
+
+require (
+	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+)
 
 require (
 	bou.ke/monkey v1.0.2
@@ -51,8 +56,9 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/spf13/cobra v1.5.0
 	github.com/stretchr/objx v0.2.0 // indirect
-	github.com/thrcorrea/envloader v1.0.0 // indirect
+	github.com/thrcorrea/envloader v1.0.0
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	golang.org/x/net v0.0.0-20210505214959-0714010a04ed // indirect
 	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect

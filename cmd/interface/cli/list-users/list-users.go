@@ -5,11 +5,11 @@ import (
 	cliinterface "go-api/cmd/interface/cli"
 )
 
-type listUsersCli struct {
+type ListUsersCli struct {
 	luuc listusersusecase.ListUsersUseCase
 }
 
-func (luc *listUsersCli) GetOptions() cliinterface.Options {
+func (luc *ListUsersCli) GetOptions() cliinterface.Options {
 	return cliinterface.Options{
 		Command_name: "list-users",
 		Description:  "command for list user",
@@ -18,18 +18,18 @@ func (luc *listUsersCli) GetOptions() cliinterface.Options {
 
 func New(luuc listusersusecase.ListUsersUseCase) cliinterface.Command {
 
-	return &listUsersCli{
+	return &ListUsersCli{
 		luuc: luuc,
 	}
 }
 
-func (luc *listUsersCli) Run(line cliinterface.CliLine) error {
+func (luc *ListUsersCli) Run(line cliinterface.CliLine) error {
 	luc.luuc.ListUsers()
 
 	return nil
 }
 
-func (luc *listUsersCli) Err(err error) error {
+func (luc *ListUsersCli) Err(err error) error {
 
 	return err
 }
