@@ -37,6 +37,7 @@ jobs:
       with:
         module: go-api
         service_port: ${{ secrets.SERVICEPORT }}
+        namespace: ${{ secrets.NAMESPACE }}
         
   publish:
       needs: [prepare-branch, build]
