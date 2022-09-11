@@ -1,25 +1,67 @@
-name: Go
+name: pull-request 
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ main, develop]
+    branches: [ "develop" ]
 
-jobs:
+jobs:    
+  prepare-branch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: prepare_branch
 
-  build-test:
+  pull-request:
+    needs: prepare-branch
+    if: github.ref_name != 'develop'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+  
+    - name: Validating Pull Request
+      uses: ciro-stodulski/actions/golang/pull-request@develop
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
+  build:
+    needs: prepare-branch
+    if: github.ref_name !=  'develop' #|| ${{ steps.prepare_branch.outputs.branch }} == 'main'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+  
+    - name: Executing Build
+      uses: ciro-stodulski/actions/golang/build@develop
       with:
-        go-version: 1.18.2
+        module: go-api
+        service_port: ${{ secrets.SERVICEPORT }}
+        
+  publish:
+      needs: [prepare-branch, build]
+      if: github.ref_name !=  'develop' #|| ${{ steps.prepare_branch.outputs.branch }} == 'main'
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+  
+      - name: Executing Publish
+        uses: ciro-stodulski/actions/cd/publish@develop
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build
-      run: go build -v ./...
+  deploy:
+      needs: [prepare-branch, build, publish]
+      if: github.ref_name !=  'develop' #|| ${{ steps.prepare_branch.outputs.branch }} == 'main'
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
 
-    - name: Test
-      run: go test -v ./...
+      - name: Executing Deploy
+        uses: ciro-stodulski/actions/cd/deploy@develop
+        with:
+          token: ${{ secrets.GH_PAT }} 
+          cluster: ${{ secrets.CLUSTER }} 
+          namespace: ${{ secrets.NAMESPACE }}
+          branch: ${{ steps.prepare_branch.outputs.branch }}
