@@ -9,6 +9,7 @@ sed -i  "s/\$SERVICEPORT/${SERVICEPORT}/"  deployment.yaml
 
 sed -i  "s/\$PROJECT_NAME/${APP_NAME}/"   hpa.yaml
 sed -i  "s/\$NAMESPACE/${NAMESPACE}/"     hpa.yaml
+sed -i  "s/\$APP_VERSION/${APP_VERSION}/"     hpa.yaml
 
 
 sed -i  "s/\$PROJECT_NAME/${APP_NAME}/"   service.yaml
