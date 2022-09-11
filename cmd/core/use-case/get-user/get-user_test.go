@@ -1,8 +1,8 @@
 package getuserusecase
 
 import (
-	mocks "go-api/cmd/shared/mocks"
-	mockservicesuser "go-api/cmd/shared/mocks/infra/services/user"
+	mocks "go-clean-api/cmd/shared/mocks"
+	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

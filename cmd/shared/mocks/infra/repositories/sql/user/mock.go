@@ -1,8 +1,8 @@
 package mocksqluser
 
 import (
-	entity_root "go-api/cmd/core/entities"
-	user "go-api/cmd/core/entities/user"
+	entity_root "go-clean-api/cmd/core/entities"
+	user "go-clean-api/cmd/core/entities/user"
 
 	"github.com/stretchr/testify/mock"
 )

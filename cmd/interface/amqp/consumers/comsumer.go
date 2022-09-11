@@ -1,6 +1,6 @@
 package cosumer
 
-import ports_amqp "go-api/cmd/interface/amqp/ports"
+import ports_amqp "go-clean-api/cmd/interface/amqp/ports"
 
 type (
 	ConsumeConfig struct {

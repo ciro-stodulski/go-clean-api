@@ -1,11 +1,11 @@
 package v1_user
 
 import (
-	"go-api/cmd/core/entities/user"
-	ports_http "go-api/cmd/interface/http/ports"
-	"go-api/cmd/main/container"
-	"go-api/cmd/shared/mocks"
-	getuserusecasemock "go-api/cmd/shared/mocks/core/use-cases/get-user"
+	"go-clean-api/cmd/core/entities/user"
+	ports_http "go-clean-api/cmd/interface/http/ports"
+	"go-clean-api/cmd/main/container"
+	"go-clean-api/cmd/shared/mocks"
+	getuserusecasemock "go-clean-api/cmd/shared/mocks/core/use-cases/get-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

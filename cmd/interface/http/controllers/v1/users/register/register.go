@@ -1,12 +1,12 @@
 package controllerv1userregister
 
 import (
-	entity "go-api/cmd/core/entities"
-	"go-api/cmd/core/entities/user"
-	registeruserusecase "go-api/cmd/core/use-case/register-user"
-	controllers "go-api/cmd/interface/http/controllers"
-	ports_http "go-api/cmd/interface/http/ports"
-	"go-api/cmd/main/container"
+	entity "go-clean-api/cmd/core/entities"
+	"go-clean-api/cmd/core/entities/user"
+	registeruserusecase "go-clean-api/cmd/core/use-case/register-user"
+	controllers "go-clean-api/cmd/interface/http/controllers"
+	ports_http "go-clean-api/cmd/interface/http/ports"
+	"go-clean-api/cmd/main/container"
 	"log"
 
 	"github.com/mitchellh/mapstructure"

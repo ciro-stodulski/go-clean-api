@@ -1,10 +1,10 @@
 package v1_delete_user
 
 import (
-	"go-api/cmd/core/entities/user"
-	ports_http "go-api/cmd/interface/http/ports"
-	"go-api/cmd/main/container"
-	deleteeuserusecasemock "go-api/cmd/shared/mocks/core/use-cases/delete-user"
+	"go-clean-api/cmd/core/entities/user"
+	ports_http "go-clean-api/cmd/interface/http/ports"
+	"go-clean-api/cmd/main/container"
+	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/core/use-cases/delete-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

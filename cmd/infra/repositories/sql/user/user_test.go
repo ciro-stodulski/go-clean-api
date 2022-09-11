@@ -1,8 +1,8 @@
 package usersql
 
 import (
-	entity "go-api/cmd/core/entities/user"
-	"go-api/cmd/shared/mocks"
+	entity "go-clean-api/cmd/core/entities/user"
+	"go-clean-api/cmd/shared/mocks"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"

@@ -1,11 +1,11 @@
 package container
 
 import (
-	database "go-api/cmd/infra/adapters/mysql"
-	amqpclient "go-api/cmd/infra/integrations/amqp"
-	grpc_client "go-api/cmd/infra/integrations/grpc"
-	http_service "go-api/cmd/infra/integrations/http"
-	cache_client "go-api/cmd/infra/repositories/cache"
+	database "go-clean-api/cmd/infra/adapters/mysql"
+	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
+	grpc_client "go-clean-api/cmd/infra/integrations/grpc"
+	http_service "go-clean-api/cmd/infra/integrations/http"
+	cache_client "go-clean-api/cmd/infra/repositories/cache"
 
 	"github.com/jinzhu/gorm"
 )

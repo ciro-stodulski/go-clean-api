@@ -1,10 +1,10 @@
 package verifyconsumer
 
 import (
-	portsservice "go-api/cmd/core/ports"
-	consumer "go-api/cmd/interface/amqp/consumers"
-	ports_amqp "go-api/cmd/interface/amqp/ports"
-	"go-api/cmd/main/container"
+	portsservice "go-clean-api/cmd/core/ports"
+	consumer "go-clean-api/cmd/interface/amqp/consumers"
+	ports_amqp "go-clean-api/cmd/interface/amqp/ports"
+	"go-clean-api/cmd/main/container"
 	"log"
 
 	"github.com/mitchellh/mapstructure"

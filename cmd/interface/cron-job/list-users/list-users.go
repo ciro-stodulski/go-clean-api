@@ -1,8 +1,8 @@
 package listusersjob
 
 import (
-	cronjob "go-api/cmd/interface/cron-job"
-	"go-api/cmd/main/container"
+	cronjob "go-clean-api/cmd/interface/cron-job"
+	"go-clean-api/cmd/main/container"
 	"log"
 
 	"github.com/robfig/cron"

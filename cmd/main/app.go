@@ -1,13 +1,13 @@
 package app
 
 import (
-	"go-api/cmd/main/container"
-	"go-api/cmd/main/modules"
-	"go-api/cmd/main/modules/amqp"
-	"go-api/cmd/main/modules/grpc"
-	"go-api/cmd/main/modules/http"
-	"go-api/cmd/main/modules/work"
-	"go-api/cmd/shared/env"
+	"go-clean-api/cmd/main/container"
+	"go-clean-api/cmd/main/modules"
+	"go-clean-api/cmd/main/modules/amqp"
+	"go-clean-api/cmd/main/modules/grpc"
+	"go-clean-api/cmd/main/modules/http"
+	"go-clean-api/cmd/main/modules/work"
+	"go-clean-api/cmd/shared/env"
 )
 
 type App struct {

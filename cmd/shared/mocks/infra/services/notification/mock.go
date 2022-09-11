@@ -1,7 +1,7 @@
 package mockservicesnotification
 
 import (
-	portsservice "go-api/cmd/core/ports"
+	portsservice "go-clean-api/cmd/core/ports"
 
 	"github.com/stretchr/testify/mock"
 )

@@ -2,11 +2,11 @@ package amqp
 
 import (
 	"encoding/json"
-	rabbitmqadapter "go-api/cmd/infra/adapters/rabbitmq"
-	consumer_type "go-api/cmd/interface/amqp/consumers"
-	ports_amqp "go-api/cmd/interface/amqp/ports"
-	"go-api/cmd/main/container"
-	"go-api/cmd/main/modules"
+	rabbitmqadapter "go-clean-api/cmd/infra/adapters/rabbitmq"
+	consumer_type "go-clean-api/cmd/interface/amqp/consumers"
+	ports_amqp "go-clean-api/cmd/interface/amqp/ports"
+	"go-clean-api/cmd/main/container"
+	"go-clean-api/cmd/main/modules"
 
 	"log"
 	"time"

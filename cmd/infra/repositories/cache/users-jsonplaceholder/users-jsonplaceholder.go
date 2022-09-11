@@ -2,8 +2,8 @@ package usersjsonplaceholdercache
 
 import (
 	"encoding/json"
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
-	cache_client "go-api/cmd/infra/repositories/cache"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	cache_client "go-clean-api/cmd/infra/repositories/cache"
 )
 
 type (

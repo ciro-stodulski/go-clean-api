@@ -1,9 +1,9 @@
 package portsservice
 
 import (
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
 
-	"go-api/cmd/core/entities/user"
+	"go-clean-api/cmd/core/entities/user"
 )
 
 type (

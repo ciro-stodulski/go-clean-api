@@ -1,7 +1,7 @@
 package rabbitmqadapter
 
 import (
-	"go-api/cmd/shared/env"
+	"go-clean-api/cmd/shared/env"
 )
 
 func GetConnection() string {

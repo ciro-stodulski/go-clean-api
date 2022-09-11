@@ -1,9 +1,9 @@
 package grpc
 
 import (
-	"go-api/cmd/main/container"
-	"go-api/cmd/main/modules"
-	"go-api/cmd/shared/env"
+	"go-clean-api/cmd/main/container"
+	"go-clean-api/cmd/main/modules"
+	"go-clean-api/cmd/shared/env"
 	"log"
 	"net"
 

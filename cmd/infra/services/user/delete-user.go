@@ -1,8 +1,8 @@
 package userservice
 
 import (
-	entity "go-api/cmd/core/entities"
-	user "go-api/cmd/core/entities/user"
+	entity "go-clean-api/cmd/core/entities"
+	user "go-clean-api/cmd/core/entities/user"
 	"log"
 
 	"github.com/google/uuid"

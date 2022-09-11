@@ -1,7 +1,7 @@
 package msyqladapter
 
 import (
-	repositoryUser "go-api/cmd/infra/repositories/sql/user"
+	repositoryUser "go-clean-api/cmd/infra/repositories/sql/user"
 
 	"github.com/jinzhu/gorm"
 )

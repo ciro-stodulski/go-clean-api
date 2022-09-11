@@ -2,9 +2,9 @@ package jsonplaceholder
 
 import (
 	"encoding/json"
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
-	"go-api/cmd/shared/env"
-	mockhttpclient "go-api/cmd/shared/mocks/infra/integrations/http"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	"go-clean-api/cmd/shared/env"
+	mockhttpclient "go-clean-api/cmd/shared/mocks/infra/integrations/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

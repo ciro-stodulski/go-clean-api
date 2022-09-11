@@ -1,7 +1,7 @@
 package msyqladapter
 
 import (
-	"go-api/cmd/shared/env"
+	"go-clean-api/cmd/shared/env"
 	"log"
 
 	"github.com/jinzhu/gorm"

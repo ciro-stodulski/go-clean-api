@@ -2,8 +2,8 @@ package usersql
 
 import (
 	"errors"
-	entity_root "go-api/cmd/core/entities"
-	entity "go-api/cmd/core/entities/user"
+	entity_root "go-clean-api/cmd/core/entities"
+	entity "go-clean-api/cmd/core/entities/user"
 	"log"
 
 	"github.com/go-sql-driver/mysql"

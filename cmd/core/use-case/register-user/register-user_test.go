@@ -1,11 +1,11 @@
 package registeruserusecase
 
 import (
-	entity "go-api/cmd/core/entities"
-	portsservice "go-api/cmd/core/ports"
-	mocks "go-api/cmd/shared/mocks"
-	mockservicesnotification "go-api/cmd/shared/mocks/infra/services/notification"
-	mockservicesuser "go-api/cmd/shared/mocks/infra/services/user"
+	entity "go-clean-api/cmd/core/entities"
+	portsservice "go-clean-api/cmd/core/ports"
+	mocks "go-clean-api/cmd/shared/mocks"
+	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/services/notification"
+	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
 	"testing"
 	"time"
 

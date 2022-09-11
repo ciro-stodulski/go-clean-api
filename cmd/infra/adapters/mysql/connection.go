@@ -2,7 +2,7 @@ package msyqladapter
 
 import (
 	"fmt"
-	"go-api/cmd/shared/env"
+	"go-clean-api/cmd/shared/env"
 	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"

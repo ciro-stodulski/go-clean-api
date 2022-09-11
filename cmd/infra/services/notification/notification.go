@@ -1,10 +1,10 @@
 package notificationservice
 
 import (
-	portsservice "go-api/cmd/core/ports"
+	portsservice "go-clean-api/cmd/core/ports"
 
-	notificationproducer "go-api/cmd/infra/integrations/amqp/notification"
-	getuserservice "go-api/cmd/infra/integrations/grpc/notification"
+	notificationproducer "go-clean-api/cmd/infra/integrations/amqp/notification"
+	getuserservice "go-clean-api/cmd/infra/integrations/grpc/notification"
 )
 
 type (

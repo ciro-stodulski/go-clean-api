@@ -1,12 +1,12 @@
 package userservice
 
 import (
-	entity "go-api/cmd/core/entities"
-	"go-api/cmd/core/entities/user"
-	mocks "go-api/cmd/shared/mocks"
-	mockhttpjsonplaceholder "go-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
-	mockusercache "go-api/cmd/shared/mocks/infra/repositories/cache/user"
-	mocksqluser "go-api/cmd/shared/mocks/infra/repositories/sql/user"
+	entity "go-clean-api/cmd/core/entities"
+	"go-clean-api/cmd/core/entities/user"
+	mocks "go-clean-api/cmd/shared/mocks"
+	mockhttpjsonplaceholder "go-clean-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
+	mockusercache "go-clean-api/cmd/shared/mocks/infra/repositories/cache/user"
+	mocksqluser "go-clean-api/cmd/shared/mocks/infra/repositories/sql/user"
 	"testing"
 
 	"github.com/google/uuid"

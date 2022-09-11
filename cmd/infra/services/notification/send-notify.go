@@ -1,7 +1,7 @@
 package notificationservice
 
 import (
-	portsservice "go-api/cmd/core/ports"
+	portsservice "go-clean-api/cmd/core/ports"
 	"log"
 )
 

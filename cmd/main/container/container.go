@@ -1,12 +1,12 @@
 package container
 
 import (
-	delete_user "go-api/cmd/core/use-case/delete-user"
-	get_user_use_case "go-api/cmd/core/use-case/get-user"
-	list_users "go-api/cmd/core/use-case/list-user"
-	registeruserusecase "go-api/cmd/core/use-case/register-user"
-	verifynotificationusecase "go-api/cmd/core/use-case/verify-notification"
-	"go-api/cmd/main/container/factories"
+	delete_user "go-clean-api/cmd/core/use-case/delete-user"
+	get_user_use_case "go-clean-api/cmd/core/use-case/get-user"
+	list_users "go-clean-api/cmd/core/use-case/list-user"
+	registeruserusecase "go-clean-api/cmd/core/use-case/register-user"
+	verifynotificationusecase "go-clean-api/cmd/core/use-case/verify-notification"
+	"go-clean-api/cmd/main/container/factories"
 )
 
 type (

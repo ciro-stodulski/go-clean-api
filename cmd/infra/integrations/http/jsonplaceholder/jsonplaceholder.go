@@ -1,9 +1,9 @@
 package jsonplaceholder
 
 import (
-	http_service "go-api/cmd/infra/integrations/http"
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
-	"go-api/cmd/shared/env"
+	http_service "go-clean-api/cmd/infra/integrations/http"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	"go-clean-api/cmd/shared/env"
 	"log"
 
 	"encoding/json"
