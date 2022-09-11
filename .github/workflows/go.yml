@@ -35,6 +35,7 @@ jobs:
     - name: Executing Build
       uses: ciro-stodulski/actions/golang/build@develop
       with:
+        app_name: ${{ github.event.repository.name }}
         service_port: ${{ secrets.SERVICEPORT }}
         namespace: ${{ secrets.NAMESPACE }}
         
