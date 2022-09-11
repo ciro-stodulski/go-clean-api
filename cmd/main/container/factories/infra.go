@@ -1,18 +1,18 @@
 package factories
 
 import (
-	amqpclient "go-api/cmd/infra/integrations/amqp"
-	notificationproducer "go-api/cmd/infra/integrations/amqp/notification"
-	grpc_client "go-api/cmd/infra/integrations/grpc"
-	http_service "go-api/cmd/infra/integrations/http"
-	json_place_holder "go-api/cmd/infra/integrations/http/jsonplaceholder"
-	usersjsonplaceholdercache "go-api/cmd/infra/repositories/cache/users-jsonplaceholder"
-	usersql "go-api/cmd/infra/repositories/sql/user"
+	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
+	notificationproducer "go-clean-api/cmd/infra/integrations/amqp/notification"
+	grpc_client "go-clean-api/cmd/infra/integrations/grpc"
+	http_service "go-clean-api/cmd/infra/integrations/http"
+	json_place_holder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder"
+	usersjsonplaceholdercache "go-clean-api/cmd/infra/repositories/cache/users-jsonplaceholder"
+	usersql "go-clean-api/cmd/infra/repositories/sql/user"
 
-	notificationpbgrpc "go-api/cmd/infra/integrations/grpc/notification"
-	"go-api/cmd/infra/integrations/grpc/notification/pb"
-	cache_client "go-api/cmd/infra/repositories/cache"
-	"go-api/cmd/shared/env"
+	notificationpbgrpc "go-clean-api/cmd/infra/integrations/grpc/notification"
+	"go-clean-api/cmd/infra/integrations/grpc/notification/pb"
+	cache_client "go-clean-api/cmd/infra/repositories/cache"
+	"go-clean-api/cmd/shared/env"
 
 	"github.com/jinzhu/gorm"
 )

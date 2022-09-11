@@ -1,8 +1,8 @@
 package listusersusecase
 
 import (
-	portsservice "go-api/cmd/core/ports"
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	portsservice "go-clean-api/cmd/core/ports"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
 	"log"
 )
 

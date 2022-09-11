@@ -1,7 +1,7 @@
 package user
 
 import (
-	entity "go-api/cmd/core/entities"
+	entity "go-clean-api/cmd/core/entities"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"

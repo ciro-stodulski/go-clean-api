@@ -3,7 +3,7 @@ package notificationpbgrpc
 import (
 	"context"
 	"fmt"
-	"go-api/cmd/infra/integrations/grpc/notification/pb"
+	"go-clean-api/cmd/infra/integrations/grpc/notification/pb"
 	"log"
 
 	"google.golang.org/grpc"

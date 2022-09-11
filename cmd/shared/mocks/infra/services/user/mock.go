@@ -1,8 +1,8 @@
 package mockservicesuser
 
 import (
-	"go-api/cmd/core/entities/user"
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	"go-clean-api/cmd/core/entities/user"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
 
 	"github.com/stretchr/testify/mock"
 )

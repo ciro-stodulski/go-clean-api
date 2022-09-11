@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	ports_http "go-api/cmd/interface/http/ports"
+	ports_http "go-clean-api/cmd/interface/http/ports"
 	"log"
 )
 

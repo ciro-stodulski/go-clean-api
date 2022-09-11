@@ -2,8 +2,8 @@ package notificationpbgrpc
 
 import (
 	"context"
-	"go-api/cmd/infra/integrations/grpc/notification/pb"
-	mockgrpcuser "go-api/cmd/shared/mocks/infra/integrations/grpc/user"
+	"go-clean-api/cmd/infra/integrations/grpc/notification/pb"
+	mockgrpcuser "go-clean-api/cmd/shared/mocks/infra/integrations/grpc/user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

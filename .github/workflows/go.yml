@@ -35,7 +35,6 @@ jobs:
     - name: Executing Build
       uses: ciro-stodulski/actions/golang/build@develop
       with:
-        module: go-api
         service_port: ${{ secrets.SERVICEPORT }}
         namespace: ${{ secrets.NAMESPACE }}
         

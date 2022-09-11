@@ -1,10 +1,10 @@
 package userservice
 
 import (
-	portsservice "go-api/cmd/core/ports"
-	"go-api/cmd/infra/integrations/http/jsonplaceholder"
-	usersjsonplaceholdercache "go-api/cmd/infra/repositories/cache/users-jsonplaceholder"
-	userepository "go-api/cmd/infra/repositories/sql/user"
+	portsservice "go-clean-api/cmd/core/ports"
+	"go-clean-api/cmd/infra/integrations/http/jsonplaceholder"
+	usersjsonplaceholdercache "go-clean-api/cmd/infra/repositories/cache/users-jsonplaceholder"
+	userepository "go-clean-api/cmd/infra/repositories/sql/user"
 )
 
 type userService struct {

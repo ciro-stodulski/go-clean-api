@@ -1,11 +1,11 @@
 package userservice
 
 import (
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
-	mocks "go-api/cmd/shared/mocks"
-	mockhttpjsonplaceholder "go-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
-	mockusercache "go-api/cmd/shared/mocks/infra/repositories/cache/user"
-	mocksqluser "go-api/cmd/shared/mocks/infra/repositories/sql/user"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	mocks "go-clean-api/cmd/shared/mocks"
+	mockhttpjsonplaceholder "go-clean-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
+	mockusercache "go-clean-api/cmd/shared/mocks/infra/repositories/cache/user"
+	mocksqluser "go-clean-api/cmd/shared/mocks/infra/repositories/sql/user"
 	"testing"
 )
 

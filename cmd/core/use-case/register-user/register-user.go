@@ -1,8 +1,8 @@
 package registeruserusecase
 
 import (
-	"go-api/cmd/core/entities/user"
-	portsservice "go-api/cmd/core/ports"
+	"go-clean-api/cmd/core/entities/user"
+	portsservice "go-clean-api/cmd/core/ports"
 )
 
 type (

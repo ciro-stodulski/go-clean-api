@@ -1,8 +1,8 @@
 package userservice
 
 import (
-	entity "go-api/cmd/core/entities"
-	"go-api/cmd/core/entities/user"
+	entity "go-clean-api/cmd/core/entities"
+	"go-clean-api/cmd/core/entities/user"
 	"log"
 	"strconv"
 	"time"

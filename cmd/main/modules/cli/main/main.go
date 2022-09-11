@@ -1,7 +1,7 @@
 package main
 
 import (
-	climodule "go-api/cmd/main/modules/cli"
+	climodule "go-clean-api/cmd/main/modules/cli"
 )
 
 func main() {

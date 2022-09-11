@@ -1,8 +1,8 @@
 package verifynotificationusecase
 
 import (
-	portsservice "go-api/cmd/core/ports"
-	mockservicesnotification "go-api/cmd/shared/mocks/infra/services/notification"
+	portsservice "go-clean-api/cmd/core/ports"
+	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/services/notification"
 	"testing"
 )
 

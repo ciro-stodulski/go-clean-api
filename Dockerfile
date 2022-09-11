@@ -1,9 +1,9 @@
 FROM golang:1.16-alpine
 
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 3000
 
 COPY dist .
-#COPY go-api .
+#COPY go-clean-api .
 
-ENTRYPOINT ["./go-api"]
+ENTRYPOINT ["./dist"]

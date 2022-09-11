@@ -1,10 +1,10 @@
 package userservice
 
 import (
-	user "go-api/cmd/core/entities/user"
-	mockhttpjsonplaceholder "go-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
-	mockusercache "go-api/cmd/shared/mocks/infra/repositories/cache/user"
-	mocksqluser "go-api/cmd/shared/mocks/infra/repositories/sql/user"
+	user "go-clean-api/cmd/core/entities/user"
+	mockhttpjsonplaceholder "go-clean-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
+	mockusercache "go-clean-api/cmd/shared/mocks/infra/repositories/cache/user"
+	mocksqluser "go-clean-api/cmd/shared/mocks/infra/repositories/sql/user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

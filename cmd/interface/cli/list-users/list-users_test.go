@@ -2,8 +2,8 @@ package clilistusers
 
 import (
 	"errors"
-	cliinterface "go-api/cmd/interface/cli"
-	listuserusecasemock "go-api/cmd/shared/mocks/core/use-cases/list-user"
+	cliinterface "go-clean-api/cmd/interface/cli"
+	listuserusecasemock "go-clean-api/cmd/shared/mocks/core/use-cases/list-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

@@ -1,4 +1,4 @@
-module go-api
+module go-clean-api
 
 go 1.18
 

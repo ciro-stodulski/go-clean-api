@@ -2,8 +2,8 @@ package usersjsonplaceholdercache
 
 import (
 	"encoding/json"
-	response_jsonplaceholder "go-api/cmd/infra/integrations/http/jsonplaceholder/responses"
-	mockclientcache "go-api/cmd/shared/mocks/infra/repositories/cache"
+	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	mockclientcache "go-clean-api/cmd/shared/mocks/infra/repositories/cache"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

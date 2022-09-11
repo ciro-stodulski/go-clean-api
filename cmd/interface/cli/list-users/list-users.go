@@ -1,8 +1,8 @@
 package clilistusers
 
 import (
-	listusersusecase "go-api/cmd/core/use-case/list-user"
-	cliinterface "go-api/cmd/interface/cli"
+	listusersusecase "go-clean-api/cmd/core/use-case/list-user"
+	cliinterface "go-clean-api/cmd/interface/cli"
 )
 
 type ListUsersCli struct {

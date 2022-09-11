@@ -2,11 +2,11 @@ package notificaitonpb
 
 import (
 	"context"
-	"go-api/cmd/interface/grpc/notification/pb"
-	"go-api/cmd/main/container"
-	"go-api/cmd/shared/mocks"
+	"go-clean-api/cmd/interface/grpc/notification/pb"
+	"go-clean-api/cmd/main/container"
+	"go-clean-api/cmd/shared/mocks"
 
-	listuserusecasemock "go-api/cmd/shared/mocks/core/use-cases/list-user"
+	listuserusecasemock "go-clean-api/cmd/shared/mocks/core/use-cases/list-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

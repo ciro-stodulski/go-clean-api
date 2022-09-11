@@ -2,10 +2,10 @@ package notificationproducer
 
 import (
 	"encoding/json"
-	portsservice "go-api/cmd/core/ports"
-	mockamqpnotification "go-api/cmd/shared/mocks/infra/integrations/amqp/notification"
+	portsservice "go-clean-api/cmd/core/ports"
+	mockamqpnotification "go-clean-api/cmd/shared/mocks/infra/integrations/amqp/notification"
 
-	amqp "go-api/cmd/infra/integrations/amqp"
+	amqp "go-clean-api/cmd/infra/integrations/amqp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

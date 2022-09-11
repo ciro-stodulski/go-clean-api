@@ -2,12 +2,12 @@ package controllerv1userregister
 
 import (
 	"errors"
-	entity "go-api/cmd/core/entities"
-	"go-api/cmd/core/entities/user"
-	registeruserusecase "go-api/cmd/core/use-case/register-user"
-	ports_http "go-api/cmd/interface/http/ports"
-	"go-api/cmd/main/container"
-	createuserusecasemock "go-api/cmd/shared/mocks/core/use-cases/create-user"
+	entity "go-clean-api/cmd/core/entities"
+	"go-clean-api/cmd/core/entities/user"
+	registeruserusecase "go-clean-api/cmd/core/use-case/register-user"
+	ports_http "go-clean-api/cmd/interface/http/ports"
+	"go-clean-api/cmd/main/container"
+	createuserusecasemock "go-clean-api/cmd/shared/mocks/core/use-cases/create-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

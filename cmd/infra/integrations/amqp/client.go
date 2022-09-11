@@ -1,7 +1,7 @@
 package amqpclient
 
 import (
-	rabbitmqadapter "go-api/cmd/infra/adapters/rabbitmq"
+	rabbitmqadapter "go-clean-api/cmd/infra/adapters/rabbitmq"
 
 	"github.com/isayme/go-amqp-reconnect/rabbitmq"
 	"github.com/streadway/amqp"

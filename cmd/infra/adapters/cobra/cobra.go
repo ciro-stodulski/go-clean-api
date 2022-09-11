@@ -2,7 +2,7 @@ package cobradapter
 
 import (
 	"encoding/json"
-	cliinterface "go-api/cmd/interface/cli"
+	cliinterface "go-clean-api/cmd/interface/cli"
 	"log"
 	"os"
 

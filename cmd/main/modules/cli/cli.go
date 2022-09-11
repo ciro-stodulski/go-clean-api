@@ -1,11 +1,11 @@
 package climodule
 
 import (
-	cobradapter "go-api/cmd/infra/adapters/cobra"
-	cliinterface "go-api/cmd/interface/cli"
-	clilistusers "go-api/cmd/interface/cli/list-users"
-	"go-api/cmd/main/container"
-	"go-api/cmd/shared/env"
+	cobradapter "go-clean-api/cmd/infra/adapters/cobra"
+	cliinterface "go-clean-api/cmd/interface/cli"
+	clilistusers "go-clean-api/cmd/interface/cli/list-users"
+	"go-clean-api/cmd/main/container"
+	"go-clean-api/cmd/shared/env"
 	"os"
 )
 

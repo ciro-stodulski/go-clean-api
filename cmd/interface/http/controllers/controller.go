@@ -1,6 +1,6 @@
 package controllers
 
-import ports_http "go-api/cmd/interface/http/ports"
+import ports_http "go-clean-api/cmd/interface/http/ports"
 
 type (
 	Controller interface {

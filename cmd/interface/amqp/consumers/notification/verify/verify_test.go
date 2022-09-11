@@ -1,11 +1,11 @@
 package verifyconsumer
 
 import (
-	portsservice "go-api/cmd/core/ports"
-	"go-api/cmd/main/container"
-	verifynotificationusecasemock "go-api/cmd/shared/mocks/core/use-cases/verify-notification"
+	portsservice "go-clean-api/cmd/core/ports"
+	"go-clean-api/cmd/main/container"
+	verifynotificationusecasemock "go-clean-api/cmd/shared/mocks/core/use-cases/verify-notification"
 
-	ports_amqp "go-api/cmd/interface/amqp/ports"
+	ports_amqp "go-clean-api/cmd/interface/amqp/ports"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

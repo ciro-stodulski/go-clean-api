@@ -2,8 +2,8 @@ package notificationproducer
 
 import (
 	"encoding/json"
-	portsservice "go-api/cmd/core/ports"
-	amqpclient "go-api/cmd/infra/integrations/amqp"
+	portsservice "go-clean-api/cmd/core/ports"
+	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
 )
 
 type (

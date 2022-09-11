@@ -1,8 +1,8 @@
 package createuserusecasemock
 
 import (
-	"go-api/cmd/core/entities/user"
-	registeruserusecase "go-api/cmd/core/use-case/register-user"
+	"go-clean-api/cmd/core/entities/user"
+	registeruserusecase "go-clean-api/cmd/core/use-case/register-user"
 
 	"github.com/stretchr/testify/mock"
 )

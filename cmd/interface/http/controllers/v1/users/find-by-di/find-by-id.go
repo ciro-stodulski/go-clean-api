@@ -1,11 +1,11 @@
 package v1_user
 
 import (
-	entity_user "go-api/cmd/core/entities/user"
-	controllers "go-api/cmd/interface/http/controllers"
-	"go-api/cmd/interface/http/middlewares"
-	ports_http "go-api/cmd/interface/http/ports"
-	"go-api/cmd/main/container"
+	entity_user "go-clean-api/cmd/core/entities/user"
+	controllers "go-clean-api/cmd/interface/http/controllers"
+	"go-clean-api/cmd/interface/http/middlewares"
+	ports_http "go-clean-api/cmd/interface/http/ports"
+	"go-clean-api/cmd/main/container"
 )
 
 type (
