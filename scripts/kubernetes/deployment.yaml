@@ -25,16 +25,6 @@ spec:
     spec:
       imagePullSecrets:
         - name: azure-acr
-      initContainers:
-        - name: migrations
-          envFrom:
-            - secretRef:
-                name: '$PROJECT_NAME'
-                optional: false
-          image: '$DOCKER_IMAGE'
-          imagePullPolicy: Always
-          command: ['/bin/sh']
-          args: ['-c', 'npm run migration:up']
       containers:
         - envFrom:
             - secretRef:
