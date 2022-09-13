@@ -6,4 +6,4 @@ EXPOSE 3000
 COPY dist .
 #COPY go-clean-api .
 
-ENTRYPOINT ["./dist"]
+CMD ./dist
