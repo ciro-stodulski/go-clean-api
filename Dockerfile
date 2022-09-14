@@ -5,5 +5,6 @@ EXPOSE 3000
 
 COPY dist .
 #COPY go-clean-api .
+RUN chmod 777 dist
 
 CMD ./dist
