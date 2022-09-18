@@ -1,4 +1,4 @@
-# go-architecture-api
+# go-clean-api
 
 design based on clean architecture
 
