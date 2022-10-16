@@ -47,8 +47,13 @@ func Test_UseCase_RegisterUser(t *testing.T) {
 		}
 		user_mock := mocks.CreateMockUser(dto.Email, dto.Password, dto.Name)
 
+		notificationFake := portsservice.Dto{Name: "REGISTERED_USER", Event: "USER"}
+		idFake := "63494fdabb1e0bf59fb8fc5b"
+
 		mockUserServices.On("Register", user_mock).Return(user_mock, nil)
-		mockNotificationServices.On("SendNotify", portsservice.Dto{Name: "REGISTERED_USER", Event: "USER"}).Return(nil)
+		mockNotificationServices.On("SendNotify", notificationFake).Return(nil)
+		mockNotificationServices.On("SaveNotify", notificationFake).Return("63494fdabb1e0bf59fb8fc5b")
+		mockNotificationServices.On("FindById", idFake).Return(&notificationFake)
 		//
 
 		// test func
@@ -60,10 +65,9 @@ func Test_UseCase_RegisterUser(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, user_mock, result)
 		mockUserServices.AssertCalled(t, "Register", user_mock)
-		mockNotificationServices.AssertCalled(t, "SendNotify", portsservice.Dto{
-			Name:  "REGISTERED_USER",
-			Event: "USER",
-		})
+		mockNotificationServices.AssertCalled(t, "SendNotify", notificationFake)
+		mockNotificationServices.AssertCalled(t, "SaveNotify", notificationFake)
+		mockNotificationServices.AssertCalled(t, "FindById", idFake)
 		//
 	})
 }

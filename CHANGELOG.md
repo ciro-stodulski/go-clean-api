@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+
+- add structure to mongodb 
 - add module command line 
 - fix packages 
 - fix docker composer to star app

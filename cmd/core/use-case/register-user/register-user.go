@@ -3,6 +3,7 @@ package registeruserusecase
 import (
 	"go-clean-api/cmd/core/entities/user"
 	portsservice "go-clean-api/cmd/core/ports"
+	"log"
 )
 
 type (
@@ -40,10 +41,17 @@ func (cuuc *registerUserUseCase) Register(dto Dto) (*user.User, error) {
 		return nil, err
 	}
 
-	err = cuuc.NotificationService.SendNotify(portsservice.Dto{
+	notification := portsservice.Dto{
 		Name:  "REGISTERED_USER",
 		Event: "USER",
-	})
+	}
+
+	err = cuuc.NotificationService.SendNotify(notification)
+
+	id := cuuc.NotificationService.SaveNotify(notification)
+
+	notification_mongo := cuuc.NotificationService.FindById(id)
+	log.Default().Println("notification save in mongo", notification_mongo)
 
 	if err != nil {
 		return nil, err

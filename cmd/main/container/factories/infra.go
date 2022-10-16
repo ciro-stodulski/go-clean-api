@@ -7,6 +7,7 @@ import (
 	http_service "go-clean-api/cmd/infra/integrations/http"
 	json_place_holder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder"
 	usersjsonplaceholdercache "go-clean-api/cmd/infra/repositories/cache/users-jsonplaceholder"
+	notificationcollection "go-clean-api/cmd/infra/repositories/no-sql/notification"
 	usersql "go-clean-api/cmd/infra/repositories/sql/user"
 
 	notificationpbgrpc "go-clean-api/cmd/infra/integrations/grpc/notification"
@@ -15,12 +16,14 @@ import (
 	"go-clean-api/cmd/shared/env"
 
 	"github.com/jinzhu/gorm"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type (
 	InfraContext struct {
 		NotificationPbGrpc            notificationpbgrpc.NotificationPbGrpc
 		Notification_amqp             notificationproducer.NotificationProducer
+		Notification_collection       notificationcollection.NotificationCollection
 		Json_place_holder_integration json_place_holder.JsonPlaceholderIntegration
 		User_repository               usersql.UserSql
 		Users_cache                   usersjsonplaceholdercache.UsersJsonPlaceholderCache
@@ -33,6 +36,7 @@ func MakeInfraContext(
 	http_service http_service.HttpClient,
 	database *gorm.DB,
 	cache_client cache_client.CacheClient,
+	no_sqldatabase *mongo.Database,
 ) InfraContext {
 	return InfraContext{
 		NotificationPbGrpc: notificationpbgrpc.New(
@@ -43,5 +47,6 @@ func MakeInfraContext(
 		Json_place_holder_integration: json_place_holder.New(http_service),
 		User_repository:               usersql.New(database),
 		Users_cache:                   usersjsonplaceholdercache.New(cache_client),
+		Notification_collection:       notificationcollection.New(no_sqldatabase),
 	}
 }
