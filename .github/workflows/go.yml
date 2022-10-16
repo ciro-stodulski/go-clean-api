@@ -27,7 +27,7 @@ jobs:
 
   build:
     needs: prepare-branch
-    if: github.ref_name ==  'develop' #|| ${{ steps.prepare_branch.outputs.branch }} == 'main'
+    if: github.ref_name ==  'develop' 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
         
   publish:
       needs: [prepare-branch, build]
-      if: github.ref_name ==  'develop' #|| ${{ steps.prepare_branch.outputs.branch }} == 'main'
+      if: github.ref_name ==  'develop' 
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v2
@@ -54,7 +54,7 @@ jobs:
 
   deploy:
       needs: [prepare-branch, build, publish]
-      if: github.ref_name ==  'develop' #|| ${{ steps.prepare_branch.outputs.branch }} == 'main'
+      if: github.ref_name ==  'develop' 
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v2

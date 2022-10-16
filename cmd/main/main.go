@@ -8,7 +8,7 @@ func Start() {
 	err := New()
 
 	if err != nil {
-		log.Fatal("Failed to start app", err)
+		log.Fatal("Error: Failed to start app", err)
 		return
 	}
 }

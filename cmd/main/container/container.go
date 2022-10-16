@@ -27,7 +27,8 @@ func New() *Container {
 		container_config.Amqp_client,
 		container_config.Http_client,
 		container_config.Database,
-		container_config.Cache_client)
+		container_config.Cache_client,
+		container_config.DatabaseNoSql)
 
 	user_service := factories.MakeServiceContext(infra_context).User_service
 

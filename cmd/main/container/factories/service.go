@@ -23,6 +23,7 @@ func MakeServiceContext(infra_context InfraContext) ServiceCaseContext {
 		Notification_service: notificationService.New(
 			infra_context.NotificationPbGrpc,
 			infra_context.Notification_amqp,
+			infra_context.Notification_collection,
 		),
 	}
 }

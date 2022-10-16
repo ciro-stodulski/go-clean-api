@@ -26,6 +26,5 @@ func (nuc *notifyUseCase) Notify(dto portsservice.Dto) error {
 	log.Default().Println("amqp consumer completed with succeffully")
 
 	nuc.NotificationService.CheckNotify(dto.Name)
-
 	return nil
 }

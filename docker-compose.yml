@@ -39,8 +39,17 @@ services:
       - redis-storage:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
-      - REDIS_PASSWORD=
-      
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-storage:/var/lib/mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_NOT_SQL_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_NOT_SQL_PASSWORD}      
   server-grpc:
       image: cirosda/server-grpc:latest
       container_name: go-server-grpc
@@ -52,3 +61,4 @@ volumes:
   mysql-storage:
   redis-storage:
   rabbitmq-storage:
+  mongo-storage:
