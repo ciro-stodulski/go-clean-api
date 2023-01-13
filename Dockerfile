@@ -6,4 +6,6 @@ COPY dist .
 
 EXPOSE 3000
 
+RUN chmod +x dist
+
 CMD [ "/app/dist" ]
