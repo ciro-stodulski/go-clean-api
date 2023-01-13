@@ -1,12 +1,12 @@
-# FROM golang:1.18-alpine
+FROM golang:1.19-alpine
 
-# WORKDIR /app
+WORKDIR /app
 
-# EXPOSE 3000
+COPY go-clean-api .
 
-# COPY dist .
+EXPOSE 3000
 
-# CMD ./dist
+CMD [ "/go-clean-api" ]
 
 
 # WORKDIR /usr/src/dist
@@ -22,29 +22,19 @@
 # CMD ["./app"]
 
 
-FROM golang:1.18-alpine as builder
+# FROM golang:1.18-alpine
 
-# Set Environment Variables
-ENV HOME /app
-ENV CGO_ENABLED 0
-ENV GOOS linux
+# # Set Environment Variables
+# ENV HOME /app
+# ENV CGO_ENABLED 0
+# ENV GOOS linux
 
-WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
+# WORKDIR /app
 
-# Build app
-RUN go build -a -installsuffix cgo -o dist .
+# COPY dist .
 
-FROM alpine:latest
+# WORKDIR /root/
 
-RUN apk --no-cache add ca-certificates
+# EXPOSE 3000
 
-WORKDIR /root/
-
-# Copy the pre-built binary file from the previous stage
-
-EXPOSE 3000
-
-CMD [ "./main" ]
+# CMD [ "./dist" ]
