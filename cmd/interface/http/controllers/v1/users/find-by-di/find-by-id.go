@@ -28,16 +28,11 @@ func (findByIdController *findByIdController) LoadRoute() controllers.CreateRout
 }
 
 func (findByIdController *findByIdController) Handle(req ports_http.HttpRequest) (*ports_http.HttpResponse, error) {
-	id := req.Params.Get("id")
 
-	u, err := findByIdController.container.GetUserUseCase.GetUser(id)
-
-	if err != nil {
-		return nil, err
-	}
+	findByIdController.container.ListUsersUseCase.ListUsers()
 
 	return &ports_http.HttpResponse{
-		Data:   u,
+		Data:   "",
 		Status: 200,
 	}, nil
 }

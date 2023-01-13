@@ -3,7 +3,6 @@ package app
 import (
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/main/modules"
-	"go-clean-api/cmd/main/modules/amqp"
 	"go-clean-api/cmd/main/modules/grpc"
 	"go-clean-api/cmd/main/modules/http"
 	"go-clean-api/cmd/main/modules/work"
@@ -35,7 +34,6 @@ func New() error {
 
 	app := &App{
 		modules: []modules.Module{
-			amqp.New(c),
 			grpc.New(c),
 			work.New(c),
 			http.New(c),
