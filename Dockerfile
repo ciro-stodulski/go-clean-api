@@ -2,11 +2,11 @@ FROM golang:1.19-alpine
 
 WORKDIR /app
 
-COPY go-clean-api .
+COPY dist .
 
 EXPOSE 3000
 
-CMD [ "/go-clean-api" ]
+CMD [ "/dist" ]
 
 
 # WORKDIR /usr/src/dist
