@@ -18,7 +18,7 @@ type Environment struct {
 	GrpcServerPort               string `env:"GRPC_SERVER_PORT"`
 	RedisHost                    string `env:"REDIS_HOST"`
 	DBPassword                   string `env:"DB_PASSWORD"`
-	DBNoSqlHost                  string `env:"DB_NOT_SQL_HOST"`
+	DBNoSqlHost                  string `env:"MONGO_HOST"`
 	RabbitMqHost                 string `env:"RABBIT_MQ_HOST"`
 	RabbitMqPort                 string `env:"RABBIT_MQ_PORT"`
 	RabbitMqUser                 string `env:"RABBIT_MQ_USERNAME"`

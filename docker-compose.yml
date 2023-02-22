@@ -48,8 +48,8 @@ services:
     volumes:
       - mongo-storage:/var/lib/mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${DB_NOT_SQL_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_NOT_SQL_PASSWORD}      
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}      
   server-grpc:
       image: cirosda/server-grpc:latest
       container_name: go-server-grpc
