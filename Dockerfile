@@ -1,14 +1,11 @@
-FROM golang:1.16-alpine
+FROM golang:1.18-alpine
 
 WORKDIR /app
-EXPOSE 8080
 
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
+COPY dist .
 
-COPY . .
+EXPOSE 3000
 
-RUN go build .
+RUN chmod +x dist
 
-ENTRYPOINT ["./go-api"]
+CMD [ "/app/dist" ]

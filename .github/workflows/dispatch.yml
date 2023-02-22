@@ -1,0 +1,38 @@
+name: Manual deployment to develop
+
+on:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref (Optional)
+        required: false
+
+jobs:
+  build_and_deploy:
+    name: Build and deploy to develop
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Executing Build
+      uses: ciro-stodulski/actions/golang/build@develop
+      with:
+        app_name: ${{ github.event.repository.name }}
+        service_port: ${{ secrets.SERVICEPORT }}
+        namespace: ${{ secrets.NAMESPACE }}
+
+    - uses: actions/checkout@v2
+    - name: Executing Publish
+      uses: ciro-stodulski/actions/cd/publish@develop
+      with:
+        docker_username: ${{ secrets.DOCKER_USERNAME }}
+        docker_password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - uses: actions/checkout@v2
+    - name: Executing Deploy
+      uses: ciro-stodulski/actions/cd/deploy@develop
+      with:
+        token: ${{ secrets.GH_PAT }} 
+        cluster: ${{ secrets.CLUSTER }} 
+        namespace: ${{ secrets.NAMESPACE }}
+        branch: ${{ steps.prepare_branch.outputs.branch }}

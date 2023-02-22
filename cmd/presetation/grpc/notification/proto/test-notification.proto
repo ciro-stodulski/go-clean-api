@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package proto_notification;
+
+option go_package = "./;pb";
+
+message List {
+   string Name = 1;
+   string Describe = 2;
+}
+
+message ResquestNotification {
+    List list = 1;
+}
+
+message ResponseNotificaiton{
+    List event = 1;
+}
+
+service TestNotificationInterfacePb {
+    rpc Verify (ResquestNotification) returns (ResponseNotificaiton) {};
+}

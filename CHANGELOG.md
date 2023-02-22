@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Ongoing Changes
 
+
+## [3.0.0]
+
+- add structure to mongodb 
+- add module command line 
+- fix packages 
+- fix docker composer to star app
+- refactored add reconnect rabbitmq solution
+- add factories in container layer
+- improved module amqp 
+- create sample server grpc for functional tests
+- refactored and improved test case
+- refactored presentation structure amqp and http 
+- create service notification
+- restructure name files for according to your layers
+- create mock for shared ful app
+- refactored service layer
+- refactored crete user for register user
+- create adapter and refactored in infra layer
+- refactored start app and refactored modules already created
+- renamed presentation for interface
+- added env validator
+- refectory clean architecture in project
+- refectory naming pattern in project
+- refactor structure domain and application
+
 ## [2.2.1]
 
 - fix refactoring integrations folders

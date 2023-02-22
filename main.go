@@ -1,7 +1,12 @@
 package main
 
-import app "go-api/src/main"
+import (
+	app "go-clean-api/cmd/main"
+	"log"
+)
 
 func main() {
-	app.StartApp()
+	log.Default().Print("Starting app")
+
+	app.Start()
 }
