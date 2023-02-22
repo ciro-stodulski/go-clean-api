@@ -5,8 +5,8 @@ import (
 	rabbitmqadapter "go-clean-api/cmd/infra/adapters/rabbitmq"
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/main/modules"
-	consumer_type "go-clean-api/cmd/presetation/amqp/consumers"
-	ports_amqp "go-clean-api/cmd/presetation/amqp/ports"
+	consumer_type "go-clean-api/cmd/presentation/amqp/consumers"
+	ports_amqp "go-clean-api/cmd/presentation/amqp/ports"
 
 	"log"
 	"time"

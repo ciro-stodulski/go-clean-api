@@ -3,8 +3,8 @@ package climodule
 import (
 	cobradapter "go-clean-api/cmd/infra/adapters/cobra"
 	"go-clean-api/cmd/main/container"
-	cliinterface "go-clean-api/cmd/presetation/cli"
-	clilistusers "go-clean-api/cmd/presetation/cli/list-users"
+	cliinterface "go-clean-api/cmd/presentation/cli"
+	clilistusers "go-clean-api/cmd/presentation/cli/list-users"
 	"go-clean-api/cmd/shared/env"
 	"os"
 )

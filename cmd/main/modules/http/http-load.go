@@ -1,8 +1,8 @@
 package http
 
 import (
-	controllers "go-clean-api/cmd/presetation/http/controllers"
-	ports_http "go-clean-api/cmd/presetation/http/ports"
+	controllers "go-clean-api/cmd/presentation/http/controllers"
+	ports_http "go-clean-api/cmd/presentation/http/ports"
 
 	"github.com/gin-gonic/gin"
 )

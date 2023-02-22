@@ -3,7 +3,7 @@ package http
 import (
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/main/modules"
-	ports_http "go-clean-api/cmd/presetation/http/ports"
+	ports_http "go-clean-api/cmd/presentation/http/ports"
 	"go-clean-api/cmd/shared/env"
 	"log"
 	"net/http"
