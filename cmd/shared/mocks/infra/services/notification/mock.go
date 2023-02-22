@@ -1,7 +1,7 @@
 package mockservicesnotification
 
 import (
-	portsservice "go-clean-api/cmd/domain/services"
+	domaindto "go-clean-api/cmd/domain/dto"
 
 	"github.com/stretchr/testify/mock"
 )
@@ -10,7 +10,7 @@ type MockNotificationServices struct {
 	mock.Mock
 }
 
-func (mock *MockNotificationServices) SendNotify(dto portsservice.Dto) error {
+func (mock *MockNotificationServices) SendNotify(dto domaindto.Event) error {
 	arg := mock.Called(dto)
 	return arg.Error(0)
 }
@@ -20,16 +20,16 @@ func (mock *MockNotificationServices) CheckNotify(msg string) (string error) {
 	return arg.Error(1)
 }
 
-func (mock *MockNotificationServices) SaveNotify(dto portsservice.Dto) string {
+func (mock *MockNotificationServices) SaveNotify(dto domaindto.Event) string {
 	arg := mock.Called(dto)
 	result := arg.Get(0)
 
 	return result.(string)
 }
 
-func (mock *MockNotificationServices) FindById(msg string) *portsservice.Dto {
+func (mock *MockNotificationServices) FindById(msg string) *domaindto.Event {
 	arg := mock.Called(msg)
 	result := arg.Get(0)
 
-	return result.(*portsservice.Dto)
+	return result.(*domaindto.Event)
 }

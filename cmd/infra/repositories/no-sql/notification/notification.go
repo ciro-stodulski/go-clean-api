@@ -2,8 +2,8 @@ package notificationcollection
 
 import (
 	"context"
+	domaindto "go-clean-api/cmd/domain/dto"
 	domainnotificationcollection "go-clean-api/cmd/domain/repositories/no-sql"
-	portsservice "go-clean-api/cmd/domain/services"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,8 +23,8 @@ func New(db *mongo.Database) domainnotificationcollection.NotificationCollection
 	}
 }
 
-func (mc *notificationCollection) FindById(id primitive.ObjectID) (*portsservice.Dto, error) {
-	var notification portsservice.Dto
+func (mc *notificationCollection) FindById(id primitive.ObjectID) (*domaindto.Event, error) {
+	var notification domaindto.Event
 
 	filter := bson.D{{Key: "_id", Value: id}}
 
@@ -38,7 +38,7 @@ func (mc *notificationCollection) FindById(id primitive.ObjectID) (*portsservice
 	return &notification, nil
 }
 
-func (mc *notificationCollection) Create(notification portsservice.Dto) string {
+func (mc *notificationCollection) Create(notification domaindto.Event) string {
 	ctx := context.Background()
 
 	result, err := mc.collection.InsertOne(ctx, notification)

@@ -35,7 +35,7 @@ func (cuuc *registerUserUseCase) Register(dto domaindto.Dto) (*user.User, error)
 		return nil, err
 	}
 
-	notification := portsservice.Dto{
+	notification := domaindto.Event{
 		Name:  "REGISTERED_USER",
 		Event: "USER",
 	}

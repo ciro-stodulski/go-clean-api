@@ -1,11 +1,9 @@
 package domainusecases
 
-import (
-	portsservice "go-clean-api/cmd/domain/services"
-)
+import domaindto "go-clean-api/cmd/domain/dto"
 
 type (
 	NotifyUserUseCase interface {
-		Notify(dto portsservice.Dto) error
+		Notify(dto domaindto.Event) error
 	}
 )

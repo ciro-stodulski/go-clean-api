@@ -2,8 +2,8 @@ package notificationproducer
 
 import (
 	"encoding/json"
+	domaindto "go-clean-api/cmd/domain/dto"
 	domainnotificationproducer "go-clean-api/cmd/domain/integrations/amqp"
-	portsservice "go-clean-api/cmd/domain/services"
 	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
 )
 
@@ -23,7 +23,7 @@ func New(amqpc amqpclient.AmqpClient) domainnotificationproducer.NotificationPro
 	}
 }
 
-func (ucp *userCreateProducer) SendNotify(dto portsservice.Dto) error {
+func (ucp *userCreateProducer) SendNotify(dto domaindto.Event) error {
 	config := amqpclient.ConfigAmqpClient{
 		Exchange:    ucp.exchange,
 		Routing_key: ucp.routing_key,

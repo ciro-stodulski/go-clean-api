@@ -1,6 +1,7 @@
 package verifynotificationusecase
 
 import (
+	domaindto "go-clean-api/cmd/domain/dto"
 	portsservice "go-clean-api/cmd/domain/services"
 	domainusecases "go-clean-api/cmd/domain/use-cases"
 	"log"
@@ -18,7 +19,7 @@ func New(ns portsservice.NotificationService) domainusecases.NotifyUserUseCase {
 	}
 }
 
-func (nuc *notifyUseCase) Notify(dto portsservice.Dto) error {
+func (nuc *notifyUseCase) Notify(dto domaindto.Event) error {
 
 	log.Default().Println("amqp consumer completed with succeffully")
 

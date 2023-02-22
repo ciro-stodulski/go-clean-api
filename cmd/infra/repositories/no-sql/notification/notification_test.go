@@ -1,7 +1,7 @@
 package notificationcollection
 
 import (
-	portsservice "go-clean-api/cmd/domain/services"
+	domaindto "go-clean-api/cmd/domain/dto"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,7 +17,7 @@ func TestFindById(t *testing.T) {
 
 	mt.Run("should return notification with success", func(mt *mtest.T) {
 		mt.DB = mt.Client.Database("go-clean-api")
-		notification_fake := portsservice.Dto{
+		notification_fake := domaindto.Event{
 			Name:  "john",
 			Event: "created",
 		}
@@ -35,7 +35,7 @@ func TestFindById(t *testing.T) {
 		result, err := collection.FindById(id_fake)
 
 		assert.Nil(t, err)
-		assert.Equal(t, notification_fake, portsservice.Dto{
+		assert.Equal(t, notification_fake, domaindto.Event{
 			Name:  result.Name,
 			Event: result.Event,
 		})
@@ -50,7 +50,7 @@ func TestCreate(t *testing.T) {
 	mt.Run("should create notification with success", func(mt *mtest.T) {
 		mt.DB = mt.Client.Database("go-clean-api")
 
-		notification_fake := portsservice.Dto{
+		notification_fake := domaindto.Event{
 			Name:  "john",
 			Event: "created",
 		}

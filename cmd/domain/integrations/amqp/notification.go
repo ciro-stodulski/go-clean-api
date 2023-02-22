@@ -1,11 +1,9 @@
 package domainnotificationproducer
 
-import (
-	portsservice "go-clean-api/cmd/domain/services"
-)
+import domaindto "go-clean-api/cmd/domain/dto"
 
 type (
 	NotificationProducer interface {
-		SendNotify(dto portsservice.Dto) error
+		SendNotify(dto domaindto.Event) error
 	}
 )

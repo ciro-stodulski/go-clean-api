@@ -1,16 +1,12 @@
 package domainservice
 
-type (
-	Dto struct {
-		Id    string `json:"id" bson:"_id,omitempty"`
-		Name  string `json:"name"  bson:"name"`
-		Event string `json:"event" bson:"event"`
-	}
+import domaindto "go-clean-api/cmd/domain/dto"
 
+type (
 	NotificationService interface {
-		SendNotify(dto Dto) error
+		SendNotify(dto domaindto.Event) error
 		CheckNotify(msg string) (string error)
-		SaveNotify(Dto) string
-		FindById(id string) *Dto
+		SaveNotify(domaindto.Event) string
+		FindById(id string) *domaindto.Event
 	}
 )

@@ -1,11 +1,11 @@
 package notificationservice
 
 import (
-	portsservice "go-clean-api/cmd/domain/services"
+	domaindto "go-clean-api/cmd/domain/dto"
 	"log"
 )
 
-func (ns notificationService) SendNotify(dto portsservice.Dto) error {
+func (ns notificationService) SendNotify(dto domaindto.Event) error {
 
 	ns.NotificationProducer.SendNotify(dto)
 

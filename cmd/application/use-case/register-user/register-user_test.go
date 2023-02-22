@@ -3,7 +3,6 @@ package registeruserusecase
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	entity "go-clean-api/cmd/domain/entities"
-	portsservice "go-clean-api/cmd/domain/services"
 	mocks "go-clean-api/cmd/shared/mocks"
 	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/services/notification"
 	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
@@ -49,7 +48,7 @@ func Test_UseCase_RegisterUser(t *testing.T) {
 		}
 		user_mock := mocks.CreateMockUser(dto.Email, dto.Password, dto.Name)
 
-		notificationFake := portsservice.Dto{Name: "REGISTERED_USER", Event: "USER"}
+		notificationFake := domaindto.Event{Name: "REGISTERED_USER", Event: "USER"}
 		idFake := "63494fdabb1e0bf59fb8fc5b"
 
 		mockUserServices.On("Register", user_mock).Return(user_mock, nil)
