@@ -1,7 +1,7 @@
 package notificationservice
 
 import (
-	portsservice "go-clean-api/cmd/core/ports"
+	portsservice "go-clean-api/cmd/domain/services"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

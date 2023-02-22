@@ -1,22 +1,22 @@
 package userservice
 
 import (
-	portsservice "go-clean-api/cmd/core/ports"
-	"go-clean-api/cmd/infra/integrations/http/jsonplaceholder"
-	usersjsonplaceholdercache "go-clean-api/cmd/infra/repositories/cache/users-jsonplaceholder"
-	userepository "go-clean-api/cmd/infra/repositories/sql/user"
+	domainjsonplaceholder "go-clean-api/cmd/domain/integrations/http"
+	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repositories/cache"
+	domainusersql "go-clean-api/cmd/domain/repositories/sql"
+	portsservice "go-clean-api/cmd/domain/services"
 )
 
 type userService struct {
-	SqlUser                    userepository.UserSql
-	IntegrationJsonPlaceHolder jsonplaceholder.JsonPlaceholderIntegration
-	UsersJsonPlaceholderCache  usersjsonplaceholdercache.UsersJsonPlaceholderCache
+	SqlUser                    domainusersql.UserSql
+	IntegrationJsonPlaceHolder domainjsonplaceholder.JsonPlaceholderIntegration
+	UsersJsonPlaceholderCache  domainusersjsonplaceholdercache.UsersJsonPlaceholderCache
 }
 
 func New(
-	ur userepository.UserSql,
-	ji jsonplaceholder.JsonPlaceholderIntegration,
-	ujc usersjsonplaceholdercache.UsersJsonPlaceholderCache,
+	ur domainusersql.UserSql,
+	ji domainjsonplaceholder.JsonPlaceholderIntegration,
+	ujc domainusersjsonplaceholdercache.UsersJsonPlaceholderCache,
 ) portsservice.UserService {
 	return &userService{
 		SqlUser:                    ur,

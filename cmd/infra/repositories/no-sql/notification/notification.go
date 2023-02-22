@@ -2,7 +2,8 @@ package notificationcollection
 
 import (
 	"context"
-	portsservice "go-clean-api/cmd/core/ports"
+	domainnotificationcollection "go-clean-api/cmd/domain/repositories/no-sql"
+	portsservice "go-clean-api/cmd/domain/services"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,16 +12,12 @@ import (
 )
 
 type (
-	NotificationCollection interface {
-		FindById(id primitive.ObjectID) (*portsservice.Dto, error)
-		Create(notification portsservice.Dto) string
-	}
 	notificationCollection struct {
 		collection *mongo.Collection
 	}
 )
 
-func New(db *mongo.Database) NotificationCollection {
+func New(db *mongo.Database) domainnotificationcollection.NotificationCollection {
 	return &notificationCollection{
 		collection: db.Collection("notifications"),
 	}

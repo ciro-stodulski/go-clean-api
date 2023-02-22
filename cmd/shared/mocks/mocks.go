@@ -1,8 +1,8 @@
 package mocks
 
 import (
-	user "go-clean-api/cmd/core/entities/user"
-	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
+	user "go-clean-api/cmd/domain/entities/user"
 )
 
 func NewMockUser() *user.User {

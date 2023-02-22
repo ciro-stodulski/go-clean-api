@@ -1,8 +1,9 @@
 package userservice
 
 import (
-	entity "go-clean-api/cmd/core/entities"
-	"go-clean-api/cmd/core/entities/user"
+	entity "go-clean-api/cmd/domain/entities"
+	"go-clean-api/cmd/domain/entities/user"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	mocks "go-clean-api/cmd/shared/mocks"
 	mockhttpjsonplaceholder "go-clean-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
 	mockusercache "go-clean-api/cmd/shared/mocks/infra/repositories/cache/user"
@@ -39,7 +40,7 @@ func Test_Service_DeleteUser(t *testing.T) {
 		mockCache := new(mockusercache.MockCache)
 		id_mock := entity.ConvertId(userMock.ID.String())
 
-		errMock := user.ErrUserNotFound
+		errMock := domainexceptions.ErrUserNotFound
 
 		mockRepo.On("GetById", id_mock).Return(&user.User{ID: uuid.Nil}, nil)
 		mockRepo.On("DeleteById", id_mock).Return(errMock)
@@ -49,7 +50,7 @@ func Test_Service_DeleteUser(t *testing.T) {
 		err := testService.DeleteUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, user.ErrUserNotFound)
+		assert.Equal(t, err, domainexceptions.ErrUserNotFound)
 		mockRepo.AssertCalled(t, "GetById", id_mock)
 	})
 }

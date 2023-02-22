@@ -2,15 +2,12 @@ package notificationproducer
 
 import (
 	"encoding/json"
-	portsservice "go-clean-api/cmd/core/ports"
+	domainnotificationproducer "go-clean-api/cmd/domain/integrations/amqp"
+	portsservice "go-clean-api/cmd/domain/services"
 	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
 )
 
 type (
-	NotificationProducer interface {
-		SendNotify(dto portsservice.Dto) error
-	}
-
 	userCreateProducer struct {
 		clientAmqp  amqpclient.AmqpClient
 		exchange    string
@@ -18,7 +15,7 @@ type (
 	}
 )
 
-func New(amqpc amqpclient.AmqpClient) NotificationProducer {
+func New(amqpc amqpclient.AmqpClient) domainnotificationproducer.NotificationProducer {
 	return &userCreateProducer{
 		clientAmqp:  amqpc,
 		exchange:    "notification.dx",

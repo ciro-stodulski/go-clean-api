@@ -1,7 +1,7 @@
 package notificationcollection
 
 import (
-	portsservice "go-clean-api/cmd/core/ports"
+	portsservice "go-clean-api/cmd/domain/services"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

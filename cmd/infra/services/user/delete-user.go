@@ -1,8 +1,8 @@
 package userservice
 
 import (
-	entity "go-clean-api/cmd/core/entities"
-	user "go-clean-api/cmd/core/entities/user"
+	entity "go-clean-api/cmd/domain/entities"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"log"
 
 	"github.com/google/uuid"
@@ -15,7 +15,7 @@ func (duuc *userService) DeleteUser(id string) error {
 
 	if u.ID == uuid.Nil {
 		log.Default().Print("Not found user with id:" + id)
-		return user.ErrUserNotFound
+		return domainexceptions.ErrUserNotFound
 	}
 
 	if err != nil {

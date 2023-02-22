@@ -2,8 +2,9 @@ package userservice
 
 import (
 	"errors"
-	entity "go-clean-api/cmd/core/entities"
-	"go-clean-api/cmd/core/entities/user"
+	entity "go-clean-api/cmd/domain/entities"
+	"go-clean-api/cmd/domain/entities/user"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	mocks "go-clean-api/cmd/shared/mocks"
 	mockhttpjsonplaceholder "go-clean-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
 	mockusercache "go-clean-api/cmd/shared/mocks/infra/repositories/cache/user"
@@ -101,7 +102,7 @@ func Test_Service_GetUser(t *testing.T) {
 		_, err := testService.GetUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, user.ErrUserNotFound)
+		assert.Equal(t, err, domainexceptions.ErrUserNotFound)
 		mockRepo.AssertCalled(t, "GetById", id_mock)
 		mockInt.AssertNumberOfCalls(t, "GetUsers", 1)
 	})

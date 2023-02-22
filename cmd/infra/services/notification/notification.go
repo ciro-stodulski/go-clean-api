@@ -1,21 +1,21 @@
 package notificationservice
 
 import (
-	portsservice "go-clean-api/cmd/core/ports"
-	notificationproducer "go-clean-api/cmd/infra/integrations/amqp/notification"
-	getuserservice "go-clean-api/cmd/infra/integrations/grpc/notification"
-	notificationcollection "go-clean-api/cmd/infra/repositories/no-sql/notification"
+	domainnotificationproducer "go-clean-api/cmd/domain/integrations/amqp"
+	domainnotificationpbgrpc "go-clean-api/cmd/domain/integrations/grpc"
+	domainnotificationcollection "go-clean-api/cmd/domain/repositories/no-sql"
+	portsservice "go-clean-api/cmd/domain/services"
 )
 
 type (
 	notificationService struct {
-		NotificationProto      getuserservice.NotificationPbGrpc
-		NotificationProducer   notificationproducer.NotificationProducer
-		NotificationCollection notificationcollection.NotificationCollection
+		NotificationProto      domainnotificationpbgrpc.NotificationPbGrpc
+		NotificationProducer   domainnotificationproducer.NotificationProducer
+		NotificationCollection domainnotificationcollection.NotificationCollection
 	}
 )
 
-func New(pbs getuserservice.NotificationPbGrpc, pn notificationproducer.NotificationProducer, nc notificationcollection.NotificationCollection) portsservice.NotificationService {
+func New(pbs domainnotificationpbgrpc.NotificationPbGrpc, pn domainnotificationproducer.NotificationProducer, nc domainnotificationcollection.NotificationCollection) portsservice.NotificationService {
 	return &notificationService{
 		NotificationProto:      pbs,
 		NotificationProducer:   pn,

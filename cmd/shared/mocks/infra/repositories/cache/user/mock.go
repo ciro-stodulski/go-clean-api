@@ -1,7 +1,7 @@
 package mockusercache
 
 import (
-	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
 
 	"github.com/stretchr/testify/mock"
 )

@@ -3,6 +3,7 @@ package notificationpbgrpc
 import (
 	"context"
 	"fmt"
+	domainnotificationpbgrpc "go-clean-api/cmd/domain/integrations/grpc"
 	"go-clean-api/cmd/infra/integrations/grpc/notification/pb"
 	"log"
 
@@ -14,16 +15,12 @@ type (
 		Verify(context.Context, *pb.Request, ...grpc.CallOption) (*pb.Reponse, error)
 	}
 
-	NotificationPbGrpc interface {
-		Verify(id string) error
-	}
-
 	notificationPbGrpc struct {
 		service PbNotification
 	}
 )
 
-func New(service PbNotification) NotificationPbGrpc {
+func New(service PbNotification) domainnotificationpbgrpc.NotificationPbGrpc {
 
 	return &notificationPbGrpc{
 		service: service,

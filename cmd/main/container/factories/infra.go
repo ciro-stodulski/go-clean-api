@@ -1,6 +1,12 @@
 package factories
 
 import (
+	domainnotificationproducer "go-clean-api/cmd/domain/integrations/amqp"
+	domainnotificationpbgrpc "go-clean-api/cmd/domain/integrations/grpc"
+	domainjsonplaceholder "go-clean-api/cmd/domain/integrations/http"
+	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repositories/cache"
+	domainnotificationcollection "go-clean-api/cmd/domain/repositories/no-sql"
+	domainusersql "go-clean-api/cmd/domain/repositories/sql"
 	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
 	notificationproducer "go-clean-api/cmd/infra/integrations/amqp/notification"
 	grpc_client "go-clean-api/cmd/infra/integrations/grpc"
@@ -21,12 +27,12 @@ import (
 
 type (
 	InfraContext struct {
-		NotificationPbGrpc            notificationpbgrpc.NotificationPbGrpc
-		Notification_amqp             notificationproducer.NotificationProducer
-		Notification_collection       notificationcollection.NotificationCollection
-		Json_place_holder_integration json_place_holder.JsonPlaceholderIntegration
-		User_repository               usersql.UserSql
-		Users_cache                   usersjsonplaceholdercache.UsersJsonPlaceholderCache
+		NotificationPbGrpc            domainnotificationpbgrpc.NotificationPbGrpc
+		Notification_amqp             domainnotificationproducer.NotificationProducer
+		Notification_collection       domainnotificationcollection.NotificationCollection
+		Json_place_holder_integration domainjsonplaceholder.JsonPlaceholderIntegration
+		User_repository               domainusersql.UserSql
+		Users_cache                   domainusersjsonplaceholdercache.UsersJsonPlaceholderCache
 	}
 )
 

@@ -1,9 +1,9 @@
 package grpc
 
 import (
-	notificaitonpb "go-clean-api/cmd/interface/grpc/notification"
-	"go-clean-api/cmd/interface/grpc/notification/pb"
 	"go-clean-api/cmd/main/container"
+	notificaitonpb "go-clean-api/cmd/presetation/grpc/notification"
+	"go-clean-api/cmd/presetation/grpc/notification/pb"
 	"log"
 )
 

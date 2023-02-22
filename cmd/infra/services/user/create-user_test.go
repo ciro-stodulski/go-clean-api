@@ -1,7 +1,7 @@
 package userservice
 
 import (
-	user "go-clean-api/cmd/core/entities/user"
+	user "go-clean-api/cmd/domain/entities/user"
 	mockhttpjsonplaceholder "go-clean-api/cmd/shared/mocks/infra/integrations/http/jsonplaceholder"
 	mockusercache "go-clean-api/cmd/shared/mocks/infra/repositories/cache/user"
 	mocksqluser "go-clean-api/cmd/shared/mocks/infra/repositories/sql/user"

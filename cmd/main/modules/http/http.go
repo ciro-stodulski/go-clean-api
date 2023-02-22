@@ -1,9 +1,9 @@
 package http
 
 import (
-	ports_http "go-clean-api/cmd/interface/http/ports"
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/main/modules"
+	ports_http "go-clean-api/cmd/presetation/http/ports"
 	"go-clean-api/cmd/shared/env"
 	"log"
 	"net/http"

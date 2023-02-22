@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Ongoing Changes
 
 
+## [3.0.0]
+
 - add structure to mongodb 
 - add module command line 
 - fix packages 
@@ -29,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - added env validator
 - refectory clean architecture in project
 - refectory naming pattern in project
+- refactor structure domain and application
 
 ## [2.2.1]
 

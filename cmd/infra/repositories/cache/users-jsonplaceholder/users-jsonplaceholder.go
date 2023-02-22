@@ -2,21 +2,18 @@ package usersjsonplaceholdercache
 
 import (
 	"encoding/json"
-	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
+	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
+	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repositories/cache"
 	cache_client "go-clean-api/cmd/infra/repositories/cache"
 )
 
 type (
-	UsersJsonPlaceholderCache interface {
-		Set(key string, user []response_jsonplaceholder.User, time int)
-		Get(key string) ([]response_jsonplaceholder.User, error)
-	}
 	usersJsonplaceholderCache struct {
 		client cache_client.CacheClient
 	}
 )
 
-func New(cli cache_client.CacheClient) UsersJsonPlaceholderCache {
+func New(cli cache_client.CacheClient) domainusersjsonplaceholdercache.UsersJsonPlaceholderCache {
 	return &usersJsonplaceholderCache{
 		client: cli,
 	}

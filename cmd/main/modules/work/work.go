@@ -1,10 +1,10 @@
 package work
 
 import (
-	cronjob "go-clean-api/cmd/interface/cron-job"
-	listusers_job "go-clean-api/cmd/interface/cron-job/list-users"
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/main/modules"
+	cronjob "go-clean-api/cmd/presetation/cron-job"
+	listusers_job "go-clean-api/cmd/presetation/cron-job/list-users"
 	"log"
 	"strconv"
 )

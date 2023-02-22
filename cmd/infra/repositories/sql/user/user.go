@@ -2,8 +2,10 @@ package usersql
 
 import (
 	"errors"
-	entity_root "go-clean-api/cmd/core/entities"
-	entity "go-clean-api/cmd/core/entities/user"
+	entity_root "go-clean-api/cmd/domain/entities"
+	entity "go-clean-api/cmd/domain/entities/user"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	domainusersql "go-clean-api/cmd/domain/repositories/sql"
 	"log"
 
 	"github.com/go-sql-driver/mysql"
@@ -13,13 +15,6 @@ import (
 var mysqlErr *mysql.MySQLError
 
 type (
-	UserSql interface {
-		DeleteById(id entity_root.ID) error
-		GetById(id entity_root.ID) (*entity.User, error)
-		GetByEmail(email string) (*entity.User, error)
-		Create(u *entity.User) error
-	}
-
 	userSql struct {
 		db *gorm.DB
 	}
@@ -31,7 +26,7 @@ func InitMigrate(db *gorm.DB) {
 	db.AutoMigrate(&entity.User{})
 }
 
-func New(db *gorm.DB) (repository UserSql) {
+func New(db *gorm.DB) (repository domainusersql.UserSql) {
 	return &userSql{db}
 }
 
@@ -52,7 +47,7 @@ func (ru *userSql) Create(user *entity.User) error {
 
 	if err != nil {
 		if errors.As(err.Error, &mysqlErr) && mysqlErr.Number == 1062 {
-			return entity.ErrUserAlreadyExists
+			return domainexceptions.ErrUserAlreadyExists
 		}
 		return err.Error
 	}

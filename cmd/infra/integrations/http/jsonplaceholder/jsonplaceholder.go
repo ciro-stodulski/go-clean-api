@@ -1,8 +1,9 @@
 package jsonplaceholder
 
 import (
+	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
+	domainjsonplaceholder "go-clean-api/cmd/domain/integrations/http"
 	http_service "go-clean-api/cmd/infra/integrations/http"
-	response_jsonplaceholder "go-clean-api/cmd/infra/integrations/http/jsonplaceholder/responses"
 	"go-clean-api/cmd/shared/env"
 	"log"
 
@@ -10,17 +11,13 @@ import (
 )
 
 type (
-	JsonPlaceholderIntegration interface {
-		GetUsers() ([]response_jsonplaceholder.User, error)
-	}
-
 	jsonPlaceholderIntegration struct {
 		Http    http_service.HttpClient
 		rootUrl string
 	}
 )
 
-func New(http http_service.HttpClient) JsonPlaceholderIntegration {
+func New(http http_service.HttpClient) domainjsonplaceholder.JsonPlaceholderIntegration {
 
 	return &jsonPlaceholderIntegration{
 		Http:    http,

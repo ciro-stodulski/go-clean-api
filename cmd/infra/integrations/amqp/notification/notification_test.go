@@ -2,7 +2,7 @@ package notificationproducer
 
 import (
 	"encoding/json"
-	portsservice "go-clean-api/cmd/core/ports"
+	portsservice "go-clean-api/cmd/domain/services"
 	mockamqpnotification "go-clean-api/cmd/shared/mocks/infra/integrations/amqp/notification"
 
 	amqp "go-clean-api/cmd/infra/integrations/amqp"

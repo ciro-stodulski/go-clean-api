@@ -1,7 +1,7 @@
 package factories
 
 import (
-	portsservice "go-clean-api/cmd/core/ports"
+	portsservice "go-clean-api/cmd/domain/services"
 	notificationService "go-clean-api/cmd/infra/services/notification"
 	userservice "go-clean-api/cmd/infra/services/user"
 )
