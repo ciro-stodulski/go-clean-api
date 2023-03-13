@@ -4,10 +4,10 @@ import (
 	"errors"
 	domaindto "go-clean-api/cmd/domain/dto"
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	controllers "go-clean-api/cmd/presentation/http/controllers"
 
 	"go-clean-api/cmd/domain/entities/user"
 	"go-clean-api/cmd/main/container"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
 	createuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/create-user"
 	"testing"
 
@@ -33,7 +33,7 @@ func Test_Controller_User_Register(t *testing.T) {
 			RegisterUserUseCase: mockUse,
 		})
 
-		result, err := testService.Handle(ports_http.HttpRequest{
+		result, err := testService.Handle(controllers.HttpRequest{
 			Body: dto,
 		})
 		//
@@ -41,7 +41,7 @@ func Test_Controller_User_Register(t *testing.T) {
 		// asserts
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
-		assert.Equal(t, &ports_http.HttpResponse{
+		assert.Equal(t, &controllers.HttpResponse{
 			Status: 201,
 		}, result)
 		//
@@ -57,15 +57,15 @@ func Test_Controller_User_Register(t *testing.T) {
 			RegisterUserUseCase: mockUse,
 		})
 
-		err_http := testService.HandleError(domainexceptions.ErrInvalidEntity)
+		err_http := testService.HandleError(domainexceptions.InvalidEntity())
 		//
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
+		assert.Equal(t, &controllers.HttpResponseError{
+			Data: controllers.HttpError{
 				Code:    "INVALID_DATA",
-				Message: domainexceptions.ErrInvalidEntity.Error(),
+				Message: domainexceptions.InvalidEntity().Error(),
 			},
 			Status: 400,
 		}, err_http)
@@ -87,8 +87,8 @@ func Test_Controller_User_Register(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
+		assert.Equal(t, &controllers.HttpResponseError{
+			Data: controllers.HttpError{
 				Code:    "USER_ALREADY_EXISTS",
 				Message: domainexceptions.ErrUserAlreadyExists.Error(),
 			},
@@ -111,8 +111,8 @@ func Test_Controller_User_Register(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
+		assert.Equal(t, &controllers.HttpResponseError{
+			Data: controllers.HttpError{
 				Code:    "INTERNAL_ERROR",
 				Message: "internal error",
 			},

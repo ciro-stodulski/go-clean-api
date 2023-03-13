@@ -3,7 +3,7 @@ package v1_user
 import (
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
+	controllers "go-clean-api/cmd/presentation/http/controllers"
 	"go-clean-api/cmd/shared/mocks"
 	getuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/get-user"
 	"testing"
@@ -26,9 +26,9 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 			GetUserUseCase: mockUse,
 		})
 
-		result, err := testService.Handle(ports_http.HttpRequest{
-			Params: ports_http.Params{
-				ports_http.Param{Key: "id", Value: id},
+		result, err := testService.Handle(controllers.HttpRequest{
+			Params: controllers.Params{
+				controllers.Param{Key: "id", Value: id},
 			},
 		})
 		//
@@ -37,7 +37,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
 		mockUse.AssertCalled(t, "GetUser", id)
-		assert.Equal(t, &ports_http.HttpResponse{
+		assert.Equal(t, &controllers.HttpResponse{
 			Data:   userMock,
 			Status: 200,
 		}, result)
@@ -58,8 +58,8 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
+		assert.Equal(t, &controllers.HttpResponseError{
+			Data: controllers.HttpError{
 				Code:    "USER_NOT_FOUND",
 				Message: domainexceptions.ErrUserNotFound.Error(),
 			},
@@ -83,8 +83,8 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
+		assert.Equal(t, &controllers.HttpResponseError{
+			Data: controllers.HttpError{
 				Code:    "INTERNAL_ERROR",
 				Message: "internal error",
 			},

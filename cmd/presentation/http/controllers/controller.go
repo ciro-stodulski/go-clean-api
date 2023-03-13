@@ -1,15 +1,13 @@
 package controllers
 
-import ports_http "go-clean-api/cmd/presentation/http/ports"
-
 type (
 	Controller interface {
 		LoadRoute() CreateRoute
-		Handle(req ports_http.HttpRequest) (*ports_http.HttpResponse, error)
-		HandleError(err error) *ports_http.HttpResponseError
+		Handle(req HttpRequest) (*HttpResponse, error)
+		HandleError(err error) *HttpResponseError
 	}
 
-	Middleware func(req ports_http.HttpRequest)
+	Middleware func(req HttpRequest)
 
 	CreateRoute struct {
 		PathRoot    string

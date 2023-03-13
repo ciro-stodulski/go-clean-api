@@ -3,7 +3,7 @@ package http
 import (
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/main/modules"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
+	controllers "go-clean-api/cmd/presentation/http/controllers"
 	"go-clean-api/cmd/shared/env"
 	"log"
 	"net/http"
@@ -42,7 +42,7 @@ func New(container *container.Container) modules.Module {
 		for _, middleware := range loadMiddlewaresGlobals() {
 			mds := func(context *gin.Context) {
 				params := loadParams(context)
-				middleware(ports_http.HttpRequest{
+				middleware(controllers.HttpRequest{
 					Params:  params,
 					Query:   context.Request.URL.Query(),
 					Headers: context.Request.Header,

@@ -3,7 +3,7 @@ package v1_delete_user
 import (
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
+	controllers "go-clean-api/cmd/presentation/http/controllers"
 	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/delete-user"
 	"testing"
 
@@ -23,9 +23,9 @@ func Test_Controller_Delete(t *testing.T) {
 		testService := New(&container.Container{
 			DeleteUserUseCase: mockRepo,
 		})
-		result, err := testService.Handle(ports_http.HttpRequest{
-			Params: ports_http.Params{
-				ports_http.Param{Key: "id", Value: id},
+		result, err := testService.Handle(controllers.HttpRequest{
+			Params: controllers.Params{
+				controllers.Param{Key: "id", Value: id},
 			},
 		})
 		//
@@ -33,7 +33,7 @@ func Test_Controller_Delete(t *testing.T) {
 		// asserts
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
-		assert.Equal(t, &ports_http.HttpResponse{
+		assert.Equal(t, &controllers.HttpResponse{
 			Status: 204,
 		}, result)
 		//
@@ -54,8 +54,8 @@ func Test_Controller_Delete(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
+		assert.Equal(t, &controllers.HttpResponseError{
+			Data: controllers.HttpError{
 				Code:    "USER_NOT_FOUND",
 				Message: domainexceptions.ErrUserNotFound.Error(),
 			},
@@ -79,8 +79,8 @@ func Test_Controller_Delete(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
+		assert.Equal(t, &controllers.HttpResponseError{
+			Data: controllers.HttpError{
 				Code:    "INTERNAL_ERROR",
 				Message: "internal error",
 			},

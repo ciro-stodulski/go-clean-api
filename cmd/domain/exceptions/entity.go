@@ -1,5 +1,5 @@
 package domainexceptions
 
-import "errors"
-
-var ErrInvalidEntity = errors.New("invalid entity")
+func InvalidEntity() error {
+	return New("INVALID_ENTITY", "invalid entity")
+}

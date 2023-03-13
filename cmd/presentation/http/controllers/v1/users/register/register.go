@@ -5,7 +5,8 @@ import (
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
 	controllers "go-clean-api/cmd/presentation/http/controllers"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
+	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
+
 	"log"
 
 	"github.com/mitchellh/mapstructure"
@@ -30,7 +31,7 @@ func (rc *registerController) LoadRoute() controllers.CreateRoute {
 	}
 }
 
-func (rc *registerController) Handle(req ports_http.HttpRequest) (*ports_http.HttpResponse, error) {
+func (rc *registerController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, error) {
 	dto := domaindto.Dto{}
 	mapstructure.Decode(req.Body, &dto)
 
@@ -42,37 +43,28 @@ func (rc *registerController) Handle(req ports_http.HttpRequest) (*ports_http.Ht
 		return nil, err
 	}
 
-	return &ports_http.HttpResponse{
+	return &controllers.HttpResponse{
 		Status: 201,
 	}, nil
 }
 
-func (rc *registerController) HandleError(err error) *ports_http.HttpResponseError {
-	if err == domainexceptions.ErrInvalidEntity {
-		return &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "INVALID_DATA",
-				Message: domainexceptions.ErrInvalidEntity.Error(),
-			},
-			Status: 400,
-		}
+func (rc *registerController) HandleError(err error) *controllers.HttpResponseError {
+	if err.Error() == domainexceptions.InvalidEntity().Error() {
+		return httpexceptions.BadRequest(controllers.HttpError{
+			Code:    "INVALID_DATA",
+			Message: err.Error(),
+		})
 	}
 
 	if err == domainexceptions.ErrUserAlreadyExists {
-		return &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "USER_ALREADY_EXISTS",
-				Message: domainexceptions.ErrUserAlreadyExists.Error(),
-			},
-			Status: 400,
-		}
+		return httpexceptions.BadRequest(controllers.HttpError{
+			Code:    "USER_ALREADY_EXISTS",
+			Message: err.Error(),
+		})
 	}
 
-	return &ports_http.HttpResponseError{
-		Data: ports_http.HttpError{
-			Code:    "INTERNAL_ERROR",
-			Message: "internal error",
-		},
-		Status: 500,
-	}
+	return httpexceptions.InternalServer(controllers.HttpError{
+		Code:    "INTERNAL_ERROR",
+		Message: "internal error",
+	})
 }
