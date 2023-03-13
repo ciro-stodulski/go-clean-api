@@ -39,7 +39,7 @@ func (us *userService) GetUser(id string) (*user.User, error) {
 		}
 
 		log.Default().Print("not found user with id:" + id)
-		return nil, domainexceptions.ErrUserNotFound
+		return nil, domainexceptions.UserNotFound()
 	}
 	return u, err
 }

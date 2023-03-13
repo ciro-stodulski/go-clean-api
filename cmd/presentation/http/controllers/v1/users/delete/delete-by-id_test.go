@@ -49,7 +49,7 @@ func Test_Controller_Delete(t *testing.T) {
 			DeleteUserUseCase: mockRepo,
 		})
 
-		err_http := testService.HandleError(domainexceptions.ErrUserNotFound)
+		err_http := testService.HandleError(domainexceptions.UserNotFound())
 		//
 
 		// asserts
@@ -57,7 +57,7 @@ func Test_Controller_Delete(t *testing.T) {
 		assert.Equal(t, &controllers.HttpResponseError{
 			Data: controllers.HttpError{
 				Code:    "USER_NOT_FOUND",
-				Message: domainexceptions.ErrUserNotFound.Error(),
+				Message: domainexceptions.UserNotFound().Error(),
 			},
 			Status: 404,
 		}, err_http)
@@ -74,7 +74,7 @@ func Test_Controller_Delete(t *testing.T) {
 		//
 
 		// test func
-		err_http := testService.HandleError(domainexceptions.ErrUserAlreadyExists)
+		err_http := testService.HandleError(domainexceptions.UserAlreadyExists())
 		//
 
 		// asserts

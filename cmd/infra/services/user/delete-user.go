@@ -15,7 +15,7 @@ func (duuc *userService) DeleteUser(id string) error {
 
 	if u.ID == uuid.Nil {
 		log.Default().Print("Not found user with id:" + id)
-		return domainexceptions.ErrUserNotFound
+		return domainexceptions.UserNotFound()
 	}
 
 	if err != nil {

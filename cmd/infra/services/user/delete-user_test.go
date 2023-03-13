@@ -40,7 +40,7 @@ func Test_Service_DeleteUser(t *testing.T) {
 		mockCache := new(mockusercache.MockCache)
 		id_mock := entity.ConvertId(userMock.ID.String())
 
-		errMock := domainexceptions.ErrUserNotFound
+		errMock := domainexceptions.UserNotFound()
 
 		mockRepo.On("GetById", id_mock).Return(&user.User{ID: uuid.Nil}, nil)
 		mockRepo.On("DeleteById", id_mock).Return(errMock)
@@ -50,7 +50,7 @@ func Test_Service_DeleteUser(t *testing.T) {
 		err := testService.DeleteUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, domainexceptions.ErrUserNotFound)
+		assert.Equal(t, err, domainexceptions.UserNotFound())
 		mockRepo.AssertCalled(t, "GetById", id_mock)
 	})
 }

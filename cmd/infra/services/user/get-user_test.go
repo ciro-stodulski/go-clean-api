@@ -102,7 +102,7 @@ func Test_Service_GetUser(t *testing.T) {
 		_, err := testService.GetUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, domainexceptions.ErrUserNotFound)
+		assert.Equal(t, err, domainexceptions.UserNotFound())
 		mockRepo.AssertCalled(t, "GetById", id_mock)
 		mockInt.AssertNumberOfCalls(t, "GetUsers", 1)
 	})

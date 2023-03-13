@@ -43,10 +43,10 @@ func (findByIdController *findByIdController) Handle(req controllers.HttpRequest
 }
 
 func (findByIdController *findByIdController) HandleError(err error) *controllers.HttpResponseError {
-	if err == domainexceptions.ErrUserNotFound {
+	if err.Error() == domainexceptions.UserNotFound().Error() {
 		return httpexceptions.NotFound(controllers.HttpError{
 			Code:    "USER_NOT_FOUND",
-			Message: domainexceptions.ErrUserNotFound.Error(),
+			Message: domainexceptions.UserNotFound().Error(),
 		})
 	}
 

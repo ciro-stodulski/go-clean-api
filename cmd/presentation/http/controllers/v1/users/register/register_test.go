@@ -82,7 +82,7 @@ func Test_Controller_User_Register(t *testing.T) {
 		testService := New(&container.Container{
 			RegisterUserUseCase: mockUse,
 		})
-		err_http := testService.HandleError(domainexceptions.ErrUserAlreadyExists)
+		err_http := testService.HandleError(domainexceptions.UserAlreadyExists())
 		//
 
 		// asserts
@@ -90,7 +90,7 @@ func Test_Controller_User_Register(t *testing.T) {
 		assert.Equal(t, &controllers.HttpResponseError{
 			Data: controllers.HttpError{
 				Code:    "USER_ALREADY_EXISTS",
-				Message: domainexceptions.ErrUserAlreadyExists.Error(),
+				Message: domainexceptions.UserAlreadyExists().Error(),
 			},
 			Status: 400,
 		}, err_http)

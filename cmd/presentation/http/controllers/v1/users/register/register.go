@@ -56,7 +56,7 @@ func (rc *registerController) HandleError(err error) *controllers.HttpResponseEr
 		})
 	}
 
-	if err == domainexceptions.ErrUserAlreadyExists {
+	if err.Error() == domainexceptions.UserAlreadyExists().Error() {
 		return httpexceptions.BadRequest(controllers.HttpError{
 			Code:    "USER_ALREADY_EXISTS",
 			Message: err.Error(),
