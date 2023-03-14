@@ -3,6 +3,7 @@ package registeruserusecase
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/entities/user"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	portsservice "go-clean-api/cmd/domain/services"
 	domainusecases "go-clean-api/cmd/domain/use-cases"
 	"log"
@@ -22,17 +23,17 @@ func New(us portsservice.UserService, ns portsservice.NotificationService) domai
 	}
 }
 
-func (cuuc *registerUserUseCase) Register(dto domaindto.Dto) (*user.User, error) {
+func (cuuc *registerUserUseCase) Register(dto domaindto.Dto) (*user.User, *domainexceptions.ApplicationException, error) {
 	u, err := user.New(dto.Email, dto.Password, dto.Name)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	new_u, err := cuuc.UserService.Register(u)
+	new_u, errApp, err := cuuc.UserService.Register(u)
 
-	if err != nil {
-		return nil, err
+	if err != nil || errApp != nil {
+		return nil, errApp, err
 	}
 
 	notification := domaindto.Event{
@@ -40,16 +41,16 @@ func (cuuc *registerUserUseCase) Register(dto domaindto.Dto) (*user.User, error)
 		Event: "USER",
 	}
 
-	err = cuuc.NotificationService.SendNotify(notification)
+	errApp, err = cuuc.NotificationService.SendNotify(notification)
+
+	if err != nil || errApp != nil {
+		return nil, errApp, err
+	}
 
 	id := cuuc.NotificationService.SaveNotify(notification)
 
-	notification_mongo := cuuc.NotificationService.FindById(id)
+	notification_mongo, errApp, err := cuuc.NotificationService.FindById(id)
 	log.Default().Println("notification save in mongo", notification_mongo)
 
-	if err != nil {
-		return nil, err
-	}
-
-	return new_u, nil
+	return new_u, errApp, err
 }

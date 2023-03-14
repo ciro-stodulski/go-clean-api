@@ -26,9 +26,10 @@ func Test_Service_Register(t *testing.T) {
 			Password: "test",
 		}
 
-		result, err := service.Register(u)
+		result, errApp, err := service.Register(u)
 
 		assert.Nil(t, err)
+		assert.Nil(t, errApp)
 		assert.Equal(t, u.Name, result.Name)
 		assert.Equal(t, u.Email, result.Email)
 	})

@@ -5,7 +5,8 @@ import (
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
 	controllers "go-clean-api/cmd/presentation/http/controllers"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
+	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
+
 	"log"
 
 	"github.com/mitchellh/mapstructure"
@@ -30,49 +31,39 @@ func (rc *registerController) LoadRoute() controllers.CreateRoute {
 	}
 }
 
-func (rc *registerController) Handle(req ports_http.HttpRequest) (*ports_http.HttpResponse, error) {
+func (rc *registerController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, *domainexceptions.ApplicationException, error) {
 	dto := domaindto.Dto{}
 	mapstructure.Decode(req.Body, &dto)
 
-	_, err := rc.container.RegisterUserUseCase.Register(dto)
+	_, errApp, err := rc.container.RegisterUserUseCase.Register(dto)
 
-	if err != nil {
-		log.Default().Print(err)
-
-		return nil, err
+	if err != nil || errApp != nil {
+		return nil, errApp, err
 	}
 
-	return &ports_http.HttpResponse{
+	return &controllers.HttpResponse{
 		Status: 201,
-	}, nil
+	}, nil, nil
 }
 
-func (rc *registerController) HandleError(err error) *ports_http.HttpResponseError {
-	if err == domainexceptions.ErrInvalidEntity {
-		return &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "INVALID_DATA",
-				Message: domainexceptions.ErrInvalidEntity.Error(),
-			},
-			Status: 400,
+func (rc *registerController) HandleError(appErr *domainexceptions.ApplicationException, err error) *controllers.HttpResponseError {
+	if appErr != nil {
+		if appErr.Code == domainexceptions.InvalidEntity().Code {
+			return httpexceptions.BadRequest(controllers.HttpError{
+				Code:    appErr.Code,
+				Message: appErr.Message,
+			})
+		}
+
+		if appErr.Code == domainexceptions.UserAlreadyExists().Code {
+			return httpexceptions.Conflict(controllers.HttpError{
+				Code:    appErr.Code,
+				Message: appErr.Message,
+			})
 		}
 	}
 
-	if err == domainexceptions.ErrUserAlreadyExists {
-		return &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "USER_ALREADY_EXISTS",
-				Message: domainexceptions.ErrUserAlreadyExists.Error(),
-			},
-			Status: 400,
-		}
-	}
+	log.Default().Println(err)
 
-	return &ports_http.HttpResponseError{
-		Data: ports_http.HttpError{
-			Code:    "INTERNAL_ERROR",
-			Message: "internal error",
-		},
-		Status: 500,
-	}
+	return nil
 }

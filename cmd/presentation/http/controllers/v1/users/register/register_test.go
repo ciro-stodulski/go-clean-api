@@ -4,10 +4,11 @@ import (
 	"errors"
 	domaindto "go-clean-api/cmd/domain/dto"
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	controllers "go-clean-api/cmd/presentation/http/controllers"
+	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
 
 	"go-clean-api/cmd/domain/entities/user"
 	"go-clean-api/cmd/main/container"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
 	createuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/create-user"
 	"testing"
 
@@ -25,7 +26,7 @@ func Test_Controller_User_Register(t *testing.T) {
 			Password: "test",
 		}
 
-		mockUse.On("Register", dto).Return(&user.User{}, nil)
+		mockUse.On("Register", dto).Return(&user.User{}, (*domainexceptions.ApplicationException)(nil), nil)
 		//
 
 		// test func
@@ -33,15 +34,16 @@ func Test_Controller_User_Register(t *testing.T) {
 			RegisterUserUseCase: mockUse,
 		})
 
-		result, err := testService.Handle(ports_http.HttpRequest{
+		result, errApp, err := testService.Handle(controllers.HttpRequest{
 			Body: dto,
 		})
 		//
 
 		// asserts
 		assert.Nil(t, err)
+		assert.Nil(t, errApp)
 		assert.NotNil(t, result)
-		assert.Equal(t, &ports_http.HttpResponse{
+		assert.Equal(t, &controllers.HttpResponse{
 			Status: 201,
 		}, result)
 		//
@@ -57,18 +59,15 @@ func Test_Controller_User_Register(t *testing.T) {
 			RegisterUserUseCase: mockUse,
 		})
 
-		err_http := testService.HandleError(domainexceptions.ErrInvalidEntity)
+		err_http := testService.HandleError(domainexceptions.InvalidEntity(), nil)
 		//
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "INVALID_DATA",
-				Message: domainexceptions.ErrInvalidEntity.Error(),
-			},
-			Status: 400,
-		}, err_http)
+		assert.Equal(t, httpexceptions.BadRequest(controllers.HttpError{
+			Code:    domainexceptions.InvalidEntity().Code,
+			Message: domainexceptions.InvalidEntity().Message,
+		}), err_http)
 		//
 	})
 
@@ -82,18 +81,15 @@ func Test_Controller_User_Register(t *testing.T) {
 		testService := New(&container.Container{
 			RegisterUserUseCase: mockUse,
 		})
-		err_http := testService.HandleError(domainexceptions.ErrUserAlreadyExists)
+		err_http := testService.HandleError(domainexceptions.UserAlreadyExists(), nil)
 		//
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "USER_ALREADY_EXISTS",
-				Message: domainexceptions.ErrUserAlreadyExists.Error(),
-			},
-			Status: 400,
-		}, err_http)
+		assert.Equal(t, httpexceptions.Conflict(controllers.HttpError{
+			Code:    domainexceptions.UserAlreadyExists().Code,
+			Message: domainexceptions.UserAlreadyExists().Message,
+		}), err_http)
 		//
 	})
 
@@ -106,18 +102,11 @@ func Test_Controller_User_Register(t *testing.T) {
 		testService := New(&container.Container{
 			RegisterUserUseCase: mockUse,
 		})
-		err_http := testService.HandleError(errors.New("test"))
+		err_http := testService.HandleError(nil, errors.New("test"))
 		//
 
 		// asserts
-		assert.NotNil(t, err_http)
-		assert.Equal(t, &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "INTERNAL_ERROR",
-				Message: "internal error",
-			},
-			Status: 500,
-		}, err_http)
+		assert.Nil(t, err_http)
 		//
 	})
 }

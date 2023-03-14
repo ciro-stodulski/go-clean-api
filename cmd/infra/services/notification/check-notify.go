@@ -1,12 +1,10 @@
 package notificationservice
 
-func (ns notificationService) CheckNotify(msg string) (string error) {
+import domainexceptions "go-clean-api/cmd/domain/exceptions"
+
+func (ns notificationService) CheckNotify(msg string) (*domainexceptions.ApplicationException, error) {
 
 	err := ns.NotificationProto.Verify(msg)
 
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return nil, err
 }

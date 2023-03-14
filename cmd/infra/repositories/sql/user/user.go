@@ -47,7 +47,7 @@ func (ru *userSql) Create(user *entity.User) error {
 
 	if err != nil {
 		if errors.As(err.Error, &mysqlErr) && mysqlErr.Number == 1062 {
-			return domainexceptions.ErrUserAlreadyExists
+			return domainexceptions.UserAlreadyExists()
 		}
 		return err.Error
 	}

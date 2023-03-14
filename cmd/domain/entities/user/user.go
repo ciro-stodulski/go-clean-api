@@ -28,7 +28,7 @@ func New(email string, password string, name string) (*User, error) {
 	err := new_u.Validate()
 
 	if err != nil {
-		return nil, domainexceptions.ErrInvalidEntity
+		return nil, domainexceptions.InvalidEntity()
 	}
 
 	pwd, err := generatePassword(password)
@@ -44,7 +44,7 @@ func New(email string, password string, name string) (*User, error) {
 
 func (u *User) Validate() error {
 	if u.Email == "" || u.Name == "" || u.Password == "" {
-		return domainexceptions.ErrInvalidEntity
+		return domainexceptions.InvalidEntity()
 	}
 
 	return nil
@@ -54,7 +54,7 @@ func (u *User) ValidatePassword(p string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(p))
 
 	if err != nil {
-		return domainexceptions.ErrIncorrectPassword
+		return domainexceptions.PasswordIncorrect()
 	}
 
 	return nil

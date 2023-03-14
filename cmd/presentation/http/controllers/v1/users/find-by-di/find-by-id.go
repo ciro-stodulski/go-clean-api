@@ -4,8 +4,8 @@ import (
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
 	controllers "go-clean-api/cmd/presentation/http/controllers"
+	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
 	"go-clean-api/cmd/presentation/http/middlewares"
-	ports_http "go-clean-api/cmd/presentation/http/ports"
 )
 
 type (
@@ -27,38 +27,30 @@ func (findByIdController *findByIdController) LoadRoute() controllers.CreateRout
 	}
 }
 
-func (findByIdController *findByIdController) Handle(req ports_http.HttpRequest) (*ports_http.HttpResponse, error) {
+func (findByIdController *findByIdController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, *domainexceptions.ApplicationException, error) {
 	id := req.Params.Get("id")
 
-	u, err := findByIdController.container.GetUserUseCase.GetUser(id)
+	u, errApp, err := findByIdController.container.GetUserUseCase.GetUser(id)
 
-	if err != nil {
-		return nil, err
+	if err != nil || errApp != nil {
+		return nil, errApp, err
 	}
 
-	return &ports_http.HttpResponse{
+	return &controllers.HttpResponse{
 		Data:   u,
 		Status: 200,
-	}, nil
+	}, nil, nil
 }
 
-func (findByIdController *findByIdController) HandleError(err error) *ports_http.HttpResponseError {
-	if err == domainexceptions.ErrUserNotFound {
-		return &ports_http.HttpResponseError{
-			Data: ports_http.HttpError{
-				Code:    "USER_NOT_FOUND",
-				Message: domainexceptions.ErrUserNotFound.Error(),
-			},
-			Status: 404,
+func (findByIdController *findByIdController) HandleError(appErr *domainexceptions.ApplicationException, err error) *controllers.HttpResponseError {
+	if appErr != nil {
+		if appErr.Code == domainexceptions.UserNotFound().Code {
+			return httpexceptions.NotFound(controllers.HttpError{
+				Code:    appErr.Code,
+				Message: appErr.Message,
+			})
 		}
 	}
 
-	return &ports_http.HttpResponseError{
-		Data: ports_http.HttpError{
-			Code:    "INTERNAL_ERROR",
-			Message: "internal error",
-		},
-		Status: 500,
-	}
-
+	return nil
 }

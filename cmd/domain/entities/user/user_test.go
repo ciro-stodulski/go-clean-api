@@ -44,6 +44,6 @@ func Test_Entity_User(t *testing.T) {
 		err := fake_new_u.ValidatePassword("wrong_password")
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, domainexceptions.ErrIncorrectPassword)
+		assert.Equal(t, err, domainexceptions.PasswordIncorrect())
 	})
 }

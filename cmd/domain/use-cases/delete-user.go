@@ -1,7 +1,9 @@
 package domainusecases
 
+import domainexceptions "go-clean-api/cmd/domain/exceptions"
+
 type (
 	DeleteUserUseCase interface {
-		DeleteUser(id string) error
+		DeleteUser(id string) (*domainexceptions.ApplicationException, error)
 	}
 )
