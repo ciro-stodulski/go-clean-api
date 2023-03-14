@@ -1,9 +1,11 @@
 package v1_user
 
 import (
+	"errors"
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
 	controllers "go-clean-api/cmd/presentation/http/controllers"
+	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
 	"go-clean-api/cmd/shared/mocks"
 	getuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/get-user"
 	"testing"
@@ -18,7 +20,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		mockUse := new(getuserusecasemock.MockUseCase)
 		id := "752ea551-5e6a-4382-859c-cd09fbe50110"
 
-		mockUse.On("GetUser", id).Return(userMock, nil)
+		mockUse.On("GetUser", id).Return(userMock, (*domainexceptions.ApplicationException)(nil), nil)
 		//
 
 		// test func
@@ -26,7 +28,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 			GetUserUseCase: mockUse,
 		})
 
-		result, err := testService.Handle(controllers.HttpRequest{
+		result, errApp, err := testService.Handle(controllers.HttpRequest{
 			Params: controllers.Params{
 				controllers.Param{Key: "id", Value: id},
 			},
@@ -35,6 +37,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 
 		// asserts
 		assert.Nil(t, err)
+		assert.Nil(t, errApp)
 		assert.NotNil(t, result)
 		mockUse.AssertCalled(t, "GetUser", id)
 		assert.Equal(t, &controllers.HttpResponse{
@@ -53,18 +56,15 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		testService := New(&container.Container{
 			GetUserUseCase: mockUse,
 		})
-		err_http := testService.HandleError(domainexceptions.UserNotFound())
+		err_http := testService.HandleError(domainexceptions.UserNotFound(), nil)
 		//
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, &controllers.HttpResponseError{
-			Data: controllers.HttpError{
-				Code:    "USER_NOT_FOUND",
-				Message: domainexceptions.UserNotFound().Error(),
-			},
-			Status: 404,
-		}, err_http)
+		assert.Equal(t, httpexceptions.NotFound(controllers.HttpError{
+			Code:    domainexceptions.UserNotFound().Code,
+			Message: domainexceptions.UserNotFound().Message,
+		}), err_http)
 		//
 	})
 
@@ -78,18 +78,11 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 			GetUserUseCase: mockUse,
 		})
 
-		err_http := testService.HandleError(domainexceptions.UserAlreadyExists())
+		err_http := testService.HandleError(nil, errors.New("internal error"))
 		//
 
 		// asserts
-		assert.NotNil(t, err_http)
-		assert.Equal(t, &controllers.HttpResponseError{
-			Data: controllers.HttpError{
-				Code:    "INTERNAL_ERROR",
-				Message: "internal error",
-			},
-			Status: 500,
-		}, err_http)
+		assert.Nil(t, err_http)
 		//
 	})
 }

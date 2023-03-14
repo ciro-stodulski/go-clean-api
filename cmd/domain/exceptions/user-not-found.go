@@ -1,5 +1,5 @@
 package domainexceptions
 
-func UserNotFound() error {
-	return New("USER_NOT_FOUND", "user not found")
+func UserNotFound() *ApplicationException {
+	return new("USER_NOT_FOUND", "user not found")
 }

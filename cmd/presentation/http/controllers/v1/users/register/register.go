@@ -31,40 +31,39 @@ func (rc *registerController) LoadRoute() controllers.CreateRoute {
 	}
 }
 
-func (rc *registerController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, error) {
+func (rc *registerController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, *domainexceptions.ApplicationException, error) {
 	dto := domaindto.Dto{}
 	mapstructure.Decode(req.Body, &dto)
 
-	_, err := rc.container.RegisterUserUseCase.Register(dto)
+	_, errApp, err := rc.container.RegisterUserUseCase.Register(dto)
 
-	if err != nil {
-		log.Default().Print(err)
-
-		return nil, err
+	if err != nil || errApp != nil {
+		return nil, errApp, err
 	}
 
 	return &controllers.HttpResponse{
 		Status: 201,
-	}, nil
+	}, nil, nil
 }
 
-func (rc *registerController) HandleError(err error) *controllers.HttpResponseError {
-	if err.Error() == domainexceptions.InvalidEntity().Error() {
-		return httpexceptions.BadRequest(controllers.HttpError{
-			Code:    "INVALID_DATA",
-			Message: err.Error(),
-		})
+func (rc *registerController) HandleError(appErr *domainexceptions.ApplicationException, err error) *controllers.HttpResponseError {
+	if appErr != nil {
+		if appErr.Code == domainexceptions.InvalidEntity().Code {
+			return httpexceptions.BadRequest(controllers.HttpError{
+				Code:    appErr.Code,
+				Message: appErr.Message,
+			})
+		}
+
+		if appErr.Code == domainexceptions.UserAlreadyExists().Code {
+			return httpexceptions.BadRequest(controllers.HttpError{
+				Code:    appErr.Code,
+				Message: appErr.Message,
+			})
+		}
 	}
 
-	if err.Error() == domainexceptions.UserAlreadyExists().Error() {
-		return httpexceptions.BadRequest(controllers.HttpError{
-			Code:    "USER_ALREADY_EXISTS",
-			Message: err.Error(),
-		})
-	}
+	log.Default().Println(err)
 
-	return httpexceptions.InternalServer(controllers.HttpError{
-		Code:    "INTERNAL_ERROR",
-		Message: "internal error",
-	})
+	return nil
 }

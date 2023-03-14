@@ -39,9 +39,9 @@ func (createConsumer *verifiyConsumer) MessageHandler(msg ports_amqp.Message) er
 
 	mapstructure.Decode(msg.Body, &dto)
 
-	err := createConsumer.container.VerifyUseCase.Notify(dto)
+	errApp, err := createConsumer.container.VerifyUseCase.Notify(dto)
 
-	if err != nil {
+	if err != nil || errApp != nil {
 		return err
 	}
 

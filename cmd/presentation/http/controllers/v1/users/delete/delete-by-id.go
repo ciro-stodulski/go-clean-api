@@ -27,30 +27,29 @@ func (deleteController *deleteController) LoadRoute() controllers.CreateRoute {
 	}
 }
 
-func (createController *deleteController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, error) {
+func (createController *deleteController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, *domainexceptions.ApplicationException, error) {
 	id := req.Params.Get("id")
 
-	err := createController.container.DeleteUserUseCase.DeleteUser(id)
+	errApp, err := createController.container.DeleteUserUseCase.DeleteUser(id)
 
-	if err != nil {
-		return nil, err
+	if errApp != nil || err != nil {
+		return nil, errApp, err
 	}
 
 	return &controllers.HttpResponse{
 		Status: 204,
-	}, nil
+	}, nil, nil
 }
 
-func (createController *deleteController) HandleError(err error) *controllers.HttpResponseError {
-	if err.Error() == domainexceptions.UserNotFound().Error() {
-		return httpexceptions.NotFound(controllers.HttpError{
-			Code:    "USER_NOT_FOUND",
-			Message: domainexceptions.UserNotFound().Error(),
-		})
+func (createController *deleteController) HandleError(appErr *domainexceptions.ApplicationException, err error) *controllers.HttpResponseError {
+	if appErr != nil {
+		if appErr.Code == domainexceptions.UserNotFound().Code {
+			return httpexceptions.NotFound(controllers.HttpError{
+				Code:    appErr.Code,
+				Message: appErr.Message,
+			})
+		}
 	}
 
-	return httpexceptions.InternalServer(controllers.HttpError{
-		Code:    "INTERNAL_ERROR",
-		Message: "internal error",
-	})
+	return nil
 }

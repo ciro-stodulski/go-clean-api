@@ -28,9 +28,10 @@ func Test_Service_GetUser(t *testing.T) {
 
 		testService := New(mockRepo, mockInt, mockCache)
 
-		result, err := testService.GetUser(userMock.ID.String())
+		result, errApp, err := testService.GetUser(userMock.ID.String())
 
 		assert.Nil(t, err)
+		assert.Nil(t, errApp)
 		assert.Equal(t, userMock.ID, result.ID)
 		assert.Equal(t, userMock.Name, result.Name)
 		assert.Equal(t, userMock.Email, result.Email)
@@ -53,9 +54,10 @@ func Test_Service_GetUser(t *testing.T) {
 
 		testService := New(mockRepo, mockInt, mockCache)
 
-		_, err := testService.GetUser(userMock.ID.String())
+		_, errApp, err := testService.GetUser(userMock.ID.String())
 
 		assert.NotNil(t, err)
+		assert.Nil(t, errApp)
 		assert.Equal(t, err, errMock)
 		mockRepo.AssertCalled(t, "GetById", id_mock)
 	})
@@ -74,7 +76,7 @@ func Test_Service_GetUser(t *testing.T) {
 
 		testService := New(mockRepo, mockInt, mockCache)
 
-		result, _ := testService.GetUser(strconv.Itoa(userIntMock[0].Id))
+		result, _, _ := testService.GetUser(strconv.Itoa(userIntMock[0].Id))
 
 		assert.NotNil(t, result)
 		assert.Equal(t, userIntMock[0].Name, result.Name)
@@ -99,10 +101,11 @@ func Test_Service_GetUser(t *testing.T) {
 
 		testService := New(mockRepo, mockInt, mockCache)
 
-		_, err := testService.GetUser(userMock.ID.String())
+		_, errApp, err := testService.GetUser(userMock.ID.String())
 
-		assert.NotNil(t, err)
-		assert.Equal(t, err, domainexceptions.UserNotFound())
+		assert.Nil(t, err)
+		assert.NotNil(t, errApp)
+		assert.Equal(t, errApp, domainexceptions.UserNotFound())
 		mockRepo.AssertCalled(t, "GetById", id_mock)
 		mockInt.AssertNumberOfCalls(t, "GetUsers", 1)
 	})

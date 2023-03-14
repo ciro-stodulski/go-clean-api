@@ -2,6 +2,7 @@ package getuserusecase
 
 import (
 	"go-clean-api/cmd/domain/entities/user"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	portsservice "go-clean-api/cmd/domain/services"
 	domainusecases "go-clean-api/cmd/domain/use-cases"
 )
@@ -18,8 +19,8 @@ func New(us portsservice.UserService) domainusecases.GetUserUseCase {
 	}
 }
 
-func (guuc *getUserUseCase) GetUser(id string) (*user.User, error) {
-	u, err := guuc.UserService.GetUser(id)
+func (guuc *getUserUseCase) GetUser(id string) (*user.User, *domainexceptions.ApplicationException, error) {
+	u, errApp, err := guuc.UserService.GetUser(id)
 
-	return u, err
+	return u, errApp, err
 }

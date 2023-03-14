@@ -1,19 +1,16 @@
 package domainexceptions
 
 type (
-	applicationException struct {
+	ApplicationException struct {
 		Code    string `json:"code"`
 		Message string `json:"message"`
 	}
 )
 
-func New(code string, message string) error {
-	return &applicationException{code, message}
+func (appe *ApplicationException) Error() string {
+	return appe.Message
 }
 
-func (appe *applicationException) Error() string {
-	var code = "code: " + appe.Code
-	var message = "\nmessage: " + appe.Message
-
-	return code + message
+func new(code string, message string) *ApplicationException {
+	return &ApplicationException{code, message}
 }

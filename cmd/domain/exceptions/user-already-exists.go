@@ -1,5 +1,5 @@
 package domainexceptions
 
-func UserAlreadyExists() error {
-	return New("USER_ALREADY_EXISTS", "user already exists")
+func UserAlreadyExists() *ApplicationException {
+	return new("USER_ALREADY_EXISTS", "user already exists")
 }

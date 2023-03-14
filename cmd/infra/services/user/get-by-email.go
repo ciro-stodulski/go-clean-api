@@ -2,14 +2,11 @@ package userservice
 
 import (
 	"go-clean-api/cmd/domain/entities/user"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
 )
 
-func (cuuc *userService) GetByEmail(email string) (*user.User, error) {
+func (cuuc *userService) GetByEmail(email string) (*user.User, *domainexceptions.ApplicationException, error) {
 	u, err := cuuc.SqlUser.GetByEmail(email)
 
-	if err != nil {
-		return nil, err
-	}
-
-	return u, nil
+	return u, nil, err
 }

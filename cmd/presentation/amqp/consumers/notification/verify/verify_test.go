@@ -2,6 +2,7 @@ package verifyconsumer
 
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
+	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
 	verifynotificationusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/verify-notification"
 
@@ -21,7 +22,7 @@ func Test_Consumer_verify(t *testing.T) {
 			Event: "test",
 		}
 
-		mockUseCase.On("Notify", dto).Return(nil)
+		mockUseCase.On("Notify", dto).Return((*domainexceptions.ApplicationException)(nil), nil)
 		//
 
 		// test func

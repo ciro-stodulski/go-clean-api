@@ -1,5 +1,5 @@
 package domainexceptions
 
-func PasswordIncorrect() error {
-	return New("PASSWORD_INCORRECT", "password incorrect")
+func PasswordIncorrect() *ApplicationException {
+	return new("PASSWORD_INCORRECT", "password incorrect")
 }

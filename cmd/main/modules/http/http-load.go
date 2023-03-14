@@ -28,23 +28,26 @@ func loadRoutes(controllers []controllers_http.Controller, api gin.RouterGroup) 
 				}
 			}
 
-			result, err := route.Handle(controllers_http.HttpRequest{
+			result, errApp, err := route.Handle(controllers_http.HttpRequest{
 				Body:    route_config.Dto,
 				Params:  params,
 				Query:   gin_context.Request.URL.Query(),
 				Headers: gin_context.Request.Header,
 			})
 
-			if err != nil {
-				status := 500
+			if err != nil || errApp != nil {
+				result_error := route.HandleError(errApp, err)
 
-				result_error := route.HandleError(err)
-
-				if result_error.Status != 0 {
-					status = result_error.Status
+				data := &controllers_http.HttpResponseError{
+					Data:   controllers_http.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "internal server error"},
+					Status: 500,
 				}
 
-				gin_context.JSON(status, result_error.Data)
+				if result_error != nil {
+					data = result_error
+				}
+
+				gin_context.JSON(data.Status, data.Data)
 			} else {
 				if result.Headers != nil {
 					for _, header := range result.Headers {
