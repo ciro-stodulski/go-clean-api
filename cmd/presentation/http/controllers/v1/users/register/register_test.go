@@ -86,7 +86,7 @@ func Test_Controller_User_Register(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, httpexceptions.BadRequest(controllers.HttpError{
+		assert.Equal(t, httpexceptions.Conflict(controllers.HttpError{
 			Code:    domainexceptions.UserAlreadyExists().Code,
 			Message: domainexceptions.UserAlreadyExists().Message,
 		}), err_http)
