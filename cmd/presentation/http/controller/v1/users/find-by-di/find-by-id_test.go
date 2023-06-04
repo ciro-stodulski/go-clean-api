@@ -4,7 +4,7 @@ import (
 	"errors"
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
-	controllers "go-clean-api/cmd/presentation/http/controllers"
+	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
 	"go-clean-api/cmd/shared/mocks"
 	getuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/get-user"
@@ -20,7 +20,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		mockUse := new(getuserusecasemock.MockUseCase)
 		id := "752ea551-5e6a-4382-859c-cd09fbe50110"
 
-		mockUse.On("GetUser", id).Return(userMock, (*domainexceptions.ApplicationException)(nil), nil)
+		mockUse.On("GetUser", id).Return(userMock, nil)
 		//
 
 		// test func
@@ -28,19 +28,18 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 			GetUserUseCase: mockUse,
 		})
 
-		result, errApp, err := testService.Handle(controllers.HttpRequest{
-			Params: controllers.Params{
-				controllers.Param{Key: "id", Value: id},
+		result, err := testService.Handle(controller.HttpRequest{
+			Params: controller.Params{
+				controller.Param{Key: "id", Value: id},
 			},
 		})
 		//
 
 		// asserts
 		assert.Nil(t, err)
-		assert.Nil(t, errApp)
 		assert.NotNil(t, result)
 		mockUse.AssertCalled(t, "GetUser", id)
-		assert.Equal(t, &controllers.HttpResponse{
+		assert.Equal(t, &controller.HttpResponse{
 			Data:   userMock,
 			Status: 200,
 		}, result)
@@ -61,7 +60,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, err_http)
-		assert.Equal(t, httpexceptions.NotFound(controllers.HttpError{
+		assert.Equal(t, httpexceptions.NotFound(controller.HttpError{
 			Code:    domainexceptions.UserNotFound().Code,
 			Message: domainexceptions.UserNotFound().Message,
 		}), err_http)

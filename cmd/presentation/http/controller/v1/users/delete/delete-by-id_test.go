@@ -4,7 +4,7 @@ import (
 	"errors"
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
-	controllers "go-clean-api/cmd/presentation/http/controllers"
+	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
 	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/delete-user"
 	"testing"
@@ -25,18 +25,17 @@ func Test_Controller_Delete(t *testing.T) {
 		testService := New(&container.Container{
 			DeleteUserUseCase: mockUseCase,
 		})
-		result, errApp, err := testService.Handle(controllers.HttpRequest{
-			Params: controllers.Params{
-				controllers.Param{Key: "id", Value: id},
+		result, err := testService.Handle(controller.HttpRequest{
+			Params: controller.Params{
+				controller.Param{Key: "id", Value: id},
 			},
 		})
 		//
 
 		// asserts
 		assert.Nil(t, err)
-		assert.Nil(t, errApp)
 		assert.NotNil(t, result)
-		assert.Equal(t, &controllers.HttpResponse{
+		assert.Equal(t, &controller.HttpResponse{
 			Status: 204,
 		}, result)
 		//
@@ -57,7 +56,7 @@ func Test_Controller_Delete(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, errHttp)
-		assert.Equal(t, httpexceptions.NotFound(controllers.HttpError{
+		assert.Equal(t, httpexceptions.NotFound(controller.HttpError{
 			Code:    domainexceptions.UserNotFound().Code,
 			Message: domainexceptions.UserNotFound().Message,
 		}), errHttp)

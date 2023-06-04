@@ -20,12 +20,11 @@ func Test_UseCase_GetUser(t *testing.T) {
 
 		// test func
 		testService := New(mockServices)
-		result, errApp, err := testService.GetUser(userMock.ID.String())
+		result, err := testService.GetUser(userMock.ID.String())
 		//
 
 		// asserts
 		assert.Nil(t, err)
-		assert.Nil(t, errApp)
 		assert.Equal(t, userMock.ID, result.ID)
 		assert.Equal(t, userMock.Name, result.Name)
 		assert.Equal(t, userMock.Email, result.Email)

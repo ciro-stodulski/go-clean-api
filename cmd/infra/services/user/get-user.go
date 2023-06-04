@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (us *userService) GetUser(id string) (*user.User, *domainexceptions.ApplicationException, error) {
+func (us *userService) GetUser(id string) (*user.User, error) {
 	iu := entity.ConvertId(id)
 
 	u, err := us.SqlUser.GetById(iu)
@@ -20,7 +20,7 @@ func (us *userService) GetUser(id string) (*user.User, *domainexceptions.Applica
 		ujs, err := us.IntegrationJsonPlaceHolder.GetUsers()
 
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 
 		for _, uj := range ujs {
@@ -34,13 +34,13 @@ func (us *userService) GetUser(id string) (*user.User, *domainexceptions.Applica
 					Email:     uj.Email,
 					Password:  "test_for_integration",
 					CreatedAt: time.Now(),
-				}, nil, nil
+				}, nil
 			}
 		}
 
 		log.Default().Print("not found user with id:" + id)
-		return nil, domainexceptions.UserNotFound(), nil
+		return nil, domainexceptions.UserNotFound()
 	}
 
-	return u, nil, err
+	return u, err
 }

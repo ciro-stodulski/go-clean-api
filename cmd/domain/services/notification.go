@@ -2,14 +2,13 @@ package domainservice
 
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
 )
 
 type (
 	NotificationService interface {
-		SendNotify(dto domaindto.Event) (*domainexceptions.ApplicationException, error)
-		CheckNotify(msg string) (*domainexceptions.ApplicationException, error)
+		SendNotify(dto domaindto.Event) error
+		CheckNotify(msg string) error
 		SaveNotify(domaindto.Event) string
-		FindById(id string) (*domaindto.Event, *domainexceptions.ApplicationException, error)
+		FindById(id string) (*domaindto.Event, error)
 	}
 )

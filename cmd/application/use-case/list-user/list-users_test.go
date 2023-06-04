@@ -1,7 +1,6 @@
 package listusersusecase
 
 import (
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/shared/mocks"
 	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
 	"testing"
@@ -16,7 +15,7 @@ func Test_UseCase_ListUsers(t *testing.T) {
 
 		// test func
 		usecase := New(mockUserServices)
-		mockUserServices.On("ListUsers").Return(userIntMock, (*domainexceptions.ApplicationException)(nil), nil)
+		mockUserServices.On("ListUsers").Return(userIntMock, nil)
 		//
 
 		// asserts

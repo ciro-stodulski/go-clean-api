@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 type (
 	HttpResponse struct {
@@ -15,6 +15,7 @@ type (
 	HttpError struct {
 		Code    string `json:"code"`
 		Message string `json:"message"`
+		Detail  interface{}
 	}
 	HttpResponseError struct {
 		Data   HttpError

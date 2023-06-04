@@ -26,10 +26,10 @@ func printUsers(ujs []response_jsonplaceholder.User) {
 }
 
 func (luuc *listUsersUseCase) ListUsers() {
-	ujs, errApp, err := luuc.UserService.ListUsers()
+	ujs, err := luuc.UserService.ListUsers()
 
-	if errApp != nil || err != nil {
-		log.Default().Panic(errApp, err)
+	if err != nil {
+		log.Default().Panic(err)
 	}
 
 	printUsers(ujs)

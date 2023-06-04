@@ -4,7 +4,7 @@ import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"go-clean-api/cmd/main/container"
-	controllers "go-clean-api/cmd/presentation/http/controllers"
+	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
 
 	"log"
@@ -18,12 +18,12 @@ type (
 	}
 )
 
-func New(c *container.Container) controllers.Controller {
+func New(c *container.Container) controller.Controller {
 	return &registerController{c}
 }
 
-func (rc *registerController) LoadRoute() controllers.CreateRoute {
-	return controllers.CreateRoute{
+func (rc *registerController) LoadRoute() controller.CreateRoute {
+	return controller.CreateRoute{
 		PathRoot: "/v1/users",
 		Method:   "post",
 		Path:     "/",
@@ -31,32 +31,32 @@ func (rc *registerController) LoadRoute() controllers.CreateRoute {
 	}
 }
 
-func (rc *registerController) Handle(req controllers.HttpRequest) (*controllers.HttpResponse, *domainexceptions.ApplicationException, error) {
+func (rc *registerController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
 	dto := domaindto.Dto{}
 	mapstructure.Decode(req.Body, &dto)
 
-	_, errApp, err := rc.container.RegisterUserUseCase.Register(dto)
+	_, err := rc.container.RegisterUserUseCase.Register(dto)
 
-	if err != nil || errApp != nil {
-		return nil, errApp, err
+	if err != nil {
+		return nil, err
 	}
 
-	return &controllers.HttpResponse{
+	return &controller.HttpResponse{
 		Status: 201,
-	}, nil, nil
+	}, nil
 }
 
-func (rc *registerController) HandleError(appErr *domainexceptions.ApplicationException, err error) *controllers.HttpResponseError {
+func (rc *registerController) HandleError(appErr *domainexceptions.ApplicationException, err error) *controller.HttpResponseError {
 	if appErr != nil {
 		if appErr.Code == domainexceptions.InvalidEntity().Code {
-			return httpexceptions.BadRequest(controllers.HttpError{
+			return httpexceptions.BadRequest(controller.HttpError{
 				Code:    appErr.Code,
 				Message: appErr.Message,
 			})
 		}
 
 		if appErr.Code == domainexceptions.UserAlreadyExists().Code {
-			return httpexceptions.Conflict(controllers.HttpError{
+			return httpexceptions.Conflict(controller.HttpError{
 				Code:    appErr.Code,
 				Message: appErr.Message,
 			})

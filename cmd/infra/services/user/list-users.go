@@ -2,12 +2,11 @@ package userservice
 
 import (
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
 	"log"
 	"reflect"
 )
 
-func (us *userService) ListUsers() ([]response_jsonplaceholder.User, *domainexceptions.ApplicationException, error) {
+func (us *userService) ListUsers() ([]response_jsonplaceholder.User, error) {
 	ujs, err := us.UsersJsonPlaceholderCache.Get("users")
 
 	if err != nil {
@@ -32,9 +31,9 @@ func (us *userService) ListUsers() ([]response_jsonplaceholder.User, *domainexce
 		us.UsersJsonPlaceholderCache.Set("users", ujs, 100)
 		log.Default().Print("***Set users in cache***")
 
-		return ujs, nil, nil
+		return ujs, nil
 	}
 	log.Default().Print("***Get users by cache***")
 
-	return ujs, nil, nil
+	return ujs, nil
 }

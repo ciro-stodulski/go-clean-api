@@ -1,7 +1,7 @@
 package env
 
 import (
-	"github.com/thrcorrea/envloader"
+	"github.com/bavatech/envloader"
 )
 
 type Environment struct {
@@ -34,7 +34,11 @@ func Env() *Environment {
 }
 
 func Load() {
-	err := envloader.Load(&env, ".env")
+	err := envloader.Load(
+		&env,
+		envloader.WithGodotenvConfig([]string{".env"}),
+	)
+
 	if err != nil {
 		panic(err)
 	}
