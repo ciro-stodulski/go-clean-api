@@ -2,8 +2,8 @@ package jsonplaceholder
 
 import (
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
-	domainjsonplaceholder "go-clean-api/cmd/domain/integrations/http"
-	http_service "go-clean-api/cmd/infra/integrations/http"
+	domainjsonplaceholder "go-clean-api/cmd/domain/integration/http"
+	http_service "go-clean-api/cmd/infra/integration/http"
 	"go-clean-api/cmd/shared/env"
 	"log"
 

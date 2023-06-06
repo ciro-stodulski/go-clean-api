@@ -7,7 +7,7 @@ import (
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exception"
 	"go-clean-api/cmd/shared/mocks"
-	getuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/get-user"
+	getuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/get-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

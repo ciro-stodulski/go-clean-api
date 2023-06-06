@@ -9,7 +9,7 @@ import (
 
 	"go-clean-api/cmd/domain/entity/user"
 	"go-clean-api/cmd/main/container"
-	createuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/create-user"
+	createuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/create-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

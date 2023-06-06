@@ -1,7 +1,7 @@
 package mockamqpnotification
 
 import (
-	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
+	amqpclient "go-clean-api/cmd/infra/integration/amqp"
 
 	"github.com/stretchr/testify/mock"
 )

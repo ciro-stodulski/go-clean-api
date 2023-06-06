@@ -2,7 +2,7 @@ package mockgrpcuser
 
 import (
 	"context"
-	"go-clean-api/cmd/infra/integrations/grpc/notification/pb"
+	"go-clean-api/cmd/infra/integration/grpc/notification/pb"
 
 	"github.com/stretchr/testify/mock"
 	"google.golang.org/grpc"

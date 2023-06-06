@@ -1,7 +1,7 @@
 package clilistusers
 
 import (
-	domainusecases "go-clean-api/cmd/domain/use-cases"
+	domainusecases "go-clean-api/cmd/domain/use-case"
 	cliinterface "go-clean-api/cmd/presentation/cli"
 )
 

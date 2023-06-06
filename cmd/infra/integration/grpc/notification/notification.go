@@ -3,8 +3,8 @@ package notificationpbgrpc
 import (
 	"context"
 	"fmt"
-	domainnotificationpbgrpc "go-clean-api/cmd/domain/integrations/grpc"
-	"go-clean-api/cmd/infra/integrations/grpc/notification/pb"
+	domainnotificationpbgrpc "go-clean-api/cmd/domain/integration/grpc"
+	"go-clean-api/cmd/infra/integration/grpc/notification/pb"
 	"log"
 
 	"google.golang.org/grpc"

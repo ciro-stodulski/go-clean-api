@@ -4,7 +4,7 @@ import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/main/container"
-	verifynotificationusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/verify-notification"
+	verifynotificationusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/verify-notification"
 
 	ports_amqp "go-clean-api/cmd/presentation/amqp/ports"
 	"testing"

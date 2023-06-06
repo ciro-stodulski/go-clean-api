@@ -1,9 +1,9 @@
 package notificationservice
 
 import (
-	domainnotificationproducer "go-clean-api/cmd/domain/integrations/amqp"
-	domainnotificationpbgrpc "go-clean-api/cmd/domain/integrations/grpc"
-	domainnotificationcollection "go-clean-api/cmd/domain/repositories/no-sql"
+	domainnotificationproducer "go-clean-api/cmd/domain/integration/amqp"
+	domainnotificationpbgrpc "go-clean-api/cmd/domain/integration/grpc"
+	domainnotificationcollection "go-clean-api/cmd/domain/repository/no-sql"
 	portsservice "go-clean-api/cmd/domain/services"
 )
 

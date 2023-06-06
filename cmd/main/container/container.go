@@ -6,7 +6,7 @@ import (
 	list_users "go-clean-api/cmd/application/use-case/list-user"
 	registeruserusecase "go-clean-api/cmd/application/use-case/register-user"
 	verifynotificationusecase "go-clean-api/cmd/application/use-case/verify-notification"
-	domainusecases "go-clean-api/cmd/domain/use-cases"
+	domainusecases "go-clean-api/cmd/domain/use-case"
 	"go-clean-api/cmd/main/container/factories"
 )
 

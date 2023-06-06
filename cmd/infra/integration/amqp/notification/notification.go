@@ -3,8 +3,8 @@ package notificationproducer
 import (
 	"encoding/json"
 	domaindto "go-clean-api/cmd/domain/dto"
-	domainnotificationproducer "go-clean-api/cmd/domain/integrations/amqp"
-	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
+	domainnotificationproducer "go-clean-api/cmd/domain/integration/amqp"
+	amqpclient "go-clean-api/cmd/infra/integration/amqp"
 )
 
 type (

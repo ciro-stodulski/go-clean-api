@@ -1,9 +1,9 @@
 package userservice
 
 import (
-	domainjsonplaceholder "go-clean-api/cmd/domain/integrations/http"
-	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repositories/cache"
-	domainusersql "go-clean-api/cmd/domain/repositories/sql"
+	domainjsonplaceholder "go-clean-api/cmd/domain/integration/http"
+	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repository/cache"
+	domainusersql "go-clean-api/cmd/domain/repository/sql"
 	portsservice "go-clean-api/cmd/domain/services"
 )
 

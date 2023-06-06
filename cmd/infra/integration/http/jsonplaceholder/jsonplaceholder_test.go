@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/shared/env"
-	mockhttpclient "go-clean-api/cmd/shared/mocks/infra/integrations/http"
+	mockhttpclient "go-clean-api/cmd/shared/mocks/infra/integration/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

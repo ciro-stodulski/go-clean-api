@@ -49,14 +49,14 @@ go run .
 
 How generate protobufjs
 
-[--proto_path=] path where is proto [cmd/infra/integrations/grpc/notification/proto,cmd/infra/integrations/grpc/notification/proto/notification.proto]
+[--proto_path=] path where is proto [cmd/infra/integration/grpc/notification/proto,cmd/infra/integration/grpc/notification/proto/notification.proto]
 
-[--go_out=] where proto buffer will be to create [plugins=grpc:cmd/infra/integrations/grpc/notification/pb]
+[--go_out=] where proto buffer will be to create [plugins=grpc:cmd/infra/integration/grpc/notification/pb]
 
 infra layer exe: 
 
 ```bash
-protoc --proto_path=cmd/infra/integrations/grpc/notification/proto cmd/infra/integrations/grpc/notification/proto/notification.proto --go_out=plugins=grpc:cmd/infra/integrations/grpc/notification/pb
+protoc --proto_path=cmd/infra/integration/grpc/notification/proto cmd/infra/integration/grpc/notification/proto/notification.proto --go_out=plugins=grpc:cmd/infra/integration/grpc/notification/pb
 ```
 
 presetation layer exe: 
@@ -141,7 +141,7 @@ go run ./cmd/main/modules/cli/main -h
 ## [2.2.1]
 
 ```
-- fix refactoring integrations folders
+- fix refactoring integration folders
 - add client to grpc 
 - add service to host grpc
 - update version go 1.18

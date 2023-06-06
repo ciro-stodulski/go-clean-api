@@ -3,7 +3,7 @@ package notificationcollection
 import (
 	"context"
 	domaindto "go-clean-api/cmd/domain/dto"
-	domainnotificationcollection "go-clean-api/cmd/domain/repositories/no-sql"
+	domainnotificationcollection "go-clean-api/cmd/domain/repository/no-sql"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"

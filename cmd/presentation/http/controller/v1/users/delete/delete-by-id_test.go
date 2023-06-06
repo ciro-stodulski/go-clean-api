@@ -6,7 +6,7 @@ import (
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exception"
-	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/delete-user"
+	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/delete-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

@@ -6,7 +6,7 @@ import (
 	"go-clean-api/cmd/presentation/grpc/notification/pb"
 	"go-clean-api/cmd/shared/mocks"
 
-	listuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/list-user"
+	listuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/list-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

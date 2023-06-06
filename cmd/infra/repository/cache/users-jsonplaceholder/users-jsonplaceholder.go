@@ -3,8 +3,8 @@ package usersjsonplaceholdercache
 import (
 	"encoding/json"
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
-	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repositories/cache"
-	cache_client "go-clean-api/cmd/infra/repositories/cache"
+	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repository/cache"
+	cache_client "go-clean-api/cmd/infra/repository/cache"
 )
 
 type (

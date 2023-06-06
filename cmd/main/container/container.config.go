@@ -3,10 +3,10 @@ package container
 import (
 	adaptermongodb "go-clean-api/cmd/infra/adapters/mongodb"
 	database "go-clean-api/cmd/infra/adapters/mysql"
-	amqpclient "go-clean-api/cmd/infra/integrations/amqp"
-	grpc_client "go-clean-api/cmd/infra/integrations/grpc"
-	http_service "go-clean-api/cmd/infra/integrations/http"
-	cache_client "go-clean-api/cmd/infra/repositories/cache"
+	amqpclient "go-clean-api/cmd/infra/integration/amqp"
+	grpc_client "go-clean-api/cmd/infra/integration/grpc"
+	http_service "go-clean-api/cmd/infra/integration/http"
+	cache_client "go-clean-api/cmd/infra/repository/cache"
 
 	"github.com/jinzhu/gorm"
 	"go.mongodb.org/mongo-driver/mongo"

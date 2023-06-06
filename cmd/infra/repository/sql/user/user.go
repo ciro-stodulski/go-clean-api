@@ -5,7 +5,7 @@ import (
 	entity_root "go-clean-api/cmd/domain/entity"
 	entity "go-clean-api/cmd/domain/entity/user"
 	"go-clean-api/cmd/domain/exception"
-	domainusersql "go-clean-api/cmd/domain/repositories/sql"
+	domainusersql "go-clean-api/cmd/domain/repository/sql"
 	"log"
 
 	"github.com/go-sql-driver/mysql"

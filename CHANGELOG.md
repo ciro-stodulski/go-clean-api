@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.2.1]
 
-- fix refactoring integrations folders
+- fix refactoring integration folders
 - add client to grpc 
 - add service to host grpc
 - update version go 1.18

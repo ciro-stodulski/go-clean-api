@@ -4,7 +4,7 @@ import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/entity/user"
 	portsservice "go-clean-api/cmd/domain/services"
-	domainusecases "go-clean-api/cmd/domain/use-cases"
+	domainusecases "go-clean-api/cmd/domain/use-case"
 	"log"
 )
 

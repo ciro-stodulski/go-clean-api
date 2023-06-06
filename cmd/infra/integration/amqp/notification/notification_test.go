@@ -3,9 +3,9 @@ package notificationproducer
 import (
 	"encoding/json"
 	domaindto "go-clean-api/cmd/domain/dto"
-	mockamqpnotification "go-clean-api/cmd/shared/mocks/infra/integrations/amqp/notification"
+	mockamqpnotification "go-clean-api/cmd/shared/mocks/infra/integration/amqp/notification"
 
-	amqp "go-clean-api/cmd/infra/integrations/amqp"
+	amqp "go-clean-api/cmd/infra/integration/amqp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
