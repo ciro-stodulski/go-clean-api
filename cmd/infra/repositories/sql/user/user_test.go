@@ -1,7 +1,7 @@
 package usersql
 
 import (
-	entity "go-clean-api/cmd/domain/entities/user"
+	entity "go-clean-api/cmd/domain/entity/user"
 	"go-clean-api/cmd/shared/mocks"
 	"testing"
 

@@ -1,7 +1,7 @@
 package http
 
 import (
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	"go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	"net/http"
 	"reflect"
@@ -51,7 +51,7 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 			if err != nil {
 				var result_error *controller.HttpResponseError
 
-				if appErr, ok := err.(*domainexceptions.ApplicationException); ok {
+				if appErr, ok := err.(*exception.ApplicationException); ok {
 					result_error = route.HandleError(appErr, nil)
 				} else {
 					result_error = route.HandleError(nil, appErr)

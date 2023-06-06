@@ -1,7 +1,7 @@
 package user
 
 import (
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	"go-clean-api/cmd/domain/exception"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -44,6 +44,6 @@ func Test_Entity_User(t *testing.T) {
 		err := fake_new_u.ValidatePassword("wrong_password")
 
 		assert.NotNil(t, err)
-		assert.Equal(t, err, domainexceptions.PasswordIncorrect())
+		assert.Equal(t, err, exception.PasswordIncorrect())
 	})
 }

@@ -1,8 +1,8 @@
 package user
 
 import (
-	entity "go-clean-api/cmd/domain/entities"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	"go-clean-api/cmd/domain/entity"
+	"go-clean-api/cmd/domain/exception"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -28,7 +28,7 @@ func New(email string, password string, name string) (*User, error) {
 	err := new_u.Validate()
 
 	if err != nil {
-		return nil, domainexceptions.InvalidEntity()
+		return nil, exception.InvalidEntity()
 	}
 
 	pwd, err := generatePassword(password)
@@ -44,7 +44,7 @@ func New(email string, password string, name string) (*User, error) {
 
 func (u *User) Validate() error {
 	if u.Email == "" || u.Name == "" || u.Password == "" {
-		return domainexceptions.InvalidEntity()
+		return exception.InvalidEntity()
 	}
 
 	return nil
@@ -54,7 +54,7 @@ func (u *User) ValidatePassword(p string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(p))
 
 	if err != nil {
-		return domainexceptions.PasswordIncorrect()
+		return exception.PasswordIncorrect()
 	}
 
 	return nil

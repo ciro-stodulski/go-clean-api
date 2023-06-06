@@ -1,8 +1,8 @@
 package domainusersql
 
 import (
-	entity_root "go-clean-api/cmd/domain/entities"
-	entity "go-clean-api/cmd/domain/entities/user"
+	entity_root "go-clean-api/cmd/domain/entity"
+	entity "go-clean-api/cmd/domain/entity/user"
 )
 
 type (

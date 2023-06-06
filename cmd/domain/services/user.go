@@ -3,7 +3,7 @@ package domainservice
 import (
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
 
-	"go-clean-api/cmd/domain/entities/user"
+	"go-clean-api/cmd/domain/entity/user"
 )
 
 type (

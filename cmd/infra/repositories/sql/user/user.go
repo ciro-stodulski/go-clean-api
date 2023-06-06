@@ -2,9 +2,9 @@ package usersql
 
 import (
 	"errors"
-	entity_root "go-clean-api/cmd/domain/entities"
-	entity "go-clean-api/cmd/domain/entities/user"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	entity_root "go-clean-api/cmd/domain/entity"
+	entity "go-clean-api/cmd/domain/entity/user"
+	"go-clean-api/cmd/domain/exception"
 	domainusersql "go-clean-api/cmd/domain/repositories/sql"
 	"log"
 
@@ -47,7 +47,7 @@ func (ru *userSql) Create(user *entity.User) error {
 
 	if err != nil {
 		if errors.As(err.Error, &mysqlErr) && mysqlErr.Number == 1062 {
-			return domainexceptions.UserAlreadyExists()
+			return exception.UserAlreadyExists()
 		}
 		return err.Error
 	}

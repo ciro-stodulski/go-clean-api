@@ -1,7 +1,7 @@
 package getuserusecase
 
 import (
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	"go-clean-api/cmd/domain/exception"
 	mocks "go-clean-api/cmd/shared/mocks"
 	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
 	"testing"
@@ -15,7 +15,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 		mockServices := new(mockservicesuser.MockUserServices)
 		userMock := mocks.NewMockUser()
 
-		mockServices.On("GetUser", userMock.ID.String()).Return(userMock, (*domainexceptions.ApplicationException)(nil), nil)
+		mockServices.On("GetUser", userMock.ID.String()).Return(userMock, (*exception.ApplicationException)(nil), nil)
 		//
 
 		// test func

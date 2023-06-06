@@ -1,9 +1,9 @@
 package userservice
 
 import (
-	entity "go-clean-api/cmd/domain/entities"
-	"go-clean-api/cmd/domain/entities/user"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	entity "go-clean-api/cmd/domain/entity"
+	"go-clean-api/cmd/domain/entity/user"
+	exception "go-clean-api/cmd/domain/exception"
 	"log"
 	"strconv"
 	"time"
@@ -39,7 +39,7 @@ func (us *userService) GetUser(id string) (*user.User, error) {
 		}
 
 		log.Default().Print("not found user with id:" + id)
-		return nil, domainexceptions.UserNotFound()
+		return nil, exception.UserNotFound()
 	}
 
 	return u, err

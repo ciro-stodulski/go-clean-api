@@ -2,10 +2,10 @@ package v1_user
 
 import (
 	"errors"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/presentation/http/controller"
-	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
+	httpexceptions "go-clean-api/cmd/presentation/http/exception"
 	"go-clean-api/cmd/shared/mocks"
 	getuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/get-user"
 	"testing"
@@ -55,14 +55,14 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		testService := New(&container.Container{
 			GetUserUseCase: mockUse,
 		})
-		err_http := testService.HandleError(domainexceptions.UserNotFound(), nil)
+		err_http := testService.HandleError(exception.UserNotFound(), nil)
 		//
 
 		// asserts
 		assert.NotNil(t, err_http)
 		assert.Equal(t, httpexceptions.NotFound(controller.HttpError{
-			Code:    domainexceptions.UserNotFound().Code,
-			Message: domainexceptions.UserNotFound().Message,
+			Code:    exception.UserNotFound().Code,
+			Message: exception.UserNotFound().Message,
 		}), err_http)
 		//
 	})

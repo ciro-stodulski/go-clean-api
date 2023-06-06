@@ -1,7 +1,7 @@
 package getuserusecasemock
 
 import (
-	"go-clean-api/cmd/domain/entities/user"
+	"go-clean-api/cmd/domain/entity/user"
 
 	"github.com/stretchr/testify/mock"
 )

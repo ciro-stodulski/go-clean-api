@@ -1,7 +1,7 @@
 package domainusecases
 
 import (
-	"go-clean-api/cmd/domain/entities/user"
+	"go-clean-api/cmd/domain/entity/user"
 )
 
 type (

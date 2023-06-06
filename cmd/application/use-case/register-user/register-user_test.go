@@ -2,7 +2,7 @@ package registeruserusecase
 
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
-	entity "go-clean-api/cmd/domain/entities"
+	entity "go-clean-api/cmd/domain/entity"
 	mocks "go-clean-api/cmd/shared/mocks"
 	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/services/notification"
 	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"

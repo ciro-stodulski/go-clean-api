@@ -2,10 +2,10 @@ package controllerv1userregister
 
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	"go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/presentation/http/controller"
-	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
+	httpexceptions "go-clean-api/cmd/presentation/http/exception"
 
 	"log"
 
@@ -46,16 +46,16 @@ func (rc *registerController) Handle(req controller.HttpRequest) (*controller.Ht
 	}, nil
 }
 
-func (rc *registerController) HandleError(appErr *domainexceptions.ApplicationException, err error) *controller.HttpResponseError {
+func (rc *registerController) HandleError(appErr *exception.ApplicationException, err error) *controller.HttpResponseError {
 	if appErr != nil {
-		if appErr.Code == domainexceptions.InvalidEntity().Code {
+		if appErr.Code == exception.InvalidEntity().Code {
 			return httpexceptions.BadRequest(controller.HttpError{
 				Code:    appErr.Code,
 				Message: appErr.Message,
 			})
 		}
 
-		if appErr.Code == domainexceptions.UserAlreadyExists().Code {
+		if appErr.Code == exception.UserAlreadyExists().Code {
 			return httpexceptions.Conflict(controller.HttpError{
 				Code:    appErr.Code,
 				Message: appErr.Message,

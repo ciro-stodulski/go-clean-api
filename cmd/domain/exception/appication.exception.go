@@ -1,4 +1,4 @@
-package domainexceptions
+package exception
 
 type (
 	ApplicationException struct {

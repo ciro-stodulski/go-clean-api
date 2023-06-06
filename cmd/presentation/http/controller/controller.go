@@ -1,12 +1,12 @@
 package controller
 
-import domainexceptions "go-clean-api/cmd/domain/exceptions"
+import "go-clean-api/cmd/domain/exception"
 
 type (
 	Controller interface {
 		LoadRoute() CreateRoute
 		Handle(req HttpRequest) (*HttpResponse, error)
-		HandleError(appErr *domainexceptions.ApplicationException, err error) *HttpResponseError
+		HandleError(appErr *exception.ApplicationException, err error) *HttpResponseError
 	}
 
 	Middleware func(req HttpRequest)

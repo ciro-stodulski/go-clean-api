@@ -3,11 +3,11 @@ package controllerv1userregister
 import (
 	"errors"
 	domaindto "go-clean-api/cmd/domain/dto"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
+	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
-	httpexceptions "go-clean-api/cmd/presentation/http/exceptions"
+	httpexceptions "go-clean-api/cmd/presentation/http/exception"
 
-	"go-clean-api/cmd/domain/entities/user"
+	"go-clean-api/cmd/domain/entity/user"
 	"go-clean-api/cmd/main/container"
 	createuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-cases/create-user"
 	"testing"
@@ -58,14 +58,14 @@ func Test_Controller_User_Register(t *testing.T) {
 			RegisterUserUseCase: mockUse,
 		})
 
-		err_http := testService.HandleError(domainexceptions.InvalidEntity(), nil)
+		err_http := testService.HandleError(exception.InvalidEntity(), nil)
 		//
 
 		// asserts
 		assert.NotNil(t, err_http)
 		assert.Equal(t, httpexceptions.BadRequest(controller.HttpError{
-			Code:    domainexceptions.InvalidEntity().Code,
-			Message: domainexceptions.InvalidEntity().Message,
+			Code:    exception.InvalidEntity().Code,
+			Message: exception.InvalidEntity().Message,
 		}), err_http)
 		//
 	})
@@ -80,14 +80,14 @@ func Test_Controller_User_Register(t *testing.T) {
 		testService := New(&container.Container{
 			RegisterUserUseCase: mockUse,
 		})
-		err_http := testService.HandleError(domainexceptions.UserAlreadyExists(), nil)
+		err_http := testService.HandleError(exception.UserAlreadyExists(), nil)
 		//
 
 		// asserts
 		assert.NotNil(t, err_http)
 		assert.Equal(t, httpexceptions.Conflict(controller.HttpError{
-			Code:    domainexceptions.UserAlreadyExists().Code,
-			Message: domainexceptions.UserAlreadyExists().Message,
+			Code:    exception.UserAlreadyExists().Code,
+			Message: exception.UserAlreadyExists().Message,
 		}), err_http)
 		//
 	})

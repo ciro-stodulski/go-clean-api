@@ -1,7 +1,7 @@
 package userservice
 
 import (
-	"go-clean-api/cmd/domain/entities/user"
+	"go-clean-api/cmd/domain/entity/user"
 )
 
 func (cuuc *userService) GetByEmail(email string) (*user.User, error) {
