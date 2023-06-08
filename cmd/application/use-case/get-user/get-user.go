@@ -2,7 +2,7 @@ package getuserusecase
 
 import (
 	"go-clean-api/cmd/domain/entity/user"
-	portsservice "go-clean-api/cmd/domain/services"
+	portsservice "go-clean-api/cmd/domain/service"
 	domainusecases "go-clean-api/cmd/domain/use-case"
 )
 

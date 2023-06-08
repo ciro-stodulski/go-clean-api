@@ -1,7 +1,7 @@
 package deleteuserusecase
 
 import (
-	portsservice "go-clean-api/cmd/domain/services"
+	portsservice "go-clean-api/cmd/domain/service"
 	domainusecases "go-clean-api/cmd/domain/use-case"
 )
 

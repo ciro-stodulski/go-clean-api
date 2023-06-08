@@ -1,4 +1,4 @@
-package domainservice
+package service
 
 import (
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"

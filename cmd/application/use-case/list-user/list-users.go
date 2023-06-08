@@ -2,7 +2,7 @@ package listusersusecase
 
 import (
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
-	portsservice "go-clean-api/cmd/domain/services"
+	portsservice "go-clean-api/cmd/domain/service"
 	domainusecases "go-clean-api/cmd/domain/use-case"
 	"log"
 )

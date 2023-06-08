@@ -4,8 +4,8 @@ import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	entity "go-clean-api/cmd/domain/entity"
 	mocks "go-clean-api/cmd/shared/mocks"
-	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/services/notification"
-	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
+	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/service/notification"
+	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/service/user"
 
 	"testing"
 	"time"

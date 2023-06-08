@@ -1,4 +1,4 @@
-package domaindto
+package dto
 
 type Address struct {
 	Street  string `json:"street"`

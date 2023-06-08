@@ -1,4 +1,4 @@
-package domaindto
+package dto
 
 type User struct {
 	Id       int     `json:"id"`

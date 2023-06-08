@@ -4,7 +4,7 @@ import (
 	domainjsonplaceholder "go-clean-api/cmd/domain/integration/http"
 	domainusersjsonplaceholdercache "go-clean-api/cmd/domain/repository/cache"
 	domainusersql "go-clean-api/cmd/domain/repository/sql"
-	portsservice "go-clean-api/cmd/domain/services"
+	service "go-clean-api/cmd/domain/service"
 )
 
 type userService struct {
@@ -17,7 +17,7 @@ func New(
 	ur domainusersql.UserSql,
 	ji domainjsonplaceholder.JsonPlaceholderIntegration,
 	ujc domainusersjsonplaceholdercache.UsersJsonPlaceholderCache,
-) portsservice.UserService {
+) service.UserService {
 	return &userService{
 		SqlUser:                    ur,
 		IntegrationJsonPlaceHolder: ji,

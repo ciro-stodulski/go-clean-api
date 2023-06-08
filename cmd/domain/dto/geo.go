@@ -1,4 +1,4 @@
-package domaindto
+package dto
 
 type Geo struct {
 	Lat string `json:"lat"`

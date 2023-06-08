@@ -2,7 +2,7 @@ package listusersusecase
 
 import (
 	"go-clean-api/cmd/shared/mocks"
-	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
+	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/service/user"
 	"testing"
 )
 

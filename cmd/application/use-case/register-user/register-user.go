@@ -3,7 +3,7 @@ package registeruserusecase
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/entity/user"
-	portsservice "go-clean-api/cmd/domain/services"
+	portsservice "go-clean-api/cmd/domain/service"
 	domainusecases "go-clean-api/cmd/domain/use-case"
 	"log"
 )

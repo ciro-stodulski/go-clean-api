@@ -3,7 +3,7 @@ package deleteuserusecase
 import (
 	"go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/shared/mocks"
-	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/services/user"
+	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/service/user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

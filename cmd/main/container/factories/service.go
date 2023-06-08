@@ -1,15 +1,15 @@
 package factories
 
 import (
-	notificationService "go-clean-api/cmd/application/service/notification"
-	userservice "go-clean-api/cmd/application/service/user"
-	portsservice "go-clean-api/cmd/domain/services"
+	service "go-clean-api/cmd/domain/service"
+	notificationService "go-clean-api/cmd/infra/service/notification"
+	userservice "go-clean-api/cmd/infra/service/user"
 )
 
 type (
 	ServiceCaseContext struct {
-		User_service         portsservice.UserService
-		Notification_service portsservice.NotificationService
+		User_service         service.UserService
+		Notification_service service.NotificationService
 	}
 )
 

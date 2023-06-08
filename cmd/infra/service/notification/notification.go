@@ -4,7 +4,7 @@ import (
 	domainnotificationproducer "go-clean-api/cmd/domain/integration/amqp"
 	domainnotificationpbgrpc "go-clean-api/cmd/domain/integration/grpc"
 	domainnotificationcollection "go-clean-api/cmd/domain/repository/no-sql"
-	portsservice "go-clean-api/cmd/domain/services"
+	service "go-clean-api/cmd/domain/service"
 )
 
 type (
@@ -15,7 +15,7 @@ type (
 	}
 )
 
-func New(pbs domainnotificationpbgrpc.NotificationPbGrpc, pn domainnotificationproducer.NotificationProducer, nc domainnotificationcollection.NotificationCollection) portsservice.NotificationService {
+func New(pbs domainnotificationpbgrpc.NotificationPbGrpc, pn domainnotificationproducer.NotificationProducer, nc domainnotificationcollection.NotificationCollection) service.NotificationService {
 	return &notificationService{
 		NotificationProto:      pbs,
 		NotificationProducer:   pn,
