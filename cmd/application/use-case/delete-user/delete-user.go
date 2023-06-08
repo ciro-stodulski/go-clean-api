@@ -1,17 +1,17 @@
 package deleteuserusecase
 
 import (
-	portsservice "go-clean-api/cmd/domain/service"
-	domainusecases "go-clean-api/cmd/domain/use-case"
+	"go-clean-api/cmd/domain/service"
+	usecase "go-clean-api/cmd/domain/use-case"
 )
 
 type (
 	deleteUserUseCase struct {
-		UserService portsservice.UserService
+		UserService service.UserService
 	}
 )
 
-func New(us portsservice.UserService) domainusecases.DeleteUserUseCase {
+func New(us service.UserService) usecase.DeleteUserUseCase {
 	return &deleteUserUseCase{
 		UserService: us,
 	}

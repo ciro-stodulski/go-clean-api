@@ -11,7 +11,7 @@ type MockUseCase struct {
 	mock.Mock
 }
 
-func (mock *MockUseCase) Register(dto domaindto.Dto) (*user.User, error) {
+func (mock *MockUseCase) Register(dto domaindto.RegisterUser) (*user.User, error) {
 	arg := mock.Called(dto)
 	result := arg.Get(0)
 

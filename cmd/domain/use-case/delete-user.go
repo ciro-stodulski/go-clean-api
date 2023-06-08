@@ -1,4 +1,4 @@
-package domainusecases
+package usecase
 
 type (
 	DeleteUserUseCase interface {

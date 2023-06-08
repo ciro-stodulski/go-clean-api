@@ -1,4 +1,4 @@
-package domainusecases
+package usecase
 
 import (
 	"go-clean-api/cmd/domain/entity/user"

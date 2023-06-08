@@ -1,29 +1,30 @@
 package registeruserusecase
 
 import (
-	domaindto "go-clean-api/cmd/domain/dto"
+	usecase "go-clean-api/cmd/domain/use-case"
+
+	"go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/entity/user"
-	portsservice "go-clean-api/cmd/domain/service"
-	domainusecases "go-clean-api/cmd/domain/use-case"
+	"go-clean-api/cmd/domain/service"
 	"log"
 )
 
 type (
 	registerUserUseCase struct {
-		UserService         portsservice.UserService
-		NotificationService portsservice.NotificationService
+		UserService         service.UserService
+		NotificationService service.NotificationService
 	}
 )
 
-func New(us portsservice.UserService, ns portsservice.NotificationService) domainusecases.RegisterUserUseCase {
+func New(us service.UserService, ns service.NotificationService) usecase.RegisterUserUseCase {
 	return &registerUserUseCase{
 		UserService:         us,
 		NotificationService: ns,
 	}
 }
 
-func (cuuc *registerUserUseCase) Register(dto domaindto.Dto) (*user.User, error) {
-	u, err := user.New(dto.Email, dto.Password, dto.Name)
+func (cuuc *registerUserUseCase) Register(data dto.RegisterUser) (*user.User, error) {
+	u, err := user.New(data.Email, data.Password, data.Name)
 
 	if err != nil {
 		return nil, err
@@ -35,7 +36,7 @@ func (cuuc *registerUserUseCase) Register(dto domaindto.Dto) (*user.User, error)
 		return nil, err
 	}
 
-	notification := domaindto.Event{
+	notification := dto.Event{
 		Name:  "REGISTERED_USER",
 		Event: "USER",
 	}

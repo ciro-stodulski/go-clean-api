@@ -1,25 +1,24 @@
 package controllerv1userregister
 
 import (
-	domaindto "go-clean-api/cmd/domain/dto"
+	"go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/exception"
-	"go-clean-api/cmd/main/container"
+	usecase "go-clean-api/cmd/domain/use-case"
+
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exception"
 
 	"log"
-
-	"github.com/mitchellh/mapstructure"
 )
 
 type (
 	registerController struct {
-		container *container.Container
+		registerUserUseCase usecase.RegisterUserUseCase
 	}
 )
 
-func New(c *container.Container) controller.Controller {
-	return &registerController{c}
+func New(registerUserUseCase usecase.RegisterUserUseCase) controller.Controller {
+	return &registerController{registerUserUseCase}
 }
 
 func (rc *registerController) LoadRoute() controller.CreateRoute {
@@ -27,15 +26,12 @@ func (rc *registerController) LoadRoute() controller.CreateRoute {
 		PathRoot: "/v1/users",
 		Method:   "post",
 		Path:     "/",
-		Dto:      domaindto.Dto{},
+		Dto:      &dto.RegisterUser{},
 	}
 }
 
 func (rc *registerController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
-	dto := domaindto.Dto{}
-	mapstructure.Decode(req.Body, &dto)
-
-	_, err := rc.container.RegisterUserUseCase.Register(dto)
+	_, err := rc.registerUserUseCase.Register(req.Body.(dto.RegisterUser))
 
 	if err != nil {
 		return nil, err

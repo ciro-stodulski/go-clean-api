@@ -1,12 +1,12 @@
-package domainusecases
+package usecase
 
 import (
-	domaindto "go-clean-api/cmd/domain/dto"
+	"go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/entity/user"
 )
 
 type (
 	RegisterUserUseCase interface {
-		Register(dto domaindto.Dto) (*user.User, error)
+		Register(dto dto.RegisterUser) (*user.User, error)
 	}
 )

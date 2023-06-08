@@ -11,7 +11,7 @@ import (
 
 func loadControllers(container *container.Container) []controller.Controller {
 	return []controller.Controller{
-		controllerv1userregister.New(container),
+		controllerv1userregister.New(container.RegisterUserUseCase),
 		v1_user.New(container),
 		v1_user_delete.New(container),
 	}

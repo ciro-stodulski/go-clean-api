@@ -1,8 +1,8 @@
 package registeruserusecase
 
 import (
-	domaindto "go-clean-api/cmd/domain/dto"
-	entity "go-clean-api/cmd/domain/entity"
+	"go-clean-api/cmd/domain/dto"
+	"go-clean-api/cmd/domain/entity"
 	mocks "go-clean-api/cmd/shared/mocks"
 	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/service/notification"
 	mockservicesuser "go-clean-api/cmd/shared/mocks/infra/service/user"
@@ -41,14 +41,14 @@ func Test_UseCase_RegisterUser(t *testing.T) {
 		mockUserServices := new(mockservicesuser.MockUserServices)
 		mockNotificationServices := new(mockservicesnotification.MockNotificationServices)
 
-		dto := domaindto.Dto{
+		data := dto.RegisterUser{
 			Name:     "test",
 			Email:    "test@test",
 			Password: "test",
 		}
-		user_mock := mocks.CreateMockUser(dto.Email, dto.Password, dto.Name)
+		user_mock := mocks.CreateMockUser(data.Email, data.Password, data.Name)
 
-		notificationFake := domaindto.Event{Name: "REGISTERED_USER", Event: "USER"}
+		notificationFake := dto.Event{Name: "REGISTERED_USER", Event: "USER"}
 		idFake := "63494fdabb1e0bf59fb8fc5b"
 
 		mockUserServices.On("Register", user_mock).Return(user_mock, nil)
@@ -59,7 +59,7 @@ func Test_UseCase_RegisterUser(t *testing.T) {
 
 		// test func
 		usecase := New(mockUserServices, mockNotificationServices)
-		result, err := usecase.Register(dto)
+		result, err := usecase.Register(data)
 		//
 
 		// asserts

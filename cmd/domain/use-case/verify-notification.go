@@ -1,4 +1,4 @@
-package domainusecases
+package usecase
 
 import (
 	domaindto "go-clean-api/cmd/domain/dto"

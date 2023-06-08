@@ -1,4 +1,4 @@
-package httpexceptions
+package httpexception
 
 import "go-clean-api/cmd/presentation/http/controller"
 

@@ -5,7 +5,7 @@ import (
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/presentation/http/controller"
-	httpexceptions "go-clean-api/cmd/presentation/http/exception"
+	httpexception "go-clean-api/cmd/presentation/http/exception"
 	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/delete-user"
 	"testing"
 
@@ -56,7 +56,7 @@ func Test_Controller_Delete(t *testing.T) {
 
 		// asserts
 		assert.NotNil(t, errHttp)
-		assert.Equal(t, httpexceptions.NotFound(controller.HttpError{
+		assert.Equal(t, httpexception.NotFound(controller.HttpError{
 			Code:    exception.UserNotFound().Code,
 			Message: exception.UserNotFound().Message,
 		}), errHttp)

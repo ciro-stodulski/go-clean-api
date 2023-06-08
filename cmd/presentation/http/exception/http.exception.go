@@ -1,4 +1,4 @@
-package httpexceptions
+package httpexception
 
 type (
 	httpError struct {

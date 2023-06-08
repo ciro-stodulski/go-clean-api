@@ -19,8 +19,8 @@ func Test_UseCase_DeleteUser(t *testing.T) {
 		//
 
 		// test func
-		testService := New(mockServices)
-		err := testService.DeleteUser(userMock.ID.String())
+		usecase := New(mockServices)
+		err := usecase.DeleteUser(userMock.ID.String())
 		//
 
 		// asserts
