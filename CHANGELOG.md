@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Ongoing Changes
 
 - refactor application errors
+- refactor plural names
+- refactor http module (fix validation request body with gin and add swagger package)
+- refactor partial domain layer
+- add swagger docs for rest api
 
 ## [3.0.0]
 
