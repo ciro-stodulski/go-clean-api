@@ -1,7 +1,7 @@
 package listusersjob
 
 import (
-	"go-clean-api/cmd/main/container"
+	usecase "go-clean-api/cmd/domain/use-case"
 	cronjob "go-clean-api/cmd/presentation/cron-job"
 	"log"
 
@@ -9,23 +9,23 @@ import (
 )
 
 type listUserJob struct {
-	Cron      *cron.Cron
-	container container.Container
+	Cron             *cron.Cron
+	listUsersUseCase usecase.ListUsersUseCase
 }
 
-func New(c container.Container) cronjob.CronJob {
+func New(listUsersUseCase usecase.ListUsersUseCase) cronjob.CronJob {
 	cron := cron.New()
 
 	return &listUserJob{
-		Cron:      cron,
-		container: c,
+		Cron:             cron,
+		listUsersUseCase: listUsersUseCase,
 	}
 }
 
 func (luj *listUserJob) Start() {
 	luj.Cron.AddFunc("1 * * * *", func() {
 		log.Default().Print("### job ListUsers started ###")
-		luj.container.ListUsersUseCase.ListUsers()
+		luj.listUsersUseCase.ListUsers()
 		log.Default().Print("### job ListUsers finishid ###")
 	})
 

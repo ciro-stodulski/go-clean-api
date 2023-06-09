@@ -8,6 +8,6 @@ import (
 )
 
 func (s *GRPCServer) LoadServices(c *container.Container) {
-	pb.RegisterTestNotificationInterfacePbServer(s.Engine, notificaitonpb.New(c))
+	pb.RegisterTestNotificationInterfacePbServer(s.Engine, notificaitonpb.New(c.ListUsersUseCase))
 	log.Default().Print("gRPC: Services registered")
 }

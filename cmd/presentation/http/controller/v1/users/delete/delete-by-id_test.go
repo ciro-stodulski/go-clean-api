@@ -1,9 +1,8 @@
-package v1_delete_user
+package deleteuser
 
 import (
 	"errors"
 	exception "go-clean-api/cmd/domain/exception"
-	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
 	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/delete-user"
@@ -22,9 +21,7 @@ func Test_Controller_Delete(t *testing.T) {
 		//
 
 		// test func
-		testService := New(&container.Container{
-			DeleteUserUseCase: mockUseCase,
-		})
+		testService := New(mockUseCase)
 		result, err := testService.Handle(controller.HttpRequest{
 			Params: controller.Params{
 				controller.Param{Key: "id", Value: id},
@@ -47,9 +44,7 @@ func Test_Controller_Delete(t *testing.T) {
 		//
 
 		// test func
-		testService := New(&container.Container{
-			DeleteUserUseCase: mockUseCase,
-		})
+		testService := New(mockUseCase)
 
 		errHttp := testService.HandleError(exception.UserNotFound(), nil)
 		//
@@ -67,9 +62,7 @@ func Test_Controller_Delete(t *testing.T) {
 		// make mock
 		mockUseCase := new(deleteeuserusecasemock.MockUseCase)
 
-		testService := New(&container.Container{
-			DeleteUserUseCase: mockUseCase,
-		})
+		testService := New(mockUseCase)
 		//
 
 		// test func

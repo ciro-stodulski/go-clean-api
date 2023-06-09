@@ -3,13 +3,13 @@ package http
 import (
 	"go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
+	"go-clean-api/docs"
 	"net/http"
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
 
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/swag/example/basic/docs"
 )
 
 func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {

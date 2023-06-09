@@ -21,6 +21,17 @@ func New(registerUserUseCase usecase.RegisterUserUseCase) controller.Controller 
 	return &registerController{registerUserUseCase}
 }
 
+// Register User godoc
+//
+//	@Summary		Register User
+//	@Description	Create a new user
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body	dto.RegisterUser	true	"User Data"
+//	@Success		201
+//	@Failure		400	{object}	exception.ApplicationException	"{ "code": "INVALID_ENTITY", "message": "Invalid	entity" },{ "code": "USER_ALREADY_EXISTS", "message": "Already	exists	user" }"
+//	@Router			/v1/users [post]
 func (rc *registerController) LoadRoute() controller.CreateRoute {
 	return controller.CreateRoute{
 		PathRoot: "/v1/users",

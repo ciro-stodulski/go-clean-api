@@ -1,8 +1,8 @@
-package v1_user
+package findbyiduser
 
 import (
 	"go-clean-api/cmd/domain/exception"
-	"go-clean-api/cmd/main/container"
+	usecase "go-clean-api/cmd/domain/use-case"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
 	"go-clean-api/cmd/presentation/http/middlewares"
@@ -10,14 +10,27 @@ import (
 
 type (
 	findByIdController struct {
-		container *container.Container
+		getUserUseCase usecase.GetUserUseCase
 	}
 )
 
-func New(c *container.Container) controller.Controller {
-	return &findByIdController{c}
+func New(getUserUseCase usecase.GetUserUseCase) controller.Controller {
+	return &findByIdController{getUserUseCase}
 }
 
+// GetUserByID godoc
+//
+//	@Summary		Get User
+//	@Description	Get information about a specific user
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		string	true	"User ID"
+//	@Success		200	{object}	user.User
+//
+//	@Failure		400	{object}	exception.ApplicationException	"{ "code": "USER_NOT_FOUND", "message": "User	not	found" }"
+//
+//	@Router			/v1/users/{id}   [get]
 func (findByIdController *findByIdController) LoadRoute() controller.CreateRoute {
 	return controller.CreateRoute{
 		PathRoot:    "/v1/users",
@@ -30,7 +43,7 @@ func (findByIdController *findByIdController) LoadRoute() controller.CreateRoute
 func (findByIdController *findByIdController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
 	id := req.Params.Get("id")
 
-	u, err := findByIdController.container.GetUserUseCase.GetUser(id)
+	u, err := findByIdController.getUserUseCase.GetUser(id)
 
 	if err != nil {
 		return nil, err

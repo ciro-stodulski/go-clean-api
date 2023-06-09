@@ -8,6 +8,6 @@ import (
 
 func (rm *amqpModule) LoadConsumers(c *container.Container) []consumer.Comsumer {
 	return []consumer.Comsumer{
-		verifyconsumer.New(c),
+		verifyconsumer.New(c.NotifyUserUseCase),
 	}
 }

@@ -1,9 +1,8 @@
-package v1_user
+package findbyiduser
 
 import (
 	"errors"
 	exception "go-clean-api/cmd/domain/exception"
-	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
 	"go-clean-api/cmd/shared/mocks"
@@ -24,9 +23,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		//
 
 		// test func
-		testService := New(&container.Container{
-			GetUserUseCase: mockUse,
-		})
+		testService := New(mockUse)
 
 		result, err := testService.Handle(controller.HttpRequest{
 			Params: controller.Params{
@@ -52,9 +49,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		//
 
 		// test func
-		testService := New(&container.Container{
-			GetUserUseCase: mockUse,
-		})
+		testService := New(mockUse)
 		err_http := testService.HandleError(exception.UserNotFound(), nil)
 		//
 
@@ -73,9 +68,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		//
 
 		// test func
-		testService := New(&container.Container{
-			GetUserUseCase: mockUse,
-		})
+		testService := New(mockUse)
 
 		err_http := testService.HandleError(nil, errors.New("internal error"))
 		//

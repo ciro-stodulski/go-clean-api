@@ -3,7 +3,6 @@ package verifyconsumer
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/exception"
-	"go-clean-api/cmd/main/container"
 	verifynotificationusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/verify-notification"
 
 	ports_amqp "go-clean-api/cmd/presentation/amqp/ports"
@@ -26,9 +25,7 @@ func Test_Consumer_verify(t *testing.T) {
 		//
 
 		// test func
-		testService := New(&container.Container{
-			VerifyUseCase: mockUseCase,
-		})
+		testService := New(mockUseCase)
 		//
 
 		err := testService.MessageHandler(ports_amqp.Message{

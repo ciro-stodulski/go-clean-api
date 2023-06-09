@@ -1,8 +1,8 @@
-package v1_delete_user
+package deleteuser
 
 import (
 	"go-clean-api/cmd/domain/exception"
-	"go-clean-api/cmd/main/container"
+	usecase "go-clean-api/cmd/domain/use-case"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
 	"go-clean-api/cmd/presentation/http/middlewares"
@@ -10,12 +10,12 @@ import (
 
 type (
 	deleteController struct {
-		container *container.Container
+		deleteUserUseCase usecase.DeleteUserUseCase
 	}
 )
 
-func New(c *container.Container) controller.Controller {
-	return &deleteController{c}
+func New(deleteUserUseCase usecase.DeleteUserUseCase) controller.Controller {
+	return &deleteController{deleteUserUseCase}
 }
 
 func (deleteController *deleteController) LoadRoute() controller.CreateRoute {
@@ -30,7 +30,7 @@ func (deleteController *deleteController) LoadRoute() controller.CreateRoute {
 func (createController *deleteController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
 	id := req.Params.Get("id")
 
-	err := createController.container.DeleteUserUseCase.DeleteUser(id)
+	err := createController.deleteUserUseCase.DeleteUser(id)
 
 	if err != nil {
 		return nil, err

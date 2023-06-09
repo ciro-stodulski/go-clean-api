@@ -15,7 +15,7 @@ type work struct {
 }
 
 func New(c *container.Container) modules.Module {
-	jobs := []cronjob.CronJob{listusers_job.New(*c)}
+	jobs := []cronjob.CronJob{listusers_job.New(c.ListUsersUseCase)}
 
 	return &work{
 		Jobs:  jobs,

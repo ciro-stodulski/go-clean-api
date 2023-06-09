@@ -49,7 +49,7 @@ func (server *httpServer) RunGo() bool {
 //	@host		localhost:8081
 //	@BasePath	/api/v1
 
-// @schemes	http
+//	@schemes	http
 func New(container *container.Container) modules.Module {
 	server := &httpServer{}
 

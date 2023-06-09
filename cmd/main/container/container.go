@@ -16,7 +16,7 @@ type (
 		RegisterUserUseCase domainusecases.RegisterUserUseCase
 		ListUsersUseCase    domainusecases.ListUsersUseCase
 		DeleteUserUseCase   domainusecases.DeleteUserUseCase
-		VerifyUseCase       domainusecases.NotifyUserUseCase
+		NotifyUserUseCase   domainusecases.NotifyUserUseCase
 	}
 )
 
@@ -44,6 +44,6 @@ func New() *Container {
 		),
 		DeleteUserUseCase: delete_user.New(user_service),
 		ListUsersUseCase:  list_users.New(user_service),
-		VerifyUseCase:     verifynotificationusecase.New(notification_service),
+		NotifyUserUseCase: verifynotificationusecase.New(notification_service),
 	}
 }
