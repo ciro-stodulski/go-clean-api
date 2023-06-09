@@ -68,6 +68,29 @@ paths:
       tags:
       - user
   /v1/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: "{ \"code\": \"USER_NOT_FOUND\", \"message\": \"User\tnot\tfound\"
+            }"
+          schema:
+            $ref: '#/definitions/exception.ApplicationException'
+      summary: Delete User
+      tags:
+      - user
     get:
       consumes:
       - application/json

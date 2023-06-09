@@ -18,6 +18,17 @@ func New(deleteUserUseCase usecase.DeleteUserUseCase) controller.Controller {
 	return &deleteController{deleteUserUseCase}
 }
 
+// DeleteUser godoc
+//
+//	@Summary		Delete User
+//	@Description	Delete a specific user
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path	string	true	"User ID"
+//	@Success		204
+//	@Failure		400	{object}	exception.ApplicationException	"{ "code": "USER_NOT_FOUND", "message": "User	not	found" }"
+//	@Router			/v1/users/{id}   [delete]
 func (deleteController *deleteController) LoadRoute() controller.CreateRoute {
 	return controller.CreateRoute{
 		PathRoot:    "/v1/users",
