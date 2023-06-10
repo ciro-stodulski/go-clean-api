@@ -2,8 +2,8 @@ package listusersusecase
 
 import (
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
-	portsservice "go-clean-api/cmd/domain/services"
-	domainusecases "go-clean-api/cmd/domain/use-cases"
+	portsservice "go-clean-api/cmd/domain/service"
+	domainusecases "go-clean-api/cmd/domain/use-case"
 	"log"
 )
 
@@ -26,10 +26,10 @@ func printUsers(ujs []response_jsonplaceholder.User) {
 }
 
 func (luuc *listUsersUseCase) ListUsers() {
-	ujs, errApp, err := luuc.UserService.ListUsers()
+	ujs, err := luuc.UserService.ListUsers()
 
-	if errApp != nil || err != nil {
-		log.Default().Panic(errApp, err)
+	if err != nil {
+		log.Default().Panic(err)
 	}
 
 	printUsers(ujs)

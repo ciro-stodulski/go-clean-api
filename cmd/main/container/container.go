@@ -6,7 +6,7 @@ import (
 	list_users "go-clean-api/cmd/application/use-case/list-user"
 	registeruserusecase "go-clean-api/cmd/application/use-case/register-user"
 	verifynotificationusecase "go-clean-api/cmd/application/use-case/verify-notification"
-	domainusecases "go-clean-api/cmd/domain/use-cases"
+	domainusecases "go-clean-api/cmd/domain/use-case"
 	"go-clean-api/cmd/main/container/factories"
 )
 
@@ -16,7 +16,7 @@ type (
 		RegisterUserUseCase domainusecases.RegisterUserUseCase
 		ListUsersUseCase    domainusecases.ListUsersUseCase
 		DeleteUserUseCase   domainusecases.DeleteUserUseCase
-		VerifyUseCase       domainusecases.NotifyUserUseCase
+		NotifyUserUseCase   domainusecases.NotifyUserUseCase
 	}
 )
 
@@ -44,6 +44,6 @@ func New() *Container {
 		),
 		DeleteUserUseCase: delete_user.New(user_service),
 		ListUsersUseCase:  list_users.New(user_service),
-		VerifyUseCase:     verifynotificationusecase.New(notification_service),
+		NotifyUserUseCase: verifynotificationusecase.New(notification_service),
 	}
 }

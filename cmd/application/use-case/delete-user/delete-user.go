@@ -1,25 +1,24 @@
 package deleteuserusecase
 
 import (
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
-	portsservice "go-clean-api/cmd/domain/services"
-	domainusecases "go-clean-api/cmd/domain/use-cases"
+	"go-clean-api/cmd/domain/service"
+	usecase "go-clean-api/cmd/domain/use-case"
 )
 
 type (
 	deleteUserUseCase struct {
-		UserService portsservice.UserService
+		UserService service.UserService
 	}
 )
 
-func New(us portsservice.UserService) domainusecases.DeleteUserUseCase {
+func New(us service.UserService) usecase.DeleteUserUseCase {
 	return &deleteUserUseCase{
 		UserService: us,
 	}
 }
 
-func (duuc *deleteUserUseCase) DeleteUser(id string) (*domainexceptions.ApplicationException, error) {
-	errApp, err := duuc.UserService.DeleteUser(id)
+func (duuc *deleteUserUseCase) DeleteUser(id string) error {
+	err := duuc.UserService.DeleteUser(id)
 
-	return errApp, err
+	return err
 }

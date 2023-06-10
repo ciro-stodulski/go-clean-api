@@ -2,8 +2,8 @@ package verifynotificationusecase
 
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
-	domainexceptions "go-clean-api/cmd/domain/exceptions"
-	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/services/notification"
+	"go-clean-api/cmd/domain/exception"
+	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/service/notification"
 	"testing"
 )
 
@@ -17,7 +17,7 @@ func Test_UseCase_Verify_Notification(t *testing.T) {
 			Event: "test",
 		}
 
-		mockUserServices.On("CheckNotify", dto.Name).Return((*domainexceptions.ApplicationException)(nil), nil)
+		mockUserServices.On("CheckNotify", dto.Name).Return((*exception.ApplicationException)(nil), nil)
 		//
 
 		// test func

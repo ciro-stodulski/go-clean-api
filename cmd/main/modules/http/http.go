@@ -3,12 +3,14 @@ package http
 import (
 	"go-clean-api/cmd/main/container"
 	"go-clean-api/cmd/main/modules"
-	controllers "go-clean-api/cmd/presentation/http/controllers"
+	"go-clean-api/cmd/presentation/http/controller"
 	"go-clean-api/cmd/shared/env"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type httpServer struct {
@@ -28,6 +30,26 @@ func (server *httpServer) RunGo() bool {
 	return false
 }
 
+//	@title			Go architecture APIs
+//	@version		1.0
+//	@description	Testing Swagger APIs.
+//	@termsOfService	http://swagger.io/terms/
+
+//	@contact.name	API Support
+//	@contact.url	http://www.swagger.io/support
+//	@contact.email	support@swagger.io
+
+//	@securityDefinitions.apiKey	JWT
+//	@in							header
+//	@name						token
+
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+
+//	@host		localhost:8081
+//	@BasePath	/api/v1
+
+//	@schemes	http
 func New(container *container.Container) modules.Module {
 	server := &httpServer{}
 
@@ -42,7 +64,7 @@ func New(container *container.Container) modules.Module {
 		for _, middleware := range loadMiddlewaresGlobals() {
 			mds := func(context *gin.Context) {
 				params := loadParams(context)
-				middleware(controllers.HttpRequest{
+				middleware(controller.HttpRequest{
 					Params:  params,
 					Query:   context.Request.URL.Query(),
 					Headers: context.Request.Header,
@@ -54,6 +76,8 @@ func New(container *container.Container) modules.Module {
 	}
 
 	loadRoutes(controls, *api)
+
+	api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	api.GET("/status", func(context *gin.Context) {
 		context.Status(http.StatusAccepted)

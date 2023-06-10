@@ -1,4 +1,4 @@
-package domaindto
+package dto
 
 type Company struct {
 	Name        string `json:"name"`

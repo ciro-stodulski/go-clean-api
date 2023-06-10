@@ -1,9 +1,9 @@
-package domaindto
+package dto
 
 type (
-	Dto struct {
-		Name     string `json:"name"`
-		Email    string `json:"email"`
-		Password string `json:"password"`
+	RegisterUser struct {
+		Name     string `json:"name"  binding:"required,min=3,max=10"`
+		Email    string `json:"email"  binding:"required,min=0,max=50"`
+		Password string `json:"password"  binding:"required,min=8,max=15"`
 	}
 )

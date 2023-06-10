@@ -1,12 +1,18 @@
 package http
 
 import (
-	controllers_http "go-clean-api/cmd/presentation/http/controllers"
+	"go-clean-api/cmd/domain/exception"
+	"go-clean-api/cmd/presentation/http/controller"
+	"go-clean-api/docs"
+	"net/http"
+	"reflect"
+
+	"github.com/go-playground/validator/v10"
 
 	"github.com/gin-gonic/gin"
 )
 
-func loadRoutes(controllers []controllers_http.Controller, api gin.RouterGroup) {
+func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 	for _, ctr := range controllers {
 		route := ctr
 		route_config := ctr.LoadRoute()
@@ -16,30 +22,43 @@ func loadRoutes(controllers []controllers_http.Controller, api gin.RouterGroup) 
 		}
 
 		api_group := api.Group(route_config.PathRoot)
+		docs.SwaggerInfo.BasePath = route_config.PathRoot
 
 		loadMiddlewares(route_config, api_group)
 
 		function := func(gin_context *gin.Context) {
+
 			params := loadParams(gin_context)
 
+			dtoType := reflect.TypeOf(route_config.Dto).Elem()
+
+			newDto := reflect.New(dtoType).Elem()
+
 			if route_config.Dto != nil {
-				if err := gin_context.BindJSON(&route_config.Dto); err != nil {
+				if err := gin_context.ShouldBindJSON(newDto.Addr().Interface()); err != nil {
+					handleValidationErrors(gin_context, err)
 					return
 				}
 			}
 
-			result, errApp, err := route.Handle(controllers_http.HttpRequest{
-				Body:    route_config.Dto,
+			result, err := route.Handle(controller.HttpRequest{
+				Body:    newDto.Interface(),
 				Params:  params,
 				Query:   gin_context.Request.URL.Query(),
 				Headers: gin_context.Request.Header,
 			})
 
-			if err != nil || errApp != nil {
-				result_error := route.HandleError(errApp, err)
+			if err != nil {
+				var result_error *controller.HttpResponseError
 
-				data := &controllers_http.HttpResponseError{
-					Data:   controllers_http.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "internal server error"},
+				if appErr, ok := err.(*exception.ApplicationException); ok {
+					result_error = route.HandleError(appErr, nil)
+				} else {
+					result_error = route.HandleError(nil, appErr)
+				}
+
+				data := &controller.HttpResponseError{
+					Data:   controller.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "internal server error"},
 					Status: 500,
 				}
 
@@ -65,7 +84,6 @@ func loadRoutes(controllers []controllers_http.Controller, api gin.RouterGroup) 
 					gin_context.JSON(status, result.Data)
 					return
 				}
-
 				gin_context.Status(status)
 			}
 		}
@@ -86,12 +104,12 @@ func loadRoutes(controllers []controllers_http.Controller, api gin.RouterGroup) 
 	}
 }
 
-func loadParams(context *gin.Context) controllers_http.Params {
-	var params controllers_http.Params
+func loadParams(context *gin.Context) controller.Params {
+	var params controller.Params
 
 	if context.Params != nil {
 		for _, param := range context.Params {
-			param := controllers_http.Param{
+			param := controller.Param{
 				Key:   param.Key,
 				Value: param.Value,
 			}
@@ -103,7 +121,7 @@ func loadParams(context *gin.Context) controllers_http.Params {
 	return params
 }
 
-func loadMiddlewares(route controllers_http.CreateRoute, api_group *gin.RouterGroup) {
+func loadMiddlewares(route controller.CreateRoute, api_group *gin.RouterGroup) {
 	if len(route.Middlewares) > 0 {
 
 		for _, mds := range route.Middlewares {
@@ -116,7 +134,7 @@ func loadMiddlewares(route controllers_http.CreateRoute, api_group *gin.RouterGr
 					}
 				}
 
-				mds(controllers_http.HttpRequest{
+				mds(controller.HttpRequest{
 					Params:  params,
 					Query:   gin_context.Request.URL.Query(),
 					Headers: gin_context.Request.Header,
@@ -128,4 +146,35 @@ func loadMiddlewares(route controllers_http.CreateRoute, api_group *gin.RouterGr
 			api_group.Use(middleware)
 		}
 	}
+}
+
+func handleValidationErrors(c *gin.Context, err error) {
+	var errorDetails []map[string]interface{}
+
+	validationErrors, ok := err.(validator.ValidationErrors)
+	if !ok {
+		c.JSON(http.StatusBadRequest, controller.HttpError{
+			Code:    "INVALID_SCHEMA",
+			Message: "Invalid schema payload",
+		})
+		return
+	}
+
+	for _, validationError := range validationErrors {
+		fieldName := validationError.Field()
+		errorMessage := validationError.Error()
+
+		fieldDetails := map[string]interface{}{
+			"campo": fieldName,
+			"erro":  errorMessage,
+		}
+
+		errorDetails = append(errorDetails, fieldDetails)
+	}
+
+	c.JSON(http.StatusBadRequest, controller.HttpError{
+		Code:    "INVALID_SCHEMA",
+		Message: "Invalid schema payload",
+		Detail:  errorDetails,
+	})
 }
