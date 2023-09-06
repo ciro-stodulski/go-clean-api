@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ "develop" ]
 
-
 jobs:    
   prepare-branch:
     runs-on: ubuntu-latest
