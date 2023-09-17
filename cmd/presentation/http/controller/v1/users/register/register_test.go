@@ -1,7 +1,6 @@
 package controllerv1userregister
 
 import (
-	"errors"
 	domaindto "go-clean-api/cmd/domain/dto"
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
@@ -53,7 +52,7 @@ func Test_Controller_User_Register(t *testing.T) {
 		// test func
 		testService := New(mockUse)
 
-		err_http := testService.HandleError(exception.InvalidEntity(), nil)
+		err_http := testService.HandleError(exception.InvalidEntity())
 		//
 
 		// asserts
@@ -73,7 +72,7 @@ func Test_Controller_User_Register(t *testing.T) {
 
 		//
 		testService := New(mockUse)
-		err_http := testService.HandleError(exception.UserAlreadyExists(), nil)
+		err_http := testService.HandleError(exception.UserAlreadyExists())
 		//
 
 		// asserts
@@ -85,18 +84,4 @@ func Test_Controller_User_Register(t *testing.T) {
 		//
 	})
 
-	t.Run("error INTERNAL_ERROR", func(t *testing.T) {
-		// make mock
-		mockUse := new(createuserusecasemock.MockUseCase)
-		//
-
-		// test func
-		testService := New(mockUse)
-		err_http := testService.HandleError(nil, errors.New("test"))
-		//
-
-		// asserts
-		assert.Nil(t, err_http)
-		//
-	})
 }

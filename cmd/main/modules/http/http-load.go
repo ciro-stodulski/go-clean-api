@@ -4,6 +4,7 @@ import (
 	"go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	"go-clean-api/docs"
+	"log"
 	"net/http"
 	"reflect"
 
@@ -26,23 +27,36 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 
 		loadMiddlewares(route_config, api_group)
 
+		var dto reflect.Value
+
 		function := func(gin_context *gin.Context) {
 
 			params := loadParams(gin_context)
 
-			dtoType := reflect.TypeOf(route_config.Dto).Elem()
-
-			newDto := reflect.New(dtoType).Elem()
-
 			if route_config.Dto != nil {
-				if err := gin_context.ShouldBindJSON(newDto.Addr().Interface()); err != nil {
-					handleValidationErrors(gin_context, err)
-					return
+
+				dtoType := reflect.TypeOf(route_config.Dto).Elem()
+
+				dto = reflect.New(dtoType).Elem()
+
+				if route_config.Dto != nil {
+					if err := gin_context.ShouldBindJSON(dto.Addr().Interface()); err != nil {
+						handleValidationErrors(gin_context, err)
+						return
+					}
 				}
 			}
 
+			var bodyValue interface{}
+			if route_config.Dto != nil {
+
+				bodyValue = dto.Interface()
+			} else {
+				bodyValue = nil
+			}
+
 			result, err := route.Handle(controller.HttpRequest{
-				Body:    newDto.Interface(),
+				Body:    bodyValue,
 				Params:  params,
 				Query:   gin_context.Request.URL.Query(),
 				Headers: gin_context.Request.Header,
@@ -52,21 +66,17 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 				var result_error *controller.HttpResponseError
 
 				if appErr, ok := err.(*exception.ApplicationException); ok {
-					result_error = route.HandleError(appErr, nil)
+					result_error = route.HandleError(appErr)
 				} else {
-					result_error = route.HandleError(nil, appErr)
+					log.Default().Println("INTERNAL_SERVER_ERROR", err)
+
+					result_error = &controller.HttpResponseError{
+						Data:   controller.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "internal server error"},
+						Status: 500,
+					}
 				}
 
-				data := &controller.HttpResponseError{
-					Data:   controller.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "internal server error"},
-					Status: 500,
-				}
-
-				if result_error != nil {
-					data = result_error
-				}
-
-				gin_context.JSON(data.Status, data.Data)
+				gin_context.JSON(result_error.Status, result_error.Data)
 			} else {
 				if result.Headers != nil {
 					for _, header := range result.Headers {
@@ -86,6 +96,7 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 				}
 				gin_context.Status(status)
 			}
+
 		}
 
 		switch route_config.Method {
@@ -100,8 +111,11 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 		case "delete":
 			api_group.DELETE(route_config.Path, function)
 		default:
+
 		}
+
 	}
+
 }
 
 func loadParams(context *gin.Context) controller.Params {

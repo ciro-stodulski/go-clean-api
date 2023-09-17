@@ -1,7 +1,6 @@
 package findbyiduser
 
 import (
-	"errors"
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
@@ -50,7 +49,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 
 		// test func
 		testService := New(mockUse)
-		err_http := testService.HandleError(exception.UserNotFound(), nil)
+		err_http := testService.HandleError(exception.UserNotFound())
 		//
 
 		// asserts
@@ -62,19 +61,4 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		//
 	})
 
-	t.Run("error INTERNAL_ERROR", func(t *testing.T) {
-		// make mock
-		mockUse := new(getuserusecasemock.MockUseCase)
-		//
-
-		// test func
-		testService := New(mockUse)
-
-		err_http := testService.HandleError(nil, errors.New("internal error"))
-		//
-
-		// asserts
-		assert.Nil(t, err_http)
-		//
-	})
 }
