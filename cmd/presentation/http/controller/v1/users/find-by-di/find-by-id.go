@@ -6,6 +6,7 @@ import (
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
 	"go-clean-api/cmd/presentation/http/middlewares"
+	"log"
 )
 
 type (
@@ -55,7 +56,7 @@ func (findByIdController *findByIdController) Handle(req controller.HttpRequest)
 	}, nil
 }
 
-func (findByIdController *findByIdController) HandleError(appErr *exception.ApplicationException, err error) *controller.HttpResponseError {
+func (findByIdController *findByIdController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponseError {
 	if appErr != nil {
 		if appErr.Code == exception.UserNotFound().Code {
 			return httpexception.NotFound(controller.HttpError{
@@ -64,6 +65,8 @@ func (findByIdController *findByIdController) HandleError(appErr *exception.Appl
 			})
 		}
 	}
+
+	log.Default().Println("internal error", appErr)
 
 	return nil
 }

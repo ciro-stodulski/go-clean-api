@@ -53,7 +53,7 @@ func (rc *registerController) Handle(req controller.HttpRequest) (*controller.Ht
 	}, nil
 }
 
-func (rc *registerController) HandleError(appErr *exception.ApplicationException, err error) *controller.HttpResponseError {
+func (rc *registerController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponseError {
 	if appErr != nil {
 		if appErr.Code == exception.InvalidEntity().Code {
 			return httpexceptions.BadRequest(controller.HttpError{
@@ -70,7 +70,7 @@ func (rc *registerController) HandleError(appErr *exception.ApplicationException
 		}
 	}
 
-	log.Default().Println(err)
+	log.Default().Println("internal error", appErr)
 
 	return nil
 }

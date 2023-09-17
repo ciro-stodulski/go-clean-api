@@ -6,7 +6,7 @@ type (
 	Controller interface {
 		LoadRoute() CreateRoute
 		Handle(req HttpRequest) (*HttpResponse, error)
-		HandleError(appErr *exception.ApplicationException, err error) *HttpResponseError
+		HandleError(appErr *exception.ApplicationException) *HttpResponseError
 	}
 
 	Middleware func(req HttpRequest)

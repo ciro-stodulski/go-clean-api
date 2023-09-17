@@ -1,7 +1,6 @@
 package deleteuser
 
 import (
-	"errors"
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
@@ -46,7 +45,7 @@ func Test_Controller_Delete(t *testing.T) {
 		// test func
 		testService := New(mockUseCase)
 
-		errHttp := testService.HandleError(exception.UserNotFound(), nil)
+		errHttp := testService.HandleError(exception.UserNotFound())
 		//
 
 		// asserts
@@ -58,19 +57,4 @@ func Test_Controller_Delete(t *testing.T) {
 		//
 	})
 
-	t.Run("error INTERNAL_ERROR", func(t *testing.T) {
-		// make mock
-		mockUseCase := new(deleteeuserusecasemock.MockUseCase)
-
-		testService := New(mockUseCase)
-		//
-
-		// test func
-		err_http := testService.HandleError(nil, errors.New("internal error"))
-		//
-
-		// asserts
-		assert.Nil(t, err_http)
-		//
-	})
 }
