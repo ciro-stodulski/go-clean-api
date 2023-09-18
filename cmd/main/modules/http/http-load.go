@@ -40,9 +40,17 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 				dto = reflect.New(dtoType).Elem()
 
 				if route_config.Dto != nil {
-					if err := gin_context.ShouldBindJSON(dto.Addr().Interface()); err != nil {
-						handleValidationErrors(gin_context, err)
-						return
+					gin_context.Request.FormFile("*")
+					if gin_context.Request.MultipartForm == nil {
+						if err := gin_context.ShouldBindJSON(dto.Addr().Interface()); err != nil {
+							handleValidationErrors(gin_context, err)
+							return
+						}
+					} else {
+						if err := gin_context.ShouldBind(dto.Addr().Interface()); err != nil {
+							handleValidationErrors(gin_context, err)
+							return
+						}
 					}
 				}
 			}
