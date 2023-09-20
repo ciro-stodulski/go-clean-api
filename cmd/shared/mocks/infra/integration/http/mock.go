@@ -1,13 +1,18 @@
 package mockhttpclient
 
-import "github.com/stretchr/testify/mock"
+import (
+	httpclient "go-clean-api/cmd/infra/integration/http"
+	"net/http"
+
+	"github.com/stretchr/testify/mock"
+)
 
 type MockHttpClient struct {
 	mock.Mock
 }
 
-func (mock *MockHttpClient) Get(url string) ([]byte, error) {
-	arg := mock.Called(url)
+func (mock *MockHttpClient) Do(req *http.Request) (*httpclient.HttpResponse, error) {
+	arg := mock.Called(req)
 	result := arg.Get(0)
-	return result.([]byte), arg.Error(1)
+	return result.(*httpclient.HttpResponse), arg.Error(1)
 }

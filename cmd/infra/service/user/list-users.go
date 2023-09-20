@@ -28,7 +28,7 @@ func (us *userService) ListUsers() ([]response_jsonplaceholder.User, error) {
 			panic("error for get user in cache and integration###")
 		}
 
-		us.UsersJsonPlaceholderCache.Set("users", ujs, 100)
+		us.UsersJsonPlaceholderCache.Set("users", ujs, 1)
 		log.Default().Print("***Set users in cache***")
 
 		return ujs, nil
