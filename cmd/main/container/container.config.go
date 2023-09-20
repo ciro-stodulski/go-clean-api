@@ -3,6 +3,7 @@ package container
 import (
 	adaptermongodb "go-clean-api/cmd/infra/adapters/mongodb"
 	database "go-clean-api/cmd/infra/adapters/mysql"
+	redisadapter "go-clean-api/cmd/infra/adapters/redis"
 	amqpclient "go-clean-api/cmd/infra/integration/amqp"
 	grpc_client "go-clean-api/cmd/infra/integration/grpc"
 	http_service "go-clean-api/cmd/infra/integration/http"
@@ -34,6 +35,6 @@ func newContainerConfig() containerConfig {
 		Grpc_client:   grpc_client.New(),
 		Amqp_client:   amqpclient.New(),
 		Http_client:   http_service.New(),
-		Cache_client:  cache_client.New(),
+		Cache_client:  redisadapter.New(),
 	}
 }

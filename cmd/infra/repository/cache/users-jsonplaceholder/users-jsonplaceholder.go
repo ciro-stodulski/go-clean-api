@@ -31,7 +31,7 @@ func (uc *usersJsonplaceholderCache) Get(key string) ([]response_jsonplaceholder
 	}
 
 	var users []response_jsonplaceholder.User
-	err = json.Unmarshal([]byte(val), &users)
+	err = json.Unmarshal([]byte(val.(string)), &users)
 
 	if err != nil {
 		panic(err)
