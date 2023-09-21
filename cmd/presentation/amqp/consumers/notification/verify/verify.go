@@ -41,11 +41,7 @@ func (createConsumer *verifiyConsumer) MessageHandler(msg ports_amqp.Message) er
 
 	err := createConsumer.NotifyUserUseCase.Notify(dto)
 
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (createConsumer *verifiyConsumer) OnConsumerError(err error) consumer.AckConfig {
