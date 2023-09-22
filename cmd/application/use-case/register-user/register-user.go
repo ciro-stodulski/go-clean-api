@@ -16,14 +16,14 @@ type (
 	}
 )
 
-func New(us service.UserService, ns service.NotificationService) usecase.RegisterUserUseCase {
+func New(us service.UserService, ns service.NotificationService) usecase.IUseCase[dto.RegisterUser, *user.User] {
 	return &registerUserUseCase{
 		UserService:         us,
 		NotificationService: ns,
 	}
 }
 
-func (cuuc *registerUserUseCase) Register(data dto.RegisterUser) (*user.User, error) {
+func (cuuc *registerUserUseCase) Perform(data dto.RegisterUser) (*user.User, error) {
 	u, err := user.New(data.Email, data.Password, data.Name)
 
 	if err != nil {

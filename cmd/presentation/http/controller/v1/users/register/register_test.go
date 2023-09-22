@@ -1,13 +1,14 @@
 package controllerv1userregister
 
 import (
+	"go-clean-api/cmd/domain/dto"
 	domaindto "go-clean-api/cmd/domain/dto"
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exception"
 
 	"go-clean-api/cmd/domain/entity/user"
-	createuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/create-user"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -16,7 +17,7 @@ import (
 func Test_Controller_User_Register(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUse := new(createuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[dto.RegisterUser, *user.User])
 
 		dto := domaindto.RegisterUser{
 			Name:     "test",
@@ -24,7 +25,7 @@ func Test_Controller_User_Register(t *testing.T) {
 			Password: "test",
 		}
 
-		mockUse.On("Register", dto).Return(&user.User{}, nil)
+		mockUse.On("Perform", dto).Return(&user.User{}, nil)
 		//
 
 		// test func
@@ -46,7 +47,7 @@ func Test_Controller_User_Register(t *testing.T) {
 
 	t.Run("error INVALID_DATA", func(t *testing.T) {
 		// make mock
-		mockUse := new(createuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[dto.RegisterUser, *user.User])
 		//
 
 		// test func
@@ -67,7 +68,7 @@ func Test_Controller_User_Register(t *testing.T) {
 	t.Run("error USER_ALREADY_EXISTS", func(t *testing.T) {
 		// make mock
 
-		mockUse := new(createuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[dto.RegisterUser, *user.User])
 		// test func
 
 		//

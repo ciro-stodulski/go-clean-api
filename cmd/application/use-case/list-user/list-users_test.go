@@ -19,7 +19,7 @@ func Test_UseCase_ListUsers(t *testing.T) {
 		//
 
 		// asserts
-		usecase.ListUsers()
+		usecase.Perform(nil)
 		mockUserServices.AssertCalled(t, "ListUsers")
 		//
 	})

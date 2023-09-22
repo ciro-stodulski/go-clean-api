@@ -22,7 +22,7 @@ func Test_UseCase_Verify_Notification(t *testing.T) {
 
 		// test func
 		usecase := New(mockUserServices)
-		usecase.Notify(dto)
+		usecase.Perform(dto)
 		//
 
 		// asserts

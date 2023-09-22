@@ -1,6 +1,7 @@
 package verifyconsumer
 
 import (
+	"go-clean-api/cmd/domain/dto"
 	domaindto "go-clean-api/cmd/domain/dto"
 	usecase "go-clean-api/cmd/domain/use-case"
 	consumer "go-clean-api/cmd/presentation/amqp/consumers"
@@ -17,11 +18,11 @@ type (
 	}
 
 	verifiyConsumer struct {
-		NotifyUserUseCase usecase.NotifyUserUseCase
+		NotifyUserUseCase usecase.IUseCase[dto.Event, interface{}]
 	}
 )
 
-func New(NotifyUserUseCase usecase.NotifyUserUseCase) consumer.Comsumer {
+func New(NotifyUserUseCase usecase.IUseCase[dto.Event, interface{}]) consumer.Comsumer {
 	return &verifiyConsumer{
 		NotifyUserUseCase,
 	}
@@ -39,7 +40,7 @@ func (createConsumer *verifiyConsumer) MessageHandler(msg ports_amqp.Message) er
 
 	mapstructure.Decode(msg.Body, &dto)
 
-	err := createConsumer.NotifyUserUseCase.Notify(dto)
+	_, err := createConsumer.NotifyUserUseCase.Perform(dto)
 
 	return err
 }

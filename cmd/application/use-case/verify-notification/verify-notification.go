@@ -13,17 +13,17 @@ type (
 	}
 )
 
-func New(ns service.NotificationService) usecase.NotifyUserUseCase {
+func New(ns service.NotificationService) usecase.IUseCase[dto.Event, interface{}] {
 	return &notifyUseCase{
 		NotificationService: ns,
 	}
 }
 
-func (nuc *notifyUseCase) Notify(dto dto.Event) error {
+func (nuc *notifyUseCase) Perform(dto dto.Event) (interface{}, error) {
 
 	log.Default().Println("amqp consumer completed with succeffully")
 
 	err := nuc.NotificationService.CheckNotify(dto.Name)
 
-	return err
+	return nil, err
 }

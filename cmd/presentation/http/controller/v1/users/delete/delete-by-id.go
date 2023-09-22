@@ -11,11 +11,11 @@ import (
 
 type (
 	deleteController struct {
-		deleteUserUseCase usecase.DeleteUserUseCase
+		deleteUserUseCase usecase.IUseCase[string, interface{}]
 	}
 )
 
-func New(deleteUserUseCase usecase.DeleteUserUseCase) controller.Controller {
+func New(deleteUserUseCase usecase.IUseCase[string, interface{}]) controller.Controller {
 	return &deleteController{deleteUserUseCase}
 }
 
@@ -42,7 +42,7 @@ func (deleteController *deleteController) LoadRoute() controller.CreateRoute {
 func (createController *deleteController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
 	id := req.Params.Get("id")
 
-	err := createController.deleteUserUseCase.DeleteUser(id)
+	_, err := createController.deleteUserUseCase.Perform(id)
 
 	if err != nil {
 		return nil, err

@@ -2,6 +2,7 @@ package controllerv1userregister
 
 import (
 	"go-clean-api/cmd/domain/dto"
+	"go-clean-api/cmd/domain/entity/user"
 	"go-clean-api/cmd/domain/exception"
 	usecase "go-clean-api/cmd/domain/use-case"
 
@@ -13,11 +14,11 @@ import (
 
 type (
 	registerController struct {
-		registerUserUseCase usecase.RegisterUserUseCase
+		registerUserUseCase usecase.IUseCase[dto.RegisterUser, *user.User]
 	}
 )
 
-func New(registerUserUseCase usecase.RegisterUserUseCase) controller.Controller {
+func New(registerUserUseCase usecase.IUseCase[dto.RegisterUser, *user.User]) controller.Controller {
 	return &registerController{registerUserUseCase}
 }
 
@@ -42,7 +43,7 @@ func (rc *registerController) LoadRoute() controller.CreateRoute {
 }
 
 func (rc *registerController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
-	_, err := rc.registerUserUseCase.Register(req.Body.(dto.RegisterUser))
+	_, err := rc.registerUserUseCase.Perform(req.Body.(dto.RegisterUser))
 
 	if err != nil {
 		return nil, err

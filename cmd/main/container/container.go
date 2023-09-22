@@ -6,17 +6,19 @@ import (
 	list_users "go-clean-api/cmd/application/use-case/list-user"
 	registeruserusecase "go-clean-api/cmd/application/use-case/register-user"
 	verifynotificationusecase "go-clean-api/cmd/application/use-case/verify-notification"
-	domainusecases "go-clean-api/cmd/domain/use-case"
+	"go-clean-api/cmd/domain/dto"
+	"go-clean-api/cmd/domain/entity/user"
+	usecase "go-clean-api/cmd/domain/use-case"
 	"go-clean-api/cmd/main/container/factories"
 )
 
 type (
 	Container struct {
-		GetUserUseCase      domainusecases.GetUserUseCase
-		RegisterUserUseCase domainusecases.RegisterUserUseCase
-		ListUsersUseCase    domainusecases.ListUsersUseCase
-		DeleteUserUseCase   domainusecases.DeleteUserUseCase
-		NotifyUserUseCase   domainusecases.NotifyUserUseCase
+		GetUserUseCase      usecase.IUseCase[string, *user.User]
+		RegisterUserUseCase usecase.IUseCase[dto.RegisterUser, *user.User]
+		ListUsersUseCase    usecase.IUseCase[interface{}, interface{}]
+		DeleteUserUseCase   usecase.IUseCase[string, interface{}]
+		NotifyUserUseCase   usecase.IUseCase[dto.Event, interface{}]
 	}
 )
 

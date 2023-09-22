@@ -3,7 +3,7 @@ package getuserusecase
 import (
 	"go-clean-api/cmd/domain/entity/user"
 	portsservice "go-clean-api/cmd/domain/service"
-	domainusecases "go-clean-api/cmd/domain/use-case"
+	usecase "go-clean-api/cmd/domain/use-case"
 )
 
 type (
@@ -12,13 +12,13 @@ type (
 	}
 )
 
-func New(us portsservice.UserService) domainusecases.GetUserUseCase {
+func New(us portsservice.UserService) usecase.IUseCase[string, *user.User] {
 	return &getUserUseCase{
 		UserService: us,
 	}
 }
 
-func (guuc *getUserUseCase) GetUser(id string) (*user.User, error) {
+func (guuc *getUserUseCase) Perform(id string) (*user.User, error) {
 	u, err := guuc.UserService.GetUser(id)
 
 	return u, err
