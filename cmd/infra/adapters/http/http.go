@@ -8,18 +8,16 @@ import (
 
 type (
 	httpClient struct {
-		client http.Client
+		http.Client
 	}
 )
 
 func New() httpclient.HttpClient {
-	return &httpClient{
-		client: http.Client{},
-	}
+	return &httpClient{}
 }
 
-func (https *httpClient) Do(req *http.Request) (*httpclient.HttpResponse, error) {
-	res, err := https.client.Do(req)
+func (https *httpClient) Request(req *http.Request) (*httpclient.HttpResponse, error) {
+	res, err := https.Do(req)
 	if err != nil {
 		return nil, err
 	}

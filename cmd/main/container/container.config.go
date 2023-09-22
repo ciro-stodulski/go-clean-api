@@ -18,10 +18,10 @@ type (
 	containerConfig struct {
 		Database      *gorm.DB
 		DatabaseNoSql *mongo.Database
-		Grpc_client   grpc_client.GRPCClient
-		Amqp_client   amqpclient.AmqpClient
-		Http_client   http_service.HttpClient
-		Cache_client  cache_client.CacheClient
+		GrpcClient    grpc_client.GRPCClient
+		AmqpClient    amqpclient.AmqpClient
+		HttpClient    http_service.HttpClient
+		CacheClient   cache_client.CacheClient
 	}
 )
 
@@ -31,11 +31,11 @@ func newContainerConfig() containerConfig {
 	db.ConnectToDatabase()
 
 	return containerConfig{
-		Database:      db.Db,
+		Database:      db.DB,
 		DatabaseNoSql: adaptermongodb.GetClient(),
-		Grpc_client:   grpc_client.New(),
-		Amqp_client:   amqpclient.New(),
-		Http_client:   httpadapter.New(),
-		Cache_client:  redisadapter.New(),
+		GrpcClient:    grpc_client.New(),
+		AmqpClient:    amqpclient.New(),
+		HttpClient:    httpadapter.New(),
+		CacheClient:   redisadapter.New(),
 	}
 }

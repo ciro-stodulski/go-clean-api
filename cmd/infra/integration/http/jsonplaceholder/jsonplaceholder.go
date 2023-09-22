@@ -29,7 +29,7 @@ func New(http http_service.HttpClient) domainjsonplaceholder.JsonPlaceholderInte
 }
 
 func (jpi *jsonPlaceholderIntegration) GetUsers() ([]response_jsonplaceholder.User, error) {
-	response, err := jpi.Http.Do(
+	response, err := jpi.Http.Request(
 		&http.Request{
 			Method: http.MethodGet,
 			URL: &url.URL{

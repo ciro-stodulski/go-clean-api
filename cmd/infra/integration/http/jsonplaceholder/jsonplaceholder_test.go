@@ -26,7 +26,7 @@ func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 		var usersFake []response_jsonplaceholder.User
 		_ = json.Unmarshal(userMock, &usersFake)
 
-		mockInt.On("Do", &http.Request{
+		mockInt.On("Request", &http.Request{
 			Method: http.MethodGet,
 			URL: &url.URL{
 				Path:   "/users",
@@ -49,7 +49,7 @@ func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
 		assert.Equal(t, result, usersFake)
-		mockInt.AssertCalled(t, "Do", &http.Request{
+		mockInt.AssertCalled(t, "Request", &http.Request{
 			Method: http.MethodGet,
 			URL: &url.URL{
 				Path:   "/users",

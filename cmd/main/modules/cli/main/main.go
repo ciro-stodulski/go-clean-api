@@ -7,5 +7,5 @@ import (
 func main() {
 	cli := climodule.New()
 
-	cli.Program.Cli.Execute()
+	cli.Program.Execute()
 }
