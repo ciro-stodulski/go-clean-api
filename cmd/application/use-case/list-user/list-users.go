@@ -13,7 +13,7 @@ type (
 	}
 )
 
-func New(us portsservice.UserService) usecase.IUseCase[interface{}, interface{}] {
+func New(us portsservice.UserService) usecase.UseCase[interface{}, interface{}] {
 	return &listUsersUseCase{
 		UserService: us,
 	}

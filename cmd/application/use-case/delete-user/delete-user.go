@@ -11,7 +11,7 @@ type (
 	}
 )
 
-func New(us service.UserService) usecase.IUseCase[string, interface{}] {
+func New(us service.UserService) usecase.UseCase[string, interface{}] {
 	return &deleteUserUseCase{
 		UserService: us,
 	}

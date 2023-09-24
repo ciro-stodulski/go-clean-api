@@ -11,11 +11,11 @@ import (
 
 type (
 	deleteController struct {
-		deleteUserUseCase usecase.IUseCase[string, interface{}]
+		deleteUserUseCase usecase.UseCase[string, interface{}]
 	}
 )
 
-func New(deleteUserUseCase usecase.IUseCase[string, interface{}]) controller.Controller {
+func New(deleteUserUseCase usecase.UseCase[string, interface{}]) controller.Controller {
 	return &deleteController{deleteUserUseCase}
 }
 

@@ -16,7 +16,7 @@ type (
 	}
 )
 
-func New(us service.UserService, ns service.NotificationService) usecase.IUseCase[dto.RegisterUser, *user.User] {
+func New(us service.UserService, ns service.NotificationService) usecase.UseCase[dto.RegisterUser, *user.User] {
 	return &registerUserUseCase{
 		UserService:         us,
 		NotificationService: ns,

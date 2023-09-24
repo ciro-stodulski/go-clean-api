@@ -14,11 +14,11 @@ import (
 
 type (
 	Container struct {
-		GetUserUseCase      usecase.IUseCase[string, *user.User]
-		RegisterUserUseCase usecase.IUseCase[dto.RegisterUser, *user.User]
-		ListUsersUseCase    usecase.IUseCase[interface{}, interface{}]
-		DeleteUserUseCase   usecase.IUseCase[string, interface{}]
-		NotifyUserUseCase   usecase.IUseCase[dto.Event, interface{}]
+		GetUserUseCase      usecase.UseCase[string, *user.User]
+		RegisterUserUseCase usecase.UseCase[dto.RegisterUser, *user.User]
+		ListUsersUseCase    usecase.UseCase[interface{}, interface{}]
+		DeleteUserUseCase   usecase.UseCase[string, interface{}]
+		NotifyUserUseCase   usecase.UseCase[dto.Event, interface{}]
 	}
 )
 

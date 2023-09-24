@@ -12,11 +12,11 @@ import (
 
 type (
 	findByIdController struct {
-		getUserUseCase usecase.IUseCase[string, *user.User]
+		getUserUseCase usecase.UseCase[string, *user.User]
 	}
 )
 
-func New(getUserUseCase usecase.IUseCase[string, *user.User]) controller.Controller {
+func New(getUserUseCase usecase.UseCase[string, *user.User]) controller.Controller {
 	return &findByIdController{getUserUseCase}
 }
 

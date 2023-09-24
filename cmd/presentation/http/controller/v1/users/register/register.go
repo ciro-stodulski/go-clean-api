@@ -14,11 +14,11 @@ import (
 
 type (
 	registerController struct {
-		registerUserUseCase usecase.IUseCase[dto.RegisterUser, *user.User]
+		registerUserUseCase usecase.UseCase[dto.RegisterUser, *user.User]
 	}
 )
 
-func New(registerUserUseCase usecase.IUseCase[dto.RegisterUser, *user.User]) controller.Controller {
+func New(registerUserUseCase usecase.UseCase[dto.RegisterUser, *user.User]) controller.Controller {
 	return &registerController{registerUserUseCase}
 }
 

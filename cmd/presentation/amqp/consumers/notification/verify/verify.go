@@ -18,11 +18,11 @@ type (
 	}
 
 	verifiyConsumer struct {
-		NotifyUserUseCase usecase.IUseCase[dto.Event, interface{}]
+		NotifyUserUseCase usecase.UseCase[dto.Event, interface{}]
 	}
 )
 
-func New(NotifyUserUseCase usecase.IUseCase[dto.Event, interface{}]) consumer.Comsumer {
+func New(NotifyUserUseCase usecase.UseCase[dto.Event, interface{}]) consumer.Comsumer {
 	return &verifiyConsumer{
 		NotifyUserUseCase,
 	}

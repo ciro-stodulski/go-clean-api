@@ -12,7 +12,7 @@ type (
 	}
 )
 
-func New(us portsservice.UserService) usecase.IUseCase[string, *user.User] {
+func New(us portsservice.UserService) usecase.UseCase[string, *user.User] {
 	return &getUserUseCase{
 		UserService: us,
 	}

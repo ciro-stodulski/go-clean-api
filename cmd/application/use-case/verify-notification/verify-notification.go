@@ -13,7 +13,7 @@ type (
 	}
 )
 
-func New(ns service.NotificationService) usecase.IUseCase[dto.Event, interface{}] {
+func New(ns service.NotificationService) usecase.UseCase[dto.Event, interface{}] {
 	return &notifyUseCase{
 		NotificationService: ns,
 	}

@@ -8,10 +8,10 @@ import (
 )
 
 type notificationPB struct {
-	ListUsersUseCase usecase.IUseCase[interface{}, interface{}]
+	ListUsersUseCase usecase.UseCase[interface{}, interface{}]
 }
 
-func New(ListUsersUseCase usecase.IUseCase[interface{}, interface{}]) *notificationPB {
+func New(ListUsersUseCase usecase.UseCase[interface{}, interface{}]) *notificationPB {
 	return &notificationPB{ListUsersUseCase}
 }
 
