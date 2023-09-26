@@ -8,22 +8,22 @@ import (
 
 type (
 	ServiceCaseContext struct {
-		User_service         service.UserService
-		Notification_service service.NotificationService
+		UserService         service.UserService
+		NotificationService service.NotificationService
 	}
 )
 
-func MakeServiceContext(infra_context InfraContext) ServiceCaseContext {
+func MakeServiceContext(infraContext InfraContext) ServiceCaseContext {
 	return ServiceCaseContext{
-		User_service: userservice.New(
-			infra_context.User_repository,
-			infra_context.Json_place_holder_integration,
-			infra_context.Users_cache,
+		UserService: userservice.New(
+			infraContext.User_repository,
+			infraContext.Json_place_holder_integration,
+			infraContext.Users_cache,
 		),
-		Notification_service: notificationService.New(
-			infra_context.NotificationPbGrpc,
-			infra_context.Notification_amqp,
-			infra_context.Notification_collection,
+		NotificationService: notificationService.New(
+			infraContext.NotificationPbGrpc,
+			infraContext.Notification_amqp,
+			infraContext.Notification_collection,
 		),
 	}
 }

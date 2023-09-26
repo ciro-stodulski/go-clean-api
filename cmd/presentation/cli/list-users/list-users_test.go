@@ -3,7 +3,7 @@ package clilistusers
 import (
 	"errors"
 	cliinterface "go-clean-api/cmd/presentation/cli"
-	listuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/list-user"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,9 +12,9 @@ import (
 func Test_Cli_List_Users(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUse := new(listuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[interface{}, interface{}])
 
-		mockUse.On("ListUsers").Return(nil, nil)
+		mockUse.On("Perform", nil).Return(0, nil)
 		//
 
 		// test func
@@ -24,13 +24,13 @@ func Test_Cli_List_Users(t *testing.T) {
 
 		// asserts
 		assert.Nil(t, err)
-		mockUse.AssertNumberOfCalls(t, "ListUsers", 1)
+		mockUse.AssertNumberOfCalls(t, "Perform", 1)
 		//
 	})
 
 	t.Run("error INTERNAL_ERROR", func(t *testing.T) {
 		// make mock
-		mockUse := new(listuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[interface{}, interface{}])
 		//
 
 		// test func

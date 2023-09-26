@@ -1,49 +1,51 @@
 package container
 
 import (
-	delete_user "go-clean-api/cmd/application/use-case/delete-user"
-	get_user_use_case "go-clean-api/cmd/application/use-case/get-user"
-	list_users "go-clean-api/cmd/application/use-case/list-user"
+	deleteuserusecase "go-clean-api/cmd/application/use-case/delete-user"
+	getuserusecase "go-clean-api/cmd/application/use-case/get-user"
+	listusersusecase "go-clean-api/cmd/application/use-case/list-user"
 	registeruserusecase "go-clean-api/cmd/application/use-case/register-user"
 	verifynotificationusecase "go-clean-api/cmd/application/use-case/verify-notification"
-	domainusecases "go-clean-api/cmd/domain/use-case"
+	"go-clean-api/cmd/domain/dto"
+	"go-clean-api/cmd/domain/entity/user"
+	usecase "go-clean-api/cmd/domain/use-case"
 	"go-clean-api/cmd/main/container/factories"
 )
 
 type (
 	Container struct {
-		GetUserUseCase      domainusecases.GetUserUseCase
-		RegisterUserUseCase domainusecases.RegisterUserUseCase
-		ListUsersUseCase    domainusecases.ListUsersUseCase
-		DeleteUserUseCase   domainusecases.DeleteUserUseCase
-		NotifyUserUseCase   domainusecases.NotifyUserUseCase
+		GetUserUseCase      usecase.UseCase[string, *user.User]
+		RegisterUserUseCase usecase.UseCase[dto.RegisterUser, *user.User]
+		ListUsersUseCase    usecase.UseCase[interface{}, interface{}]
+		DeleteUserUseCase   usecase.UseCase[string, interface{}]
+		NotifyUserUseCase   usecase.UseCase[dto.Event, interface{}]
 	}
 )
 
 func New() *Container {
-	container_config := newContainerConfig()
+	containerConfig := newContainerConfig()
 
-	infra_context := factories.MakeInfraContext(
-		container_config.Grpc_client,
-		container_config.Amqp_client,
-		container_config.Http_client,
-		container_config.Database,
-		container_config.Cache_client,
-		container_config.DatabaseNoSql)
+	infraContext := factories.MakeInfraContext(
+		containerConfig.GrpcClient,
+		containerConfig.AmqpClient,
+		containerConfig.HttpClient,
+		containerConfig.Database,
+		containerConfig.CacheClient,
+		containerConfig.DatabaseNoSql)
 
-	user_service := factories.MakeServiceContext(infra_context).User_service
+	userService := factories.MakeServiceContext(infraContext).UserService
 
-	notification_service := factories.MakeServiceContext(infra_context).Notification_service
+	notificationService := factories.MakeServiceContext(infraContext).NotificationService
 
 	return &Container{
-		GetUserUseCase: get_user_use_case.New(
-			user_service,
+		GetUserUseCase: getuserusecase.New(
+			userService,
 		),
 		RegisterUserUseCase: registeruserusecase.New(
-			user_service, notification_service,
+			userService, notificationService,
 		),
-		DeleteUserUseCase: delete_user.New(user_service),
-		ListUsersUseCase:  list_users.New(user_service),
-		NotifyUserUseCase: verifynotificationusecase.New(notification_service),
+		DeleteUserUseCase: deleteuserusecase.New(userService),
+		ListUsersUseCase:  listusersusecase.New(userService),
+		NotifyUserUseCase: verifynotificationusecase.New(notificationService),
 	}
 }

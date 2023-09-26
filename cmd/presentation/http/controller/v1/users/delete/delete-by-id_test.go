@@ -4,7 +4,7 @@ import (
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
-	deleteeuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/delete-user"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,14 +13,14 @@ import (
 func Test_Controller_Delete(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUseCase := new(deleteeuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[string, interface{}])
 		id := "752ea551-5e6a-4382-859c-cd09fbe50110"
 
-		mockUseCase.On("DeleteUser", id).Return((*exception.ApplicationException)(nil), nil)
+		mockUse.On("Perform", id).Return(0, nil)
 		//
 
 		// test func
-		testService := New(mockUseCase)
+		testService := New(mockUse)
 		result, err := testService.Handle(controller.HttpRequest{
 			Params: controller.Params{
 				controller.Param{Key: "id", Value: id},
@@ -39,11 +39,11 @@ func Test_Controller_Delete(t *testing.T) {
 
 	t.Run("error USER_NOT_FOUND", func(t *testing.T) {
 		// make mock
-		mockUseCase := new(deleteeuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[string, interface{}])
 		//
 
 		// test func
-		testService := New(mockUseCase)
+		testService := New(mockUse)
 
 		errHttp := testService.HandleError(exception.UserNotFound())
 		//

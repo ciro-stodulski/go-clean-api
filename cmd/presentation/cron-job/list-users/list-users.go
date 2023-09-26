@@ -10,10 +10,10 @@ import (
 
 type listUserJob struct {
 	Cron             *cron.Cron
-	listUsersUseCase usecase.ListUsersUseCase
+	listUsersUseCase usecase.UseCase[interface{}, interface{}]
 }
 
-func New(listUsersUseCase usecase.ListUsersUseCase) cronjob.CronJob {
+func New(listUsersUseCase usecase.UseCase[interface{}, interface{}]) cronjob.CronJob {
 	cron := cron.New()
 
 	return &listUserJob{
@@ -25,7 +25,7 @@ func New(listUsersUseCase usecase.ListUsersUseCase) cronjob.CronJob {
 func (luj *listUserJob) Start() {
 	luj.Cron.AddFunc("1 * * * *", func() {
 		log.Default().Print("### job ListUsers started ###")
-		luj.listUsersUseCase.ListUsers()
+		luj.listUsersUseCase.Perform(nil)
 		log.Default().Print("### job ListUsers finishid ###")
 	})
 

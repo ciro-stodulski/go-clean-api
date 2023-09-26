@@ -3,8 +3,11 @@ package jsonplaceholder
 import (
 	"encoding/json"
 	response_jsonplaceholder "go-clean-api/cmd/domain/dto"
+	httpclient "go-clean-api/cmd/infra/integration/http"
 	"go-clean-api/cmd/shared/env"
 	mockhttpclient "go-clean-api/cmd/shared/mocks/infra/integration/http"
+	"net/http"
+	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,7 +26,18 @@ func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 		var usersFake []response_jsonplaceholder.User
 		_ = json.Unmarshal(userMock, &usersFake)
 
-		mockInt.On("Get", env.Env().JsonPlaceOlderIntegrationUrl+"/users").Return(userMock, nil)
+		mockInt.On("Request", &http.Request{
+			Method: http.MethodGet,
+			URL: &url.URL{
+				Path:   "/users",
+				Host:   env.Env().JsonPlaceOlderIntegrationUrl,
+				Scheme: "https",
+			},
+		}).Return(&httpclient.HttpResponse{
+			Body:       userMock,
+			StatusCode: http.StatusOK,
+			Header:     nil,
+		}, nil)
 		//
 
 		// test func
@@ -35,7 +49,14 @@ func Test_JsonPlaceholderIntegration_GetUsers(t *testing.T) {
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
 		assert.Equal(t, result, usersFake)
-		mockInt.AssertCalled(t, "Get", env.Env().JsonPlaceOlderIntegrationUrl+"/users")
+		mockInt.AssertCalled(t, "Request", &http.Request{
+			Method: http.MethodGet,
+			URL: &url.URL{
+				Path:   "/users",
+				Host:   env.Env().JsonPlaceOlderIntegrationUrl,
+				Scheme: "https",
+			},
+		})
 		//
 	})
 }

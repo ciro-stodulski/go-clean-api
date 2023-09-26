@@ -10,7 +10,7 @@ import (
 )
 
 type CobraAdapter struct {
-	Cli cobra.Command
+	cobra.Command
 }
 
 func (ca *CobraAdapter) ListCommands(cos []cliinterface.Command) {
@@ -25,7 +25,7 @@ func (ca *CobraAdapter) ListCommands(cos []cliinterface.Command) {
 		},
 	}
 
-	ca.Cli.AddCommand(lc)
+	ca.AddCommand(lc)
 }
 
 func formatListCommands(options cliinterface.Options) string {
@@ -70,5 +70,5 @@ func (ca *CobraAdapter) RunCommand(cos []cliinterface.Command) {
 		},
 	}
 
-	ca.Cli.AddCommand(rc)
+	ca.AddCommand(rc)
 }

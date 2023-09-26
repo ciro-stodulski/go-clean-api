@@ -93,6 +93,7 @@ func (am *amqpModule) StartConsumers(constumers []consumer_type.Comsumer, positi
 			}
 		}
 	}
+
 }
 
 func (am *amqpModule) NeedToReconnect(err error, msg string) {

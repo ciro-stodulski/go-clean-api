@@ -4,8 +4,8 @@ import (
 	"context"
 	"go-clean-api/cmd/presentation/grpc/notification/pb"
 	"go-clean-api/cmd/shared/mocks"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
 
-	listuserusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/list-user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,14 +14,14 @@ import (
 func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUseCase := new(listuserusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[interface{}, interface{}])
 		userMock := mocks.NewMockUser()
 
-		mockUseCase.On("ListUsers").Return(userMock, nil)
+		mockUse.On("Perform", nil).Return(userMock, nil)
 		//
 
 		// test func
-		testPb := New(mockUseCase)
+		testPb := New(mockUse)
 
 		pb := &pb.ResquestNotification{List: &pb.List{Name: "", Describe: ""}}
 		ctx := context.Background()
@@ -31,7 +31,7 @@ func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
 
 		// asserts
 		assert.Nil(t, err)
-		mockUseCase.AssertCalled(t, "ListUsers")
+		mockUse.AssertCalled(t, "Perform", nil)
 		assert.NotNil(t, result)
 		//
 	})

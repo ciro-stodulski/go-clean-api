@@ -59,7 +59,7 @@ func Test_UseCase_RegisterUser(t *testing.T) {
 
 		// test func
 		usecase := New(mockUserServices, mockNotificationServices)
-		result, err := usecase.Register(data)
+		result, err := usecase.Perform(data)
 		//
 
 		// asserts

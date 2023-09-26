@@ -19,11 +19,8 @@ type (
 
 func (rc *RedisAdapter) Get(key string) (interface{}, error) {
 	result, err := rc.redis.Get(rc.ctx, key).Result()
-	if err == redis.Nil {
-		return "", nil
-	}
 
-	return result, nil
+	return result, err
 }
 
 func (rc *RedisAdapter) Set(key string, value interface{}, timeEx int) error {

@@ -1,12 +1,12 @@
 package clilistusers
 
 import (
-	domainusecases "go-clean-api/cmd/domain/use-case"
+	usecase "go-clean-api/cmd/domain/use-case"
 	cliinterface "go-clean-api/cmd/presentation/cli"
 )
 
 type ListUsersCli struct {
-	luuc domainusecases.ListUsersUseCase
+	listUsersUseCase usecase.UseCase[interface{}, interface{}]
 }
 
 func (luc *ListUsersCli) GetOptions() cliinterface.Options {
@@ -16,15 +16,15 @@ func (luc *ListUsersCli) GetOptions() cliinterface.Options {
 	}
 }
 
-func New(luuc domainusecases.ListUsersUseCase) cliinterface.Command {
+func New(listUsersUseCase usecase.UseCase[interface{}, interface{}]) cliinterface.Command {
 
 	return &ListUsersCli{
-		luuc: luuc,
+		listUsersUseCase,
 	}
 }
 
 func (luc *ListUsersCli) Run(line cliinterface.CliLine) error {
-	luc.luuc.ListUsers()
+	luc.listUsersUseCase.Perform(nil)
 
 	return nil
 }

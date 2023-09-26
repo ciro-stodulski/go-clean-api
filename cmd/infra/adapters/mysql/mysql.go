@@ -8,11 +8,11 @@ import (
 )
 
 type MysqlAdapter struct {
-	Db *gorm.DB
+	*gorm.DB
 }
 
 func (ma *MysqlAdapter) CloseDB() {
-	ma.Db.Close()
+	ma.Close()
 }
 
 func (ma *MysqlAdapter) ConnectToDatabase() error {
@@ -21,7 +21,7 @@ func (ma *MysqlAdapter) ConnectToDatabase() error {
 		return err
 	}
 
-	ma.Db = db
+	ma.DB = db
 
 	log.Default().Print(env.Env().DBDrive + ": Connection db with succeffully")
 

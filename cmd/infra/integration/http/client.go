@@ -6,7 +6,7 @@ import (
 
 type (
 	HttpClient interface {
-		Do(req *http.Request) (*HttpResponse, error)
+		Request(req *http.Request) (*HttpResponse, error)
 	}
 
 	HttpResponse struct {

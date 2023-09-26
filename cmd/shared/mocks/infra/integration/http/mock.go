@@ -11,7 +11,7 @@ type MockHttpClient struct {
 	mock.Mock
 }
 
-func (mock *MockHttpClient) Do(req *http.Request) (*httpclient.HttpResponse, error) {
+func (mock *MockHttpClient) Request(req *http.Request) (*httpclient.HttpResponse, error) {
 	arg := mock.Called(req)
 	result := arg.Get(0)
 	return result.(*httpclient.HttpResponse), arg.Error(1)

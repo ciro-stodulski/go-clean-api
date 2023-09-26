@@ -8,10 +8,10 @@ import (
 )
 
 type notificationPB struct {
-	ListUsersUseCase usecase.ListUsersUseCase
+	ListUsersUseCase usecase.UseCase[interface{}, interface{}]
 }
 
-func New(ListUsersUseCase usecase.ListUsersUseCase) *notificationPB {
+func New(ListUsersUseCase usecase.UseCase[interface{}, interface{}]) *notificationPB {
 	return &notificationPB{ListUsersUseCase}
 }
 
@@ -19,7 +19,7 @@ func (npb *notificationPB) Verify(ctx context.Context, req *pb.ResquestNotificat
 
 	log.Default().Println("----> request by grpc: Name:" + req.List.Name + " Describe: " + req.List.Describe)
 
-	npb.ListUsersUseCase.ListUsers()
+	npb.ListUsersUseCase.Perform(nil)
 
 	return &pb.ResponseNotificaiton{
 		Event: &pb.List{

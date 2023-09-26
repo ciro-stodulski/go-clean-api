@@ -20,7 +20,7 @@ func Test_UseCase_GetUser(t *testing.T) {
 
 		// test func
 		testService := New(mockServices)
-		result, err := testService.GetUser(userMock.ID.String())
+		result, err := testService.Perform(userMock.ID.String())
 		//
 
 		// asserts

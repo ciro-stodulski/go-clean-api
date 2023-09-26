@@ -1,6 +1,7 @@
 package findbyiduser
 
 import (
+	"go-clean-api/cmd/domain/entity/user"
 	"go-clean-api/cmd/domain/exception"
 	usecase "go-clean-api/cmd/domain/use-case"
 	"go-clean-api/cmd/presentation/http/controller"
@@ -11,11 +12,11 @@ import (
 
 type (
 	findByIdController struct {
-		getUserUseCase usecase.GetUserUseCase
+		getUserUseCase usecase.UseCase[string, *user.User]
 	}
 )
 
-func New(getUserUseCase usecase.GetUserUseCase) controller.Controller {
+func New(getUserUseCase usecase.UseCase[string, *user.User]) controller.Controller {
 	return &findByIdController{getUserUseCase}
 }
 
@@ -44,7 +45,7 @@ func (findByIdController *findByIdController) LoadRoute() controller.CreateRoute
 func (findByIdController *findByIdController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
 	id := req.Params.Get("id")
 
-	u, err := findByIdController.getUserUseCase.GetUser(id)
+	u, err := findByIdController.getUserUseCase.Perform(id)
 
 	if err != nil {
 		return nil, err

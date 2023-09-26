@@ -1,9 +1,10 @@
 package verifyconsumer
 
 import (
+	"go-clean-api/cmd/domain/dto"
 	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/exception"
-	verifynotificationusecasemock "go-clean-api/cmd/shared/mocks/application/use-case/verify-notification"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
 
 	ports_amqp "go-clean-api/cmd/presentation/amqp/ports"
 	"testing"
@@ -14,18 +15,18 @@ import (
 func Test_Consumer_verify(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUseCase := new(verifynotificationusecasemock.MockUseCase)
+		mockUse := new(usecasemock.MockUseCase[dto.Event, interface{}])
 
 		dto := domaindto.Event{
 			Name:  "test",
 			Event: "test",
 		}
 
-		mockUseCase.On("Notify", dto).Return((*exception.ApplicationException)(nil), nil)
+		mockUse.On("Perform", dto).Return((*exception.ApplicationException)(nil), nil)
 		//
 
 		// test func
-		testService := New(mockUseCase)
+		testService := New(mockUse)
 		//
 
 		err := testService.MessageHandler(ports_amqp.Message{
@@ -34,7 +35,7 @@ func Test_Consumer_verify(t *testing.T) {
 
 		// asserts
 		assert.Nil(t, err)
-		mockUseCase.AssertCalled(t, "Notify", dto)
+		mockUse.AssertCalled(t, "Perform", dto)
 		//
 	})
 }
