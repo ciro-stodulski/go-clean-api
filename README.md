@@ -139,14 +139,14 @@ go run ./cmd/main/modules/cli/main -h
 
 ### Current version
 
-## [2.2.1]
 
-```
-- fix refactoring integration folders
-- add client to grpc 
-- add service to host grpc
-- update version go 1.18
-- fix changelog and add loggers
-- add new rote delete user
-- fix connection redis
-```
+## [3.2.1]
+
+- refactor application errors
+- refactor plural names
+- refactor http module (fix validation request body with gin and add swagger package)
+- refactor partial domain layer
+- add swagger docs for rest api
+- refactor injection dependency presentation layer
+- interface with generic
+- server sent event
