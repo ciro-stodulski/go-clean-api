@@ -26,7 +26,7 @@ func (uc *usersJsonplaceholderCache) Get(key string) ([]response_jsonplaceholder
 		panic(err)
 	}
 
-	if val == "" {
+	if val == nil {
 		return []response_jsonplaceholder.User{}, nil
 	}
 

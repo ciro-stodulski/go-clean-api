@@ -19,7 +19,10 @@ type (
 
 func (rc *RedisAdapter) Get(key string) (interface{}, error) {
 	result, err := rc.redis.Get(rc.ctx, key).Result()
-
+	if err == redis.Nil {
+		// A chave não existe no Redis, você pode lidar com isso de acordo com suas necessidades
+		return nil, nil // ou outro valor padrão ou erro personalizado, se necessário
+	}
 	return result, err
 }
 
