@@ -1,12 +1,15 @@
 package http
 
 import (
+	"encoding/json"
+	"fmt"
 	"go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	"go-clean-api/docs"
 	"log"
 	"net/http"
 	"reflect"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 
@@ -14,41 +17,43 @@ import (
 )
 
 func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
+	hub := NewSSEHub()
+
 	for _, ctr := range controllers {
 		route := ctr
-		route_config := ctr.LoadRoute()
+		routeConfig := ctr.LoadRoute()
 
-		if route_config.PathRoot == "" {
+		if routeConfig.PathRoot == "" {
 			return
 		}
 
-		api_group := api.Group(route_config.PathRoot)
-		docs.SwaggerInfo.BasePath = route_config.PathRoot
+		api_group := api.Group(routeConfig.PathRoot)
+		docs.SwaggerInfo.BasePath = routeConfig.PathRoot
 
-		loadMiddlewares(route_config, api_group)
+		loadMiddlewares(routeConfig, api_group)
 
 		var dto reflect.Value
 
-		function := func(gin_context *gin.Context) {
+		function := func(c *gin.Context) {
 
-			params := loadParams(gin_context)
+			params := loadParams(c)
 
-			if route_config.Dto != nil {
+			if routeConfig.Dto != nil {
 
-				dtoType := reflect.TypeOf(route_config.Dto).Elem()
+				dtoType := reflect.TypeOf(routeConfig.Dto).Elem()
 
 				dto = reflect.New(dtoType).Elem()
 
-				if route_config.Dto != nil {
-					gin_context.Request.FormFile("*")
-					if gin_context.Request.MultipartForm == nil {
-						if err := gin_context.ShouldBindJSON(dto.Addr().Interface()); err != nil {
-							handleValidationErrors(gin_context, err)
+				if routeConfig.Dto != nil {
+					c.Request.FormFile("*")
+					if c.Request.MultipartForm == nil {
+						if err := c.ShouldBindJSON(dto.Addr().Interface()); err != nil {
+							handleValidationErrors(c, err)
 							return
 						}
 					} else {
-						if err := gin_context.ShouldBind(dto.Addr().Interface()); err != nil {
-							handleValidationErrors(gin_context, err)
+						if err := c.ShouldBind(dto.Addr().Interface()); err != nil {
+							handleValidationErrors(c, err)
 							return
 						}
 					}
@@ -56,19 +61,26 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 			}
 
 			var bodyValue interface{}
-			if route_config.Dto != nil {
+			if routeConfig.Dto != nil {
 
 				bodyValue = dto.Interface()
 			} else {
 				bodyValue = nil
 			}
 
-			result, err := route.Handle(controller.HttpRequest{
-				Body:    bodyValue,
-				Params:  params,
-				Query:   gin_context.Request.URL.Query(),
-				Headers: gin_context.Request.Header,
-			})
+			var result *controller.HttpResponse
+			var err error
+
+			if route.LoadRoute().IsServerSentEvents {
+				serverSentEvents(c, route, hub, bodyValue, params)
+			} else {
+				result, err = route.Handle(controller.HttpRequest{
+					Body:    bodyValue,
+					Params:  params,
+					Query:   c.Request.URL.Query(),
+					Headers: c.Request.Header,
+				})
+			}
 
 			if err != nil {
 				var result_error *controller.HttpResponseError
@@ -84,11 +96,11 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 					}
 				}
 
-				gin_context.JSON(result_error.Status, result_error.Data)
+				c.JSON(result_error.Status, result_error.Data)
 			} else {
 				if result.Headers != nil {
 					for _, header := range result.Headers {
-						gin_context.Header(header.Key, header.Value)
+						c.Header(header.Key, header.Value)
 					}
 				}
 
@@ -99,29 +111,94 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 				}
 
 				if result.Data != nil {
-					gin_context.JSON(status, result.Data)
+					c.JSON(status, result.Data)
 					return
 				}
-				gin_context.Status(status)
+				c.Status(status)
 			}
 
 		}
 
-		switch route_config.Method {
+		switch routeConfig.Method {
 		case "get":
-			api_group.GET(route_config.Path, function)
+			api_group.GET(routeConfig.Path, function)
 		case "post":
-			api_group.POST(route_config.Path, function)
+			api_group.POST(routeConfig.Path, function)
 		case "put":
-			api_group.PUT(route_config.Path, function)
+			api_group.PUT(routeConfig.Path, function)
 		case "patch":
-			api_group.PATCH(route_config.Path, function)
+			api_group.PATCH(routeConfig.Path, function)
 		case "delete":
-			api_group.DELETE(route_config.Path, function)
+			api_group.DELETE(routeConfig.Path, function)
 		default:
 
 		}
 
+	}
+
+}
+
+func serverSentEvents(c *gin.Context, route controller.Controller, hub *SSEHub, bodyValue interface{}, params controller.Params) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Headers", "Content-Type")
+	c.Header("Content-Type", "text/event-stream")
+	c.Header("Cache-Control", "no-cache")
+	c.Header("Connection", "keep-alive")
+
+	messageChannel := make(chan interface{})
+
+	flusher, ok := c.Writer.(http.Flusher)
+	if !ok {
+		err := &controller.HttpResponseError{
+			Data:   controller.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "Stream error"},
+			Status: 500,
+		}
+		c.JSON(err.Status, err.Data)
+		return
+	}
+
+	notify := c.Writer.CloseNotify()
+	go func() {
+		log.Default().Printf("[HTTP MODULE]{ServerSentEvents} close connection %v", <-notify)
+		defer close(messageChannel)
+
+		hub.RemoveClient(c)
+		<-notify
+	}()
+
+	hub.AddClient(c, messageChannel)
+
+	go func() {
+		log.Default().Printf("[HTTP MODULE]{ServerSentEvents} open connection")
+
+		for {
+			result, err := route.Handle(controller.HttpRequest{
+				Body:    bodyValue,
+				Params:  params,
+				Query:   c.Request.URL.Query(),
+				Headers: c.Request.Header,
+			})
+
+			if err != nil {
+				hub.Broadcast(err)
+
+			} else {
+				response, err := json.Marshal(result.Data)
+				if err != nil {
+					panic(err)
+				}
+				hub.Broadcast(response)
+
+			}
+
+			time.Sleep(time.Duration(route.LoadRoute().TimeSecondsSentEvents) * time.Second)
+		}
+	}()
+
+	// Envie mensagens SSE para o cliente
+	for message := range messageChannel {
+		fmt.Fprintf(c.Writer, "data: %s\n\n", message)
+		flusher.Flush()
 	}
 
 }
@@ -147,20 +224,20 @@ func loadMiddlewares(route controller.CreateRoute, api_group *gin.RouterGroup) {
 	if len(route.Middlewares) > 0 {
 
 		for _, mds := range route.Middlewares {
-			middleware := func(gin_context *gin.Context) {
-				params := loadParams(gin_context)
+			middleware := func(c *gin.Context) {
+				params := loadParams(c)
 
 				if route.Dto != nil {
-					if err := gin_context.BindJSON(&route.Dto); err != nil {
+					if err := c.BindJSON(&route.Dto); err != nil {
 						return
 					}
 				}
 
 				mds(controller.HttpRequest{
 					Params:  params,
-					Query:   gin_context.Request.URL.Query(),
-					Headers: gin_context.Request.Header,
-					Next:    gin_context.Next,
+					Query:   c.Request.URL.Query(),
+					Headers: c.Request.Header,
+					Next:    c.Next,
 					Body:    route.Dto,
 				})
 			}
