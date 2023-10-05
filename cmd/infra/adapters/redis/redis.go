@@ -17,7 +17,7 @@ type (
 	}
 )
 
-func (rc *RedisAdapter) Get(key string) (interface{}, error) {
+func (rc *RedisAdapter) Get(key string) (any, error) {
 	result, err := rc.redis.Get(rc.ctx, key).Result()
 	if err == redis.Nil {
 		// A chave não existe no Redis, você pode lidar com isso de acordo com suas necessidades
@@ -26,7 +26,7 @@ func (rc *RedisAdapter) Get(key string) (interface{}, error) {
 	return result, err
 }
 
-func (rc *RedisAdapter) Set(key string, value interface{}, timeEx int) error {
+func (rc *RedisAdapter) Set(key string, value any, timeEx int) error {
 	return rc.redis.Set(rc.ctx, key, value, time.Duration(time.Duration(timeEx).Milliseconds())).Err()
 }
 

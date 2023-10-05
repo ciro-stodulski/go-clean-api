@@ -7,5 +7,5 @@ type CliLine struct {
 type Options struct {
 	Command_name string
 	Description  string
-	Schema       interface{}
+	Schema       any
 }

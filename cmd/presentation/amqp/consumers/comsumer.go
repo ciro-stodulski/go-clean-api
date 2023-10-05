@@ -5,7 +5,7 @@ import ports_amqp "go-clean-api/cmd/presentation/amqp/ports"
 type (
 	ConsumeConfig struct {
 		Queue  string
-		Schema interface{}
+		Schema any
 	}
 
 	AckConfig struct {

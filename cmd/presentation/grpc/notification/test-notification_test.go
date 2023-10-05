@@ -14,7 +14,7 @@ import (
 func Test_ServiceGrpc_FindUser_Create(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUse := new(usecasemock.MockUseCase[interface{}, interface{}])
+		mockUse := new(usecasemock.MockUseCase[any, any])
 		userMock := mocks.NewMockUser()
 
 		mockUse.On("Perform", nil).Return(userMock, nil)

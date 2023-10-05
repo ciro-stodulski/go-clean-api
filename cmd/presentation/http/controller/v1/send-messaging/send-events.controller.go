@@ -9,10 +9,10 @@ import (
 )
 
 type sendEventsController struct {
-	verifyNewMenssagingUseCase usecase.UseCase[inputdto.MessagingInput, interface{}]
+	verifyNewMenssagingUseCase usecase.UseCase[inputdto.MessagingInput, any]
 }
 
-func New(loadNewMessagingUseCase usecase.UseCase[inputdto.MessagingInput, interface{}]) controller.Controller {
+func New(loadNewMessagingUseCase usecase.UseCase[inputdto.MessagingInput, any]) controller.Controller {
 	return &sendEventsController{
 		loadNewMessagingUseCase,
 	}
@@ -28,18 +28,18 @@ func (ec *sendEventsController) LoadRoute() controller.CreateRoute {
 }
 
 // Handle implements controller.Controller.
-func (ec *sendEventsController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
+func (ec *sendEventsController) Handle(req controller.HttpRequest) (*controller.HttpResponse[any], error) {
 
 	result, err := ec.verifyNewMenssagingUseCase.Perform(req.Body.(inputdto.MessagingInput))
 
-	return &controller.HttpResponse{
+	return &controller.HttpResponse[any]{
 		Data:   result,
 		Status: 200,
 	}, err
 }
 
 // HandleError implements controller.Controller.
-func (ec *sendEventsController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponseError {
+func (ec *sendEventsController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponse[controller.HttpError] {
 	log.Printf("[eventsController]{HandleError}: error internal %v", appErr)
 
 	return nil

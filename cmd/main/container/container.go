@@ -20,10 +20,10 @@ type (
 	Container struct {
 		GetUserUseCase          usecase.UseCase[string, *user.User]
 		RegisterUserUseCase     usecase.UseCase[dto.RegisterUser, *user.User]
-		ListUsersUseCase        usecase.UseCase[interface{}, interface{}]
-		DeleteUserUseCase       usecase.UseCase[string, interface{}]
-		NotifyUserUseCase       usecase.UseCase[dto.Event, interface{}]
-		SendNewMessagingUseCase usecase.UseCase[inputdto.MessagingInput, interface{}]
+		ListUsersUseCase        usecase.UseCase[any, any]
+		DeleteUserUseCase       usecase.UseCase[string, any]
+		NotifyUserUseCase       usecase.UseCase[dto.Event, any]
+		SendNewMessagingUseCase usecase.UseCase[inputdto.MessagingInput, any]
 		LoadNewMessagingUseCase usecase.UseCase[string, messagingentity.MessagingEntity]
 	}
 )

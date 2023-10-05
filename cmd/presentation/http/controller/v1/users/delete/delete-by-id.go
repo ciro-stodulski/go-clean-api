@@ -11,11 +11,11 @@ import (
 
 type (
 	deleteController struct {
-		deleteUserUseCase usecase.UseCase[string, interface{}]
+		deleteUserUseCase usecase.UseCase[string, any]
 	}
 )
 
-func New(deleteUserUseCase usecase.UseCase[string, interface{}]) controller.Controller {
+func New(deleteUserUseCase usecase.UseCase[string, any]) controller.Controller {
 	return &deleteController{deleteUserUseCase}
 }
 
@@ -39,7 +39,7 @@ func (deleteController *deleteController) LoadRoute() controller.CreateRoute {
 	}
 }
 
-func (createController *deleteController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
+func (createController *deleteController) Handle(req controller.HttpRequest) (*controller.HttpResponse[any], error) {
 	id := req.Params.Get("id")
 
 	_, err := createController.deleteUserUseCase.Perform(id)
@@ -48,12 +48,12 @@ func (createController *deleteController) Handle(req controller.HttpRequest) (*c
 		return nil, err
 	}
 
-	return &controller.HttpResponse{
+	return &controller.HttpResponse[any]{
 		Status: 204,
 	}, nil
 }
 
-func (createController *deleteController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponseError {
+func (createController *deleteController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponse[controller.HttpError] {
 	if appErr != nil {
 		if appErr.Code == exception.UserNotFound().Code {
 			return httpexception.NotFound(controller.HttpError{

@@ -11,13 +11,13 @@ type (
 	}
 )
 
-func New(us service.UserService) usecase.UseCase[string, interface{}] {
+func New(us service.UserService) usecase.UseCase[string, any] {
 	return &deleteUserUseCase{
 		UserService: us,
 	}
 }
 
-func (duuc *deleteUserUseCase) Perform(id string) (interface{}, error) {
+func (duuc *deleteUserUseCase) Perform(id string) (any, error) {
 	err := duuc.UserService.DeleteUser(id)
 
 	return nil, err

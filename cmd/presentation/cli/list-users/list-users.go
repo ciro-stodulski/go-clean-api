@@ -6,7 +6,7 @@ import (
 )
 
 type ListUsersCli struct {
-	listUsersUseCase usecase.UseCase[interface{}, interface{}]
+	listUsersUseCase usecase.UseCase[any, any]
 }
 
 func (luc *ListUsersCli) GetOptions() cliinterface.Options {
@@ -16,7 +16,7 @@ func (luc *ListUsersCli) GetOptions() cliinterface.Options {
 	}
 }
 
-func New(listUsersUseCase usecase.UseCase[interface{}, interface{}]) cliinterface.Command {
+func New(listUsersUseCase usecase.UseCase[any, any]) cliinterface.Command {
 
 	return &ListUsersCli{
 		listUsersUseCase,

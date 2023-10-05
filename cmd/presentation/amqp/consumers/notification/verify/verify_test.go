@@ -15,7 +15,7 @@ import (
 func Test_Consumer_verify(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUse := new(usecasemock.MockUseCase[dto.Event, interface{}])
+		mockUse := new(usecasemock.MockUseCase[dto.Event, any])
 
 		dto := domaindto.Event{
 			Name:  "test",

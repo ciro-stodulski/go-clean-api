@@ -13,7 +13,7 @@ import (
 func Test_Controller_Delete(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUse := new(usecasemock.MockUseCase[string, interface{}])
+		mockUse := new(usecasemock.MockUseCase[string, any])
 		id := "752ea551-5e6a-4382-859c-cd09fbe50110"
 
 		mockUse.On("Perform", id).Return(0, nil)
@@ -31,7 +31,7 @@ func Test_Controller_Delete(t *testing.T) {
 		// asserts
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
-		assert.Equal(t, &controller.HttpResponse{
+		assert.Equal(t, &controller.HttpResponse[any]{
 			Status: 204,
 		}, result)
 		//
@@ -39,7 +39,7 @@ func Test_Controller_Delete(t *testing.T) {
 
 	t.Run("error USER_NOT_FOUND", func(t *testing.T) {
 		// make mock
-		mockUse := new(usecasemock.MockUseCase[string, interface{}])
+		mockUse := new(usecasemock.MockUseCase[string, any])
 		//
 
 		// test func

@@ -2,7 +2,6 @@ package controllerv1userregister
 
 import (
 	"go-clean-api/cmd/domain/dto"
-	domaindto "go-clean-api/cmd/domain/dto"
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexceptions "go-clean-api/cmd/presentation/http/exception"
@@ -19,7 +18,7 @@ func Test_Controller_User_Register(t *testing.T) {
 		// make mock
 		mockUse := new(usecasemock.MockUseCase[dto.RegisterUser, *user.User])
 
-		dto := domaindto.RegisterUser{
+		dto := dto.RegisterUser{
 			Name:     "test",
 			Email:    "test",
 			Password: "test",
@@ -39,7 +38,7 @@ func Test_Controller_User_Register(t *testing.T) {
 		// asserts
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
-		assert.Equal(t, &controller.HttpResponse{
+		assert.Equal(t, &controller.HttpResponse[any]{
 			Status: 201,
 		}, result)
 		//

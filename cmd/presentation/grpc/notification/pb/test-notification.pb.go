@@ -216,7 +216,7 @@ func file_test_notification_proto_rawDescGZIP() []byte {
 }
 
 var file_test_notification_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_test_notification_proto_goTypes = []interface{}{
+var file_test_notification_proto_goTypes = []any{
 	(*List)(nil),                 // 0: proto_notification.List
 	(*ResquestNotification)(nil), // 1: proto_notification.ResquestNotification
 	(*ResponseNotificaiton)(nil), // 2: proto_notification.ResponseNotificaiton
@@ -239,7 +239,7 @@ func file_test_notification_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_test_notification_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_test_notification_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*List); i {
 			case 0:
 				return &v.state
@@ -251,7 +251,7 @@ func file_test_notification_proto_init() {
 				return nil
 			}
 		}
-		file_test_notification_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_test_notification_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*ResquestNotification); i {
 			case 0:
 				return &v.state
@@ -263,7 +263,7 @@ func file_test_notification_proto_init() {
 				return nil
 			}
 		}
-		file_test_notification_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_test_notification_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*ResponseNotificaiton); i {
 			case 0:
 				return &v.state
@@ -345,7 +345,7 @@ func RegisterTestNotificationInterfacePbServer(s *grpc.Server, srv TestNotificat
 	s.RegisterService(&_TestNotificationInterfacePb_serviceDesc, srv)
 }
 
-func _TestNotificationInterfacePb_Verify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TestNotificationInterfacePb_Verify_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(ResquestNotification)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -357,7 +357,7 @@ func _TestNotificationInterfacePb_Verify_Handler(srv interface{}, ctx context.Co
 		Server:     srv,
 		FullMethod: "/proto_notification.TestNotificationInterfacePb/Verify",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(TestNotificationInterfacePbServer).Verify(ctx, req.(*ResquestNotification))
 	}
 	return interceptor(ctx, in, info, handler)

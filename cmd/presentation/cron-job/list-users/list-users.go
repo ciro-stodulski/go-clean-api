@@ -10,10 +10,10 @@ import (
 
 type listUserJob struct {
 	Cron             *cron.Cron
-	listUsersUseCase usecase.UseCase[interface{}, interface{}]
+	listUsersUseCase usecase.UseCase[any, any]
 }
 
-func New(listUsersUseCase usecase.UseCase[interface{}, interface{}]) cronjob.CronJob {
+func New(listUsersUseCase usecase.UseCase[any, any]) cronjob.CronJob {
 	cron := cron.New()
 
 	return &listUserJob{

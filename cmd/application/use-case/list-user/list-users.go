@@ -13,7 +13,7 @@ type (
 	}
 )
 
-func New(us portsservice.UserService) usecase.UseCase[interface{}, interface{}] {
+func New(us portsservice.UserService) usecase.UseCase[any, any] {
 	return &listUsersUseCase{
 		UserService: us,
 	}
@@ -25,7 +25,7 @@ func printUsers(ujs []response_jsonplaceholder.User) {
 	}
 }
 
-func (luuc *listUsersUseCase) Perform(interface{}) (interface{}, error) {
+func (luuc *listUsersUseCase) Perform(any) (any, error) {
 	ujs, err := luuc.UserService.ListUsers()
 
 	if err != nil {

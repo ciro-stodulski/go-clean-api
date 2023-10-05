@@ -60,7 +60,7 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 				}
 			}
 
-			var bodyValue interface{}
+			var bodyValue any
 			if routeConfig.Dto != nil {
 
 				bodyValue = dto.Interface()
@@ -68,7 +68,7 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 				bodyValue = nil
 			}
 
-			var result *controller.HttpResponse
+			var result *controller.HttpResponse[any]
 			var err error
 
 			if route.LoadRoute().IsServerSentEvents {
@@ -83,14 +83,14 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 			}
 
 			if err != nil {
-				var result_error *controller.HttpResponseError
+				var result_error *controller.HttpResponse[controller.HttpError]
 
 				if appErr, ok := err.(*exception.ApplicationException); ok {
 					result_error = route.HandleError(appErr)
 				} else {
 					log.Default().Println("INTERNAL_SERVER_ERROR", err)
 
-					result_error = &controller.HttpResponseError{
+					result_error = &controller.HttpResponse[controller.HttpError]{
 						Data:   controller.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "internal server error"},
 						Status: 500,
 					}
@@ -138,18 +138,18 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 
 }
 
-func serverSentEvents(c *gin.Context, route controller.Controller, hub *SSEHub, bodyValue interface{}, params controller.Params) {
+func serverSentEvents(c *gin.Context, route controller.Controller, hub *SSEHub, bodyValue any, params controller.Params) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Access-Control-Allow-Headers", "Content-Type")
 	c.Header("Content-Type", "text/event-stream")
 	c.Header("Cache-Control", "no-cache")
 	c.Header("Connection", "keep-alive")
 
-	messageChannel := make(chan interface{})
+	messageChannel := make(chan any)
 
 	flusher, ok := c.Writer.(http.Flusher)
 	if !ok {
-		err := &controller.HttpResponseError{
+		err := &controller.HttpResponse[controller.HttpError]{
 			Data:   controller.HttpError{Code: "INTERNAL_SERVER_ERROR", Message: "Stream error"},
 			Status: 500,
 		}
@@ -248,7 +248,7 @@ func loadMiddlewares(route controller.CreateRoute, api_group *gin.RouterGroup) {
 }
 
 func handleValidationErrors(c *gin.Context, err error) {
-	var errorDetails []map[string]interface{}
+	var errorDetails []map[string]any
 
 	validationErrors, ok := err.(validator.ValidationErrors)
 	if !ok {
@@ -263,7 +263,7 @@ func handleValidationErrors(c *gin.Context, err error) {
 		fieldName := validationError.Field()
 		errorMessage := validationError.Error()
 
-		fieldDetails := map[string]interface{}{
+		fieldDetails := map[string]any{
 			"campo": fieldName,
 			"erro":  errorMessage,
 		}

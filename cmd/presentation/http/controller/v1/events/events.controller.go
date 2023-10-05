@@ -30,17 +30,17 @@ func (ec *eventsController) LoadRoute() controller.CreateRoute {
 }
 
 // Handle implements controller.Controller.
-func (ec *eventsController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
+func (ec *eventsController) Handle(req controller.HttpRequest) (*controller.HttpResponse[any], error) {
 	result, err := ec.loadNewMessagingUseCase.Perform(req.Params.Get("subject_id"))
 
-	return &controller.HttpResponse{
+	return &controller.HttpResponse[any]{
 		Data:   result,
 		Status: 200,
 	}, err
 }
 
 // HandleError implements controller.Controller.
-func (ec *eventsController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponseError {
+func (ec *eventsController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponse[controller.HttpError] {
 	log.Printf("[eventsController]{HandleError}: error internal %v", appErr)
 
 	return nil

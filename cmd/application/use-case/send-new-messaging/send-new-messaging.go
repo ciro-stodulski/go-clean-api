@@ -12,11 +12,11 @@ type sendNewMessagingUseCase struct {
 	channelEvents map[string]controller.ChannelManager[messagingentity.MessagingEntity]
 }
 
-func New(channelEvents map[string]controller.ChannelManager[messagingentity.MessagingEntity]) usecase.UseCase[inputdto.MessagingInput, interface{}] {
+func New(channelEvents map[string]controller.ChannelManager[messagingentity.MessagingEntity]) usecase.UseCase[inputdto.MessagingInput, any] {
 	return &sendNewMessagingUseCase{channelEvents}
 }
 
-func (vr *sendNewMessagingUseCase) Perform(input inputdto.MessagingInput) (interface{}, error) {
+func (vr *sendNewMessagingUseCase) Perform(input inputdto.MessagingInput) (any, error) {
 
 	subjectID := input.SubjectId
 

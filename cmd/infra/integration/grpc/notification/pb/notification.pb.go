@@ -210,7 +210,7 @@ func file_notification_proto_rawDescGZIP() []byte {
 }
 
 var file_notification_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_notification_proto_goTypes = []interface{}{
+var file_notification_proto_goTypes = []any{
 	(*Event)(nil),   // 0: proto_notification.Event
 	(*Request)(nil), // 1: proto_notification.Request
 	(*Reponse)(nil), // 2: proto_notification.Reponse
@@ -232,7 +232,7 @@ func file_notification_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_notification_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_notification_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*Event); i {
 			case 0:
 				return &v.state
@@ -244,7 +244,7 @@ func file_notification_proto_init() {
 				return nil
 			}
 		}
-		file_notification_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_notification_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*Request); i {
 			case 0:
 				return &v.state
@@ -256,7 +256,7 @@ func file_notification_proto_init() {
 				return nil
 			}
 		}
-		file_notification_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_notification_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*Reponse); i {
 			case 0:
 				return &v.state
@@ -338,7 +338,7 @@ func RegisterNotificationPbServer(s *grpc.Server, srv NotificationPbServer) {
 	s.RegisterService(&_NotificationPb_serviceDesc, srv)
 }
 
-func _NotificationPb_Verify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationPb_Verify_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -350,7 +350,7 @@ func _NotificationPb_Verify_Handler(srv interface{}, ctx context.Context, dec fu
 		Server:     srv,
 		FullMethod: "/proto_notification.NotificationPb/Verify",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(NotificationPbServer).Verify(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)

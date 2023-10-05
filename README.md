@@ -30,7 +30,17 @@ docker-compose up -d
 ```
 
 ```bash
+goose -dir migrations up
+```
+
+```bash
 go run .
+```
+
+obs: need install goose to run migrations
+
+```bash
+go install github.com/pressly/goose/v3/cmd/goose@latest
 ```
 
 ## Run tests

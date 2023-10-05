@@ -36,7 +36,7 @@ func Test_Controller_User_Find_By_Id(t *testing.T) {
 		assert.Nil(t, err)
 		assert.NotNil(t, result)
 		mockUse.AssertCalled(t, "Perform", id)
-		assert.Equal(t, &controller.HttpResponse{
+		assert.Equal(t, &controller.HttpResponse[*user.User]{
 			Data:   userMock,
 			Status: 200,
 		}, result)

@@ -6,7 +6,6 @@ import (
 	entity "go-clean-api/cmd/domain/entity/user"
 	"go-clean-api/cmd/domain/exception"
 	domainusersql "go-clean-api/cmd/domain/repository/sql"
-	"log"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -19,12 +18,6 @@ type (
 		db *gorm.DB
 	}
 )
-
-func InitMigrate(db *gorm.DB) {
-	log.Default().Println("Run migration for user")
-
-	db.AutoMigrate(&entity.User{})
-}
 
 func New(db *gorm.DB) (repository domainusersql.UserSql) {
 	return &userSql{db}

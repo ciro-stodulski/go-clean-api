@@ -25,7 +25,5 @@ func (ma *MysqlAdapter) ConnectToDatabase() error {
 
 	log.Default().Print(env.Env().DBDrive + ": Connection db with succeffully")
 
-	LoadMigrationByRepositores(db)
-
 	return nil
 }

@@ -2,7 +2,7 @@ package controller
 
 type (
 	HttpRequest struct {
-		Body    interface{}
+		Body    any
 		Params  Params
 		Query   map[string][]string
 		Headers map[string][]string

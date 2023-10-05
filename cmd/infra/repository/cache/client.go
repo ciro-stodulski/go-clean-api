@@ -2,7 +2,7 @@ package cacheclient
 
 type (
 	CacheClient interface {
-		Set(key string, value interface{}, timeEx int) error
-		Get(key string) (interface{}, error)
+		Set(key string, value any, timeEx int) error
+		Get(key string) (any, error)
 	}
 )

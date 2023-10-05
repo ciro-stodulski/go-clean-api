@@ -42,7 +42,7 @@ func (findByIdController *findByIdController) LoadRoute() controller.CreateRoute
 	}
 }
 
-func (findByIdController *findByIdController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
+func (findByIdController *findByIdController) Handle(req controller.HttpRequest) (*controller.HttpResponse[any], error) {
 	id := req.Params.Get("id")
 
 	u, err := findByIdController.getUserUseCase.Perform(id)
@@ -51,13 +51,13 @@ func (findByIdController *findByIdController) Handle(req controller.HttpRequest)
 		return nil, err
 	}
 
-	return &controller.HttpResponse{
+	return &controller.HttpResponse[any]{
 		Data:   u,
 		Status: 200,
 	}, nil
 }
 
-func (findByIdController *findByIdController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponseError {
+func (findByIdController *findByIdController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponse[controller.HttpError] {
 	if appErr != nil {
 		if appErr.Code == exception.UserNotFound().Code {
 			return httpexception.NotFound(controller.HttpError{

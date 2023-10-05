@@ -42,19 +42,19 @@ func (rc *registerController) LoadRoute() controller.CreateRoute {
 	}
 }
 
-func (rc *registerController) Handle(req controller.HttpRequest) (*controller.HttpResponse, error) {
+func (rc *registerController) Handle(req controller.HttpRequest) (*controller.HttpResponse[any], error) {
 	_, err := rc.registerUserUseCase.Perform(req.Body.(dto.RegisterUser))
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &controller.HttpResponse{
+	return &controller.HttpResponse[any]{
 		Status: 201,
 	}, nil
 }
 
-func (rc *registerController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponseError {
+func (rc *registerController) HandleError(appErr *exception.ApplicationException) *controller.HttpResponse[controller.HttpError] {
 	if appErr != nil {
 		if appErr.Code == exception.InvalidEntity().Code {
 			return httpexceptions.BadRequest(controller.HttpError{

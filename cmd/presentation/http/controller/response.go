@@ -1,8 +1,8 @@
 package controller
 
 type (
-	HttpResponse struct {
-		Data    interface{}
+	HttpResponse[T any] struct {
+		Data    T
 		Status  int
 		Headers []Header
 	}
@@ -15,10 +15,6 @@ type (
 	HttpError struct {
 		Code    string `json:"code"`
 		Message string `json:"message"`
-		Detail  interface{}
-	}
-	HttpResponseError struct {
-		Data   HttpError
-		Status int
+		Detail  any    `json:"detail,omitempty"`
 	}
 )

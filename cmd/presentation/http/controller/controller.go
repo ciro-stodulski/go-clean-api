@@ -7,10 +7,11 @@ type (
 		IsOpen  bool
 		Channel chan Channel
 	}
+
 	Controller interface {
 		LoadRoute() CreateRoute
-		Handle(req HttpRequest) (*HttpResponse, error)
-		HandleError(appErr *exception.ApplicationException) *HttpResponseError
+		Handle(req HttpRequest) (*HttpResponse[any], error)
+		HandleError(appErr *exception.ApplicationException) *HttpResponse[HttpError]
 	}
 
 	Middleware func(req HttpRequest)
@@ -22,6 +23,6 @@ type (
 		Method                string
 		Path                  string
 		Middlewares           []Middleware
-		Dto                   interface{}
+		Dto                   any
 	}
 )

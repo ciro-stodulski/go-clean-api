@@ -12,7 +12,7 @@ import (
 func Test_Cli_List_Users(t *testing.T) {
 	t.Run("succeffully", func(t *testing.T) {
 		// make mock
-		mockUse := new(usecasemock.MockUseCase[interface{}, interface{}])
+		mockUse := new(usecasemock.MockUseCase[any, any])
 
 		mockUse.On("Perform", nil).Return(0, nil)
 		//
@@ -30,7 +30,7 @@ func Test_Cli_List_Users(t *testing.T) {
 
 	t.Run("error INTERNAL_ERROR", func(t *testing.T) {
 		// make mock
-		mockUse := new(usecasemock.MockUseCase[interface{}, interface{}])
+		mockUse := new(usecasemock.MockUseCase[any, any])
 		//
 
 		// test func
