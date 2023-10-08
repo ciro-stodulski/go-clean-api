@@ -3,7 +3,7 @@ package verifynotificationusecase
 import (
 	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/exception"
-	mockservicesnotification "go-clean-api/cmd/shared/mocks/infra/service/notification"
+	mockservicesnotification "go-clean-api/cmd/shared/mocks/application/service/notification"
 	"testing"
 )
 
