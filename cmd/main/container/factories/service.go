@@ -1,9 +1,9 @@
 package factories
 
 import (
+	notificationService "go-clean-api/cmd/application/service/notification"
+	userservice "go-clean-api/cmd/application/service/user"
 	service "go-clean-api/cmd/domain/service"
-	notificationService "go-clean-api/cmd/infra/service/notification"
-	userservice "go-clean-api/cmd/infra/service/user"
 )
 
 type (
