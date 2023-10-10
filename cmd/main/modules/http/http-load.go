@@ -87,7 +87,9 @@ func loadRoutes(controllers []controller.Controller, api gin.RouterGroup) {
 
 				if appErr, ok := err.(*exception.ApplicationException); ok {
 					result_error = route.HandleError(appErr)
-				} else {
+				}
+
+				if result_error == nil {
 					log.Default().Println("INTERNAL_SERVER_ERROR", err)
 
 					result_error = &controller.HttpResponse[controller.HttpError]{
