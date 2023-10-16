@@ -3,7 +3,7 @@ package clilistusers
 import (
 	"errors"
 	cliinterface "go-clean-api/cmd/presentation/cli"
-	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

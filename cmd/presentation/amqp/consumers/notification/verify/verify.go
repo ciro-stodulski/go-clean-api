@@ -2,7 +2,6 @@ package verifyconsumer
 
 import (
 	"go-clean-api/cmd/domain/dto"
-	domaindto "go-clean-api/cmd/domain/dto"
 	usecase "go-clean-api/cmd/domain/use-case"
 	consumer "go-clean-api/cmd/presentation/amqp/consumers"
 	ports_amqp "go-clean-api/cmd/presentation/amqp/ports"
@@ -31,12 +30,12 @@ func New(NotifyUserUseCase usecase.UseCase[dto.Event, any]) consumer.Comsumer {
 func (createConsumer *verifiyConsumer) GetConfig() consumer.ConsumeConfig {
 	return consumer.ConsumeConfig{
 		Queue:  "notify.create",
-		Schema: domaindto.Event{},
+		Schema: dto.Event{},
 	}
 }
 
 func (createConsumer *verifiyConsumer) MessageHandler(msg ports_amqp.Message) error {
-	dto := domaindto.Event{}
+	dto := dto.Event{}
 
 	mapstructure.Decode(msg.Body, &dto)
 

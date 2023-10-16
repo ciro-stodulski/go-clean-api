@@ -4,7 +4,7 @@ import (
 	exception "go-clean-api/cmd/domain/exception"
 	"go-clean-api/cmd/presentation/http/controller"
 	httpexception "go-clean-api/cmd/presentation/http/exception"
-	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

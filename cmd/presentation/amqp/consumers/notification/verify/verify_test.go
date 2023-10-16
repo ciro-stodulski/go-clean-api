@@ -2,9 +2,8 @@ package verifyconsumer
 
 import (
 	"go-clean-api/cmd/domain/dto"
-	domaindto "go-clean-api/cmd/domain/dto"
 	"go-clean-api/cmd/domain/exception"
-	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case"
 
 	ports_amqp "go-clean-api/cmd/presentation/amqp/ports"
 	"testing"
@@ -17,7 +16,7 @@ func Test_Consumer_verify(t *testing.T) {
 		// make mock
 		mockUse := new(usecasemock.MockUseCase[dto.Event, any])
 
-		dto := domaindto.Event{
+		dto := dto.Event{
 			Name:  "test",
 			Event: "test",
 		}

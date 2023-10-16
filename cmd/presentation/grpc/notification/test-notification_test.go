@@ -4,7 +4,7 @@ import (
 	"context"
 	"go-clean-api/cmd/presentation/grpc/notification/pb"
 	"go-clean-api/cmd/shared/mocks"
-	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case/use-case"
+	usecasemock "go-clean-api/cmd/shared/mocks/application/use-case"
 
 	"testing"
 
